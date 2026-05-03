@@ -31,6 +31,7 @@ app.use("/sounds", express.static("sounds"));
 
 // 🔹 AUTH / USER
 app.use("/api/auth", require("./routes/auth"));
+app.use("/api/wallet", require("./routes/wallet"));
 app.use("/api/user", require("./routes/user"));
 app.use("/api/wallet-info", require("./routes/wallet"));
 
