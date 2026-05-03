@@ -4,7 +4,7 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-
+const path = require("path");
 const app = express();
 
 const server = http.createServer(app);
@@ -66,7 +66,7 @@ app.use("/api/upload", require("./routes/upload"));
 
 // ================= HOME =================
 app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/public/LandingPage.html");
+  res.sendFile(path.join(__dirname, "public", "LandingPage.html"));
 });
 
 // ================= HEALTH CHECK =================
