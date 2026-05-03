@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Trader Profile | Auric Ledger Admin</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link rel="icon" type="image/png" href="/favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-fixed": "#e3e2e2",
+                    "primary-fixed": "#ffe088",
+                    "on-error-container": "#ffdad6",
+                    "on-primary-fixed": "#241a00",
+                    "surface-variant": "#353534",
+                    "secondary": "#c6c6c6",
+                    "on-surface-variant": "#d0c5af",
+                    "on-primary-fixed-variant": "#574500",
+                    "background": "#131313",
+                    "surface-container-high": "#2a2a2a",
+                    "surface-container-low": "#1c1b1b",
+                    "on-secondary-container": "#b8b8b8",
+                    "primary-fixed-dim": "#e9c349",
+                    "on-tertiary-fixed": "#00174b",
+                    "outline": "#99907c",
+                    "on-tertiary-fixed-variant": "#27438a",
+                    "surface-container-highest": "#353534",
+                    "surface-bright": "#393939",
+                    "surface": "#131313",
+                    "secondary-container": "#484949",
+                    "inverse-on-surface": "#313030",
+                    "tertiary-container": "#97b0ff",
+                    "surface-container": "#201f1f",
+                    "on-tertiary-container": "#254188",
+                    "on-secondary-fixed": "#1a1c1c",
+                    "on-primary-container": "#554300",
+                    "outline-variant": "#4d4635",
+                    "tertiary-fixed": "#dbe1ff",
+                    "on-background": "#e5e2e1",
+                    "on-tertiary": "#082b72",
+                    "on-secondary": "#2f3131",
+                    "inverse-primary": "#735c00",
+                    "surface-dim": "#131313",
+                    "on-primary": "#3c2f00",
+                    "on-error": "#690005",
+                    "on-surface": "#e5e2e1",
+                    "error": "#ffb4ab",
+                    "tertiary-fixed-dim": "#b4c5ff",
+                    "surface-tint": "#e9c349",
+                    "surface-container-lowest": "#0e0e0e",
+                    "primary-container": "#d4af37",
+                    "primary": "#f2ca50",
+                    "inverse-surface": "#e5e2e1",
+                    "secondary-fixed-dim": "#c6c6c6",
+                    "on-secondary-fixed-variant": "#464747",
+                    "error-container": "#93000a",
+                    "tertiary": "#bfcdff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .gold-gradient {
+            background: linear-gradient(135deg, #f2ca50 0%, #d4af37 100%);
+        }
+        .glass-panel {
+            background: rgba(53, 53, 52, 0.6);
+            backdrop-filter: blur(20px);
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #131313;
+            color: #e5e2e1;
+        }
+        h1, h2, h3, .headline {
+            font-family: 'Manrope', sans-serif;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 flex items-center justify-between px-8 h-16 bg-[#131313] dark:bg-[#131313] flat no shadows">
+<div class="flex items-center gap-4">
+<button onclick="goBack()" class="text-[#f2ca50] hover:bg-[#2a2a2a] transition-colors p-2 rounded-full active:scale-95 duration-150">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h1 class="font-['Manrope'] font-bold text-xl tracking-tight text-[#f2ca50]">Trader Profile</h1>
+</div>
+<button class="text-[#f2ca50] hover:bg-[#2a2a2a] transition-colors p-2 rounded-full active:scale-95 duration-150">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+<div class="absolute bottom-0 left-0 bg-[#1c1b1b] h-px w-full"></div>
+</header>
+<main class="pt-24 px-8 max-w-5xl mx-auto space-y-10">
+<!-- User Profile Header Section -->
+<section class="flex flex-col md:flex-row items-center gap-8">
+<div class="relative">
+<div id="profileRing" class="w-32 h-32 rounded-full overflow-hidden border-2 border-primary/20 p-1">
+<img 
+  src="/images/profile.png"
+  class="w-full h-full object-cover"
+/>
+</div>
+<div id="kycBadge" class="absolute -bottom-2 -right-2 bg-primary-container text-on-primary-container px-3 py-1 rounded-full flex items-center gap-1.5 shadow-xl">_
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+<span class="text-[10px] font-bold uppercase tracking-widest">VERIFIED</span>
+</div>
+</div>
+<div class="text-center md:text-left flex-1">
+<h2 class="text-4xl font-extrabold tracking-tighter text-on-surface mb-1">Alexander Sterling</h2>
+<p class="text-on-surface-variant text-lg">a.sterling@private-vault.com</p>
+<div class="mt-4 flex flex-wrap justify-center md:justify-start gap-4">
+<div class="bg-surface-container-high px-4 py-2 rounded-xl flex flex-col">
+<span class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Tier</span>
+<span class="text-primary font-bold">Sovereign Gold</span>
+</div>
+<div class="bg-surface-container-high px-4 py-2 rounded-xl flex flex-col">
+<span class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Joined</span>
+<span class="text-on-surface font-bold">Oct 2023</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Portfolio Breakdown -->
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<div class="lg:col-span-2 bg-surface-container p-8 rounded-3xl relative overflow-hidden">
+<div class="relative z-10">
+<p class="text-on-surface-variant text-sm font-semibold tracking-widest uppercase mb-2">Total Managed Assets</p>
+<h3 id="totalAssets" class="text-5xl font-bold text-primary tracking-tighter mb-8">$0</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- XAU Asset -->
+<div class="bg-surface-container-low p-5 rounded-2xl border border-outline-variant/10">
+<div class="flex justify-between items-start mb-4">
+<div>
+<span class="text-on-surface-variant text-xs font-bold uppercase tracking-widest">Total deposits</span>
+<p id="totalDeposit" class="text-2xl font-bold mt-1">0</p>
+</div>
+<div class="w-16 h-8 flex items-end gap-0.5">
+<div class="bg-primary/20 w-full h-1/2 rounded-t-sm"></div>
+<div class="bg-primary/30 w-full h-2/3 rounded-t-sm"></div>
+<div class="bg-primary/50 w-full h-1/3 rounded-t-sm"></div>
+<div class="bg-primary w-full h-full rounded-t-sm"></div>
+</div>
+</div>
+<p class="text-on-tertiary-container text-xs font-medium flex items-center gap-1">
+</div>
+<!-- USD Cash -->
+<div class="bg-surface-container-low p-5 rounded-2xl border border-outline-variant/10">
+<div class="flex justify-between items-start mb-4">
+<div>
+<span class="text-on-surface-variant text-xs font-bold uppercase tracking-widest">Withdrawn Today</span>
+<p id="withdrawnToday" class="text-2xl font-bold mt-1">0</p>
+</div>
+<div class="w-16 h-8 flex items-end gap-0.5">
+<div class="bg-outline/20 w-full h-1/2 rounded-t-sm"></div>
+<div class="bg-outline/30 w-full h-1/3 rounded-t-sm"></div>
+<div class="bg-outline/50 w-full h-2/3 rounded-t-sm"></div>
+<div class="bg-outline w-full h-1/2 rounded-t-sm"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Abstract Gold Glow Decoration -->
+<div class="absolute -top-24 -right-24 w-64 h-64 bg-primary/5 rounded-full blur-[100px]"></div>
+</div>
+<!-- KYC Compliance -->
+<div class="bg-surface-container-high p-8 rounded-3xl flex flex-col justify-between border border-outline-variant/5">
+<div>
+  <h4 class="text-xl font-bold mb-6">KYC Verification</h4>
+
+  <div class="space-y-4">
+
+    <!-- FRONT -->
+    <div class="flex items-center justify-between p-3 rounded-xl bg-surface-container">
+      
+      <div class="flex items-center gap-3 flex-1 min-w-0">
+        <span class="material-symbols-outlined text-on-surface-variant">badge</span>
+
+        <span id="kycFront"
+          class="text-sm font-medium truncate block"
+          title="-">
+          -
+        </span>
+      </div>
+
+      <button id="viewFront"
+        class="text-primary text-xs font-bold uppercase hover:underline shrink-0">
+        View
+      </button>
+
+    </div>
+
+    <!-- BACK -->
+    <div class="flex items-center justify-between p-3 rounded-xl bg-surface-container">
+      
+      <div class="flex items-center gap-3 flex-1 min-w-0">
+        <span class="material-symbols-outlined text-on-surface-variant">home_pin</span>
+
+        <span id="kycBack"
+          class="text-sm font-medium truncate block"
+          title="-">
+          -
+        </span>
+      </div>
+
+      <button id="viewBack"
+        class="text-primary text-xs font-bold uppercase hover:underline shrink-0">
+        View
+      </button>
+
+    </div>
+
+  </div>
+</div>
+<div class="mt-8 grid grid-cols-2 gap-3">
+<button onclick="rejectKYC()" class="bg-error-container text-on-error-container py-3 rounded-xl text-xs font-bold uppercase tracking-widest">
+  Reject
+</button>
+
+<button id="approveBtn" onclick="approveKYC()" class="gold-gradient text-on-primary-container py-3 rounded-xl text-xs font-bold uppercase tracking-widest">
+  Approve
+</button>
+</div>
+</div>
+</section>
+<!-- Recent Activity Log -->
+<section class="bg-surface-container-low rounded-3xl overflow-hidden">
+<div class="px-8 py-6 flex items-center justify-between border-b border-outline-variant/10">
+<h4 class="text-xl font-bold">Activity Log</h4>
+<button class="text-primary text-xs font-bold uppercase tracking-widest hover:underline">Download CSV</button>
+</div>
+<div id="activityContainer" class="divide-y divide-outline-variant/10">
+
+
+</div>
+</section>
+<!-- Spacer for FAB and Bottom Nav -->
+<div class="h-24"></div>
+</main>
+<!-- Sticky Admin Action Bar -->
+<div class="fixed bottom-16 left-1/2 -translate-x-1/2 w-full max-w-4xl px-4 z-40">
+
+  <div class="glass-panel border border-outline-variant/10 rounded-2xl p-3 shadow-2xl">
+
+    <!-- HEADER -->
+    <div class="flex items-center gap-3 mb-2">
+      <span class="text-[10px] font-black uppercase tracking-widest text-on-surface-variant opacity-60">
+        Admin Controls
+      </span>
+      <div class="flex-1 h-px bg-outline-variant/20"></div>
+    </div>
+
+    <!-- BUTTONS -->
+    <div class="grid grid-cols-3 gap-2">
+
+      <!-- ASSETS -->
+      <button onclick="goAssetsPage()" 
+        class="flex flex-col items-center justify-center gap-1 bg-surface-container-highest hover:bg-surface-bright text-on-surface py-3 rounded-xl text-[10px] font-bold uppercase transition active:scale-95">
+
+        <span class="material-symbols-outlined text-lg">monetization_on</span>
+        Assets
+      </button>
+
+      <!-- NOTIFICATION -->
+      <button onclick="goComposeNotification()" 
+        class="flex flex-col items-center justify-center gap-1 bg-surface-container-highest hover:bg-surface-bright text-on-surface py-3 rounded-xl text-[10px] font-bold uppercase transition active:scale-95">
+
+        <span class="material-symbols-outlined text-lg">mail</span>
+        Notify
+      </button>
+
+      <!-- WALLET -->
+      <button onclick="goManageWallet()" 
+        class="flex flex-col items-center justify-center gap-1 bg-surface-container-highest hover:bg-surface-bright text-on-surface py-3 rounded-xl text-[10px] font-bold uppercase transition active:scale-95">
+
+        <span class="material-symbols-outlined text-lg">account_balance_wallet</span>
+        Balance
+      </button>
+
+    </div>
+
+  </div>
+</div>
+<!-- 🔥 KYC MODAL -->
+<div id="kycModal" class="fixed inset-0 bg-black/70 hidden items-center justify-center z-50 p-4">
+  <div class="bg-surface-container p-6 rounded-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
+
+    <h3 id="modalTitle" class="text-lg font-bold mb-4">KYC Details</h3>
+
+    <div id="modalContent" class="space-y-4 text-sm"></div>
+
+    <button onclick="closeKYCModal()" 
+      class="mt-6 w-full bg-gray-700 text-white py-2 rounded-lg">
+      Close
+    </button>
+
+  </div>
+</div>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  const socket = io();
+  const API_URL = window.location.origin;
+
+  const token = localStorage.getItem("token");
+
+if (!token) {
+  alert("Access denied");
+  window.location.href = "login.html";
+}
+
+async function checkAdmin() {
+  try {
+    const res = await fetch("/api/user/profile", {
+      headers: {
+        Authorization: "Bearer " + token
+      }
+    });
+
+    const user = await res.json();
+
+    if (user.role !== "admin") {
+      alert("Admin only");
+      window.location.href = "profile.html";
+    }
+
+  } catch (err) {
+    alert("Access error");
+    window.location.href = "login.html";
+  }
+}
+
+checkAdmin();
+// ================= GET USER ID =================
+const params = new URLSearchParams(window.location.search);
+const userId = params.get("id");
+
+if (!userId) {
+  alert("User ID not found");
+  window.location.href = "admin-user-management.html";
+}
+
+let isLoadingDeposits = false;
+let isLoadingWithdraws = false;
+let depositCache = new Set();
+let withdrawCache = new Set();
+
+
+// ================= LOAD USER =================
+async function loadUser() {
+  try {
+    const token = localStorage.getItem("token");
+
+    const res = await fetch(`${API_URL}/api/admin/users/${userId}`, {
+  headers: { Authorization: "Bearer " + token }
+});
+
+if (!res.ok) throw new Error("โหลด user ไม่สำเร็จ");
+
+const user = await res.json();
+
+    document.querySelector("h2").innerText = user.email;
+    document.querySelector("p.text-on-surface-variant").innerText =
+  "Vault ID: " + (user.vaultId || "-");
+    document.querySelector("h3").innerText = "$" + (user.balance || 0);
+
+    document.querySelectorAll(".bg-surface-container-high span:last-child")[0].innerText = user.role;
+
+    if (user.createdAt) {
+      const date = new Date(user.createdAt).toLocaleDateString();
+      document.querySelectorAll(".bg-surface-container-high span:last-child")[1].innerText = date;
+    }
+
+  } catch (err) {
+    console.error(err);
+    alert("โหลดข้อมูลไม่สำเร็จ");
+  }
+}
+
+// ================= LOAD DEPOSITS (ของเดิมคุณ) =================
+async function loadDeposits() {
+  try {
+    if (isLoadingDeposits) return;
+    isLoadingDeposits = true;
+
+    const token = localStorage.getItem("token");
+
+    const res = await fetch(`${API_URL}/api/admin/users/${userId}/deposits`, {
+      headers: { Authorization: "Bearer " + token }
+    });
+
+    if (!res.ok) throw new Error("โหลด deposit ไม่สำเร็จ");
+
+     const deposits = await res.json();
+    const container = document.getElementById("activityContainer");
+
+    container.innerHTML = "";     // 🔥 เพิ่ม
+    depositCache.clear();  
+
+
+    deposits.forEach(d => {
+
+  // 🔥 กันซ้ำ
+  if (depositCache.has(d._id)) return;
+  depositCache.add(d._id);
+
+  const div = document.createElement("div");
+
+  div.className = "deposit-item px-8 py-5 flex items-center justify-between hover:bg-surface-container transition-colors";
+
+  div.innerHTML = `
+    <div class="flex items-center gap-4">
+      <div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center">
+        <span class="material-symbols-outlined text-primary">account_balance_wallet</span>
+      </div>
+
+      <div>
+        <p class="font-bold">Deposit (${d.method})</p>
+        <p class="text-xs text-on-surface-variant">
+          ${new Date(d.createdAt).toLocaleString()}
+        </p>
+
+        ${
+          d.slip
+          ? `<p onclick="viewSlip('${d.slip}')" class="text-xs text-yellow-400 cursor-pointer hover:underline">
+               View Slip
+             </p>`
+          : ""
+        }
+      </div>
+    </div>
+
+    <div class="text-right">
+      <p class="font-bold text-green-400">+$${d.amount}</p>
+
+      ${
+        d.status === "pending"
+        ? `
+          <div class="flex gap-2 mt-2 justify-end">
+            <button onclick="approveDeposit('${d._id}')" class="bg-green-500 px-3 py-1 rounded text-xs">
+              Approve
+            </button>
+            <button onclick="rejectDeposit('${d._id}')" class="bg-red-500 px-3 py-1 rounded text-xs">
+              Reject
+            </button>
+          </div>
+        `
+        : `
+          <span class="text-xs font-bold ${
+            d.status === "approved" ? "text-green-400" : "text-red-400"
+          }">
+            ${d.status.toUpperCase()}
+          </span>
+        `
+      }
+    </div>
+  `;
+
+  container.appendChild(div);
+});
+
+  } catch (err) {
+    console.error("LOAD DEPOSIT ERROR:", err);
+  } finally {
+    isLoadingDeposits = false;
+  }
+}
+
+// ================= LOAD WITHDRAW (ทำให้เหมือน deposit) =================
+async function loadWithdraws() {
+  try {
+    if (isLoadingWithdraws) return; // 🔥 กันโหลดซ้ำ
+    isLoadingWithdraws = true;
+    const token = localStorage.getItem("token");
+
+    const res = await fetch(`${API_URL}/api/admin/withdraw/users/${userId}/withdraws`, {
+      headers: { Authorization: "Bearer " + token }
+    });
+    if (!res.ok) throw new Error("โหลด withdraw ไม่สำเร็จ");
+
+    const withdraws = await res.json();
+    const container = document.getElementById("activityContainer");
+
+   
+    withdrawCache.clear(); // 🔥 เพิ่ม
+    withdraws.forEach(w => {
+
+  // 🔥 เพิ่ม 2 บรรทัดนี้
+  if (withdrawCache.has(w._id)) return;
+  withdrawCache.add(w._id);
+
+  const div = document.createElement("div");
+
+      div.className = "withdraw-item px-8 py-5 flex items-center justify-between hover:bg-surface-container transition-colors";
+
+      div.innerHTML = `
+        <div class="flex items-center gap-4">
+          <div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center">
+            <span class="material-symbols-outlined text-error">outbox</span>
+          </div>
+
+          <div>
+            <p class="font-bold">Withdrawal (${w.network})</p>
+            <p class="text-xs text-on-surface-variant">
+              ${new Date(w.createdAt).toLocaleString()}
+            </p>
+
+            ${
+  w.network === "BANK"
+    ? `
+      <p class="text-xs text-yellow-400">
+        Bank: ${w.bankName || "-"}
+      </p>
+      <div class="flex items-center gap-2 text-xs text-yellow-400">
+  <span>
+    Account: ${w.accountNumber || "-"}
+  </span>
+
+  <span 
+    onclick="copyText('${w.accountNumber}')"
+    class="material-symbols-outlined text-primary cursor-pointer hover:scale-110 transition">
+    content_copy
+  </span>
+</div>
+      <p class="text-xs text-yellow-400">
+        Name: ${w.accountName || "-"}
+      </p>
+    `
+    : `
+      <p class="text-xs text-yellow-400 break-all">${w.address}</p>
+
+      <p onclick="copyAddress(this)" data-address="${w.address}"
+         class="text-xs text-primary cursor-pointer hover:underline">
+         Copy Address
+      </p>
+    `
+}
+          </div>
+        </div>
+
+        <div class="text-right">
+          <p class="font-bold text-red-400">-$${w.amount}</p>
+
+          ${
+            w.status === "pending"
+            ? `
+              <div class="flex gap-2 mt-2 justify-end">
+                <button onclick="approveWithdraw('${w._id}')" class="bg-green-500 px-3 py-1 rounded text-xs">
+                  Approve
+                </button>
+                <button onclick="rejectWithdraw('${w._id}')" class="bg-red-500 px-3 py-1 rounded text-xs">
+                  Reject
+                </button>
+              </div>
+            `
+            : `
+              <span class="text-xs font-bold ${
+                w.status === "approved" ? "text-green-400" : "text-red-400"
+              }">
+                ${w.status.toUpperCase()}
+              </span>
+            `
+          }
+        </div>
+      `;
+
+      container.appendChild(div);
+    });
+
+    } catch (err) {
+    console.error("LOAD WITHDRAW ERROR:", err);
+  } finally {
+    isLoadingWithdraws = false; // 🔥 ปลดล็อก
+  }
+}
+
+function copyText(text) {
+  if (!text || text === "-") return;
+
+  navigator.clipboard.writeText(text);
+  alert("คัดลอกแล้ว: " + text);
+}
+
+// ================= ACTION =================
+function copyAddress(el) {
+  const address = el.getAttribute("data-address");
+  navigator.clipboard.writeText(address);
+  alert("คัดลอกแล้ว");
+}
+
+async function approveDeposit(id) {
+  const token = localStorage.getItem("token");
+
+  await fetch(`${API_URL}/api/admin/deposit/approve/${id}`, {
+    method: "POST",
+    headers: {
+      Authorization: "Bearer " + token
+    }
+  });
+
+  loadAll(); // 🔥 เพิ่ม
+}
+
+async function rejectDeposit(id) {
+  const token = localStorage.getItem("token"); // 🔥 เพิ่มบรรทัดนี้
+
+  await fetch(`${API_URL}/api/admin/deposit/${id}/reject`, {
+    method: "POST",
+    headers: {
+      Authorization: "Bearer " + token // 🔥 เพิ่มส่วนนี้
+    }
+  });
+
+ loadAll(); 
+}
+
+async function approveWithdraw(id) {
+  const token = localStorage.getItem("token");
+
+  await fetch(`${API_URL}/api/admin/withdraw/${id}/approve`, {
+    method: "POST",
+    headers: {
+      Authorization: "Bearer " + token
+    }
+  });
+
+  loadAll();
+}
+
+
+async function rejectWithdraw(id) {
+  const token = localStorage.getItem("token");
+
+  await fetch(`${API_URL}/api/admin/withdraw/${id}/reject`, {
+    method: "POST",
+    headers: {
+      Authorization: "Bearer " + token
+    }
+  });
+
+  loadAll();
+}
+
+// ================= VIEW SLIP =================
+function viewSlip(filename) {
+  const modal = document.getElementById("slipModal"); // ✅ ใช้ id ของคุณ
+  const img = document.getElementById("slipImage");   // ✅ ใช้ id ของคุณ
+
+  img.src = `${API_URL}/uploads/${filename}`;
+  modal.classList.remove("hidden");
+  modal.classList.add("flex");
+}
+
+function closeSlip() {
+  const modal = document.getElementById("slipModal");
+
+  modal.classList.add("hidden");
+  modal.classList.remove("flex");
+}
+
+// ================= INIT =================
+async function loadAll() {
+  const container = document.getElementById("activityContainer");
+
+  container.innerHTML = "";
+  depositCache.clear();
+  withdrawCache.clear();
+
+  await loadDeposits();
+  await loadWithdraws();
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  loadUser();
+  loadKYC();
+  loadAll();
+  loadUserStats();
+});
+function goBack() {
+  window.location.href = "admin-user-management.html";
+}
+
+function goComposeNotification() {
+  const params = new URLSearchParams(window.location.search);
+  const userId = params.get("id");
+
+  if (!userId) {
+    alert("User ID not found");
+    return;
+  }
+
+  window.location.href = `compose-notification.html?id=${userId}`;
+}
+
+function goManageWallet() {
+  const params = new URLSearchParams(window.location.search);
+  const userId = params.get("id");
+
+  if (!userId) {
+    alert("User ID not found");
+    return;
+  }
+
+  window.location.href = `manage-wallet.html?id=${userId}`;
+}
+
+async function approveKYC() {
+  const token = localStorage.getItem("token");
+
+  await fetch(`${API_URL}/api/kyc/approve/${userId}`, {
+    method: "POST",
+    headers: {
+      Authorization: "Bearer " + token
+    }
+  });
+
+  alert("Approved ");
+  loadKYC();
+  loadUser();
+}
+
+async function rejectKYC() {
+  const token = localStorage.getItem("token");
+
+  await fetch(`${API_URL}/api/kyc/reject/${userId}`, {
+    method: "POST",
+    headers: {
+      Authorization: "Bearer " + token
+    }
+  });
+
+  alert("Rejected ❌");
+  loadKYC();
+}
+
+// ================= LOAD KYC =================
+async function loadKYC() {
+  try {
+    const res = await fetch(`${API_URL}/api/kyc/${userId}`, {
+  headers: {
+    Authorization: "Bearer " + localStorage.getItem("token")
+  }
+});
+    const kyc = await res.json();
+
+    if (!kyc) return;
+  
+    // ================= PROFILE KYC COLOR =================
+const ring = document.getElementById("profileRing");
+const badge = document.getElementById("kycBadge");
+
+if (kyc.status === "approved") {
+  ring.classList.remove("border-primary/20");
+  ring.classList.add("border-green-500");
+
+  badge.classList.remove("bg-primary-container");
+  badge.classList.add("bg-green-500", "text-white");
+
+  badge.innerHTML = `
+    <span class="material-symbols-outlined text-[18px]" style="font-variation-settings:'FILL' 1;">verified</span>
+    VERIFIED
+  `;
+}
+
+    // ================= STATUS =================
+const approveBtn = document.getElementById("approveBtn");
+
+if (kyc.status === "approved") {
+  approveBtn.innerText = "Approved ";
+
+  approveBtn.classList.remove("gold-gradient");
+  approveBtn.classList.add("bg-green-500", "text-white");
+
+} else if (kyc.status === "pending") {
+  approveBtn.innerText = "Approve";
+}
+    // แสดงชื่อไฟล์
+    document.getElementById("kycFront").innerText = kyc.frontImage || "-";
+    document.getElementById("kycBack").innerText = kyc.backImage || "-";
+
+// 🔥 เพิ่มตรงนี้
+    document.getElementById("kycFront").title = kyc.frontImage || "";
+    document.getElementById("kycBack").title = kyc.backImage || "";
+
+    // ปุ่ม view
+    // 🔥 VIEW FRONT (Documents)
+document.getElementById("viewFront").onclick = () => {
+  showDocuments(kyc);
+};
+
+// 🔥 VIEW BACK (Personal Details)
+document.getElementById("viewBack").onclick = () => {
+  showPersonalDetails(kyc);
+};
+
+  } catch (err) {
+    console.error("KYC LOAD ERROR:", err);
+  }
+}
+
+
+function closeKYCModal() {
+  const modal = document.getElementById("kycModal");
+  modal.classList.add("hidden");
+  modal.classList.remove("flex"); // 🔥 เพิ่ม
+}
+
+function showDocuments(kyc) {
+  const modal = document.getElementById("kycModal");
+  const content = document.getElementById("modalContent");
+  const title = document.getElementById("modalTitle");
+
+  title.innerText = "Identity Documents";
+
+  content.innerHTML = `
+    <div>
+      <p class="text-xs text-gray-400">ID / Passport Number</p>
+      <p class="font-bold">${kyc.idNumber || "-"}</p>
+    </div>
+
+    <div class="space-y-2">
+      <img src="${API_URL}/uploads/${kyc.frontImage}" class="rounded-lg w-full">
+      <img src="${API_URL}/uploads/${kyc.backImage}" class="rounded-lg w-full">
+    </div>
+  `;
+
+  modal.classList.remove("hidden");
+  modal.classList.add("flex"); 
+}
+
+function showPersonalDetails(kyc) {
+  const modal = document.getElementById("kycModal");
+  const content = document.getElementById("modalContent");
+  const title = document.getElementById("modalTitle");
+
+  title.innerText = "Personal Details";
+
+  content.innerHTML = `
+    <div>
+      <p class="text-xs text-gray-400">Nationality</p>
+      <p class="font-bold">${kyc.nationality || "-"}</p>
+    </div>
+
+    <div>
+      <p class="text-xs text-gray-400">Full Name</p>
+      <p class="font-bold">${kyc.fullName || "-"}</p>
+    </div>
+
+    <div>
+      <p class="text-xs text-gray-400">Current Address</p>
+      <p class="font-bold">${kyc.address || "-"}</p>
+    </div>
+  `;
+
+  modal.classList.remove("hidden");
+  modal.classList.add("flex"); 
+}
+
+
+function goAssetsPage(){
+  window.location.href = `asset.html?userId=${userId}`;
+}
+
+
+
+
+function renderKYC(k) {
+  if (k.userId !== userId) return;
+  loadKYC();
+}
+
+socket.on("admin_update", (msg) => {
+  console.log("🔥 REALTIME:", msg);
+
+  if (
+    msg.type === "NEW_DEPOSIT" ||
+    msg.type === "NEW_WITHDRAW" ||
+    msg.type === "UPDATE_WITHDRAW"
+  ) {
+    loadAll();
+    loadUserStats(); // 🔥 อัปเดตตัวเลขด้วย
+  }
+});
+
+
+async function loadUserStats() {
+  try {
+    const token = localStorage.getItem("token");
+
+    const res = await fetch(`${API_URL}/api/admin/users/${userId}`, {
+      headers: {
+        Authorization: "Bearer " + token
+      }
+    });
+
+    if (!res.ok) throw new Error("โหลด stats ไม่สำเร็จ");
+
+    const user = await res.json();
+
+    // ✅ Total Deposit
+    document.getElementById("totalDeposit").innerText =
+      "$" + (user.totalDeposit || 0).toLocaleString();
+
+    // ✅ Withdraw Today
+    document.getElementById("withdrawnToday").innerText =
+      "$" + (user.withdrawnToday || 0).toLocaleString();
+
+    // ✅ Total Assets (ใช้ balance จริง)
+    document.getElementById("totalAssets").innerText =
+      "$" + (user.balance || 0).toLocaleString();
+
+  } catch (err) {
+    console.error("LOAD USER STATS ERROR:", err);
+  }
+}
+
+</script>
+<!-- 🔥 SLIP MODAL -->
+<div id="slipModal" class="fixed inset-0 bg-black bg-opacity-80 hidden items-center justify-center z-50">
+  
+  <div class="relative">
+    
+    <!-- ปุ่มปิด -->
+    <button onclick="closeSlip()" 
+      class="absolute top-2 right-2 bg-red-500 text-white px-3 py-1 rounded">
+      X
+    </button>
+
+    <!-- รูป -->
+    <img id="slipImage" class="max-w-[90vw] max-h-[90vh] rounded-lg shadow-lg">
+
+  </div>
+</div>
+</body>
+</html>

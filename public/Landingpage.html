@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Broker</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-[#0B0F1A] text-white font-sans overflow-x-hidden">
+
+<!-- NAVBAR -->
+<header class="flex items-center justify-between px-4 md:px-10 py-3 bg-white border-b">
+
+  <!-- LOGO -->
+  <div class="flex items-center gap-2">
+    <img src="images/logo.png" class="h-6 md:h-8"/>
+    <span class="text-sm md:text-lg font-semibold text-black leading-tight">
+      Interactive<br class="md:hidden"> Brokers
+    </span>
+  </div>
+
+  <!-- ACTION -->
+  <div class="flex items-center gap-2 md:gap-4">
+
+    <!-- LOGIN -->
+    <a href="login.html" 
+       class="text-gray-700 text-xs md:text-base hover:text-black">
+      Log In
+    </a>
+
+    <!-- REGISTER -->
+    <a href="register.html" 
+       class="bg-red-600 text-white px-3 py-1.5 md:px-5 md:py-2 rounded text-xs md:text-base">
+      Open Account
+    </a>
+
+  </div>
+
+</header>
+
+<!-- HERO -->
+<section class="flex flex-col md:flex-row items-center justify-between px-10 py-20 bg-gradient-to-r from-[#0B0F1A] to-[#1A2A44]">
+  
+  <div class="max-w-xl">
+    <h2 class="text-4xl font-bold mb-4">Power Meets Simplicity</h2>
+    <p class="text-gray-400 mb-6">
+      Experience the future of trading with powerful tools and global access.
+    </p>
+    <button class="bg-red-600 px-6 py-3 rounded text-lg">Learn More</button>
+  </div>
+
+  <div class="relative w-full max-w-[600px] mt-10 md:mt-0">
+  <img id="heroImage"
+     src="images/dashboard.jpg"
+     class="w-full h-auto object-contain rounded-xl shadow-2xl transition-opacity duration-1000 opacity-100"/>
+</div>
+</section>
+
+<!-- FEATURES -->
+<section class="grid md:grid-cols-4 gap-8 px-10 py-16 text-center bg-[#0E1422]">
+  
+  <div>
+    <h3 class="font-bold text-lg mb-2">Professional Pricing</h3>
+    <p class="text-gray-400 text-sm">Low commissions and no hidden fees</p>
+  </div>
+
+  <div>
+    <h3 class="font-bold text-lg mb-2">Global Access</h3>
+    <p class="text-gray-400 text-sm">Trade worldwide markets</p>
+  </div>
+
+  <div>
+    <h3 class="font-bold text-lg mb-2">Premier Technology</h3>
+    <p class="text-gray-400 text-sm">Advanced trading tools</p>
+  </div>
+
+  <div>
+    <h3 class="font-bold text-lg mb-2">Security</h3>
+    <p class="text-gray-400 text-sm">Safe and reliable system</p>
+  </div>
+
+</section>
+
+<!-- PRICING -->
+<section class="flex flex-col md:flex-row items-center gap-10 px-10 py-20 bg-white text-black">
+  
+  <img src="images/coin.jpg" class="w-[450px] rounded-xl"/>
+
+  <div>
+    <h2 class="text-3xl font-bold mb-6">Experience Professional Pricing</h2>
+    <ul class="space-y-3">
+      <li>✔ Low commissions starting at $0</li>
+      <li>✔ Margin rates lower than industry</li>
+      <li>✔ Earn interest on cash</li>
+      <li>✔ Extra income from lending shares</li>
+    </ul>
+    <button class="mt-6 border border-red-500 px-6 py-2 text-red-500">
+      Learn More
+    </button>
+  </div>
+
+</section>
+
+<!-- GLOBAL -->
+<section class="px-10 py-20 text-center">
+  <h2 class="text-3xl font-bold mb-6">Discover Global Opportunities</h2>
+
+  <img src="images/map.jpg" class="mx-auto mb-10"/>
+
+  <div class="flex justify-center gap-16 text-xl">
+    <div><strong>170</strong><br>Markets</div>
+    <div><strong>40</strong><br>Countries</div>
+    <div><strong>29</strong><br>Currencies</div>
+  </div>
+</section>
+
+<!-- PLATFORM -->
+<section class="px-10 py-20 bg-[#0E1422] text-center">
+  <h2 class="text-3xl font-bold mb-10">Powerful Trading Platform</h2>
+
+  <img src="images/chart.jpg" class="mx-auto rounded-xl shadow-xl w-[700px]"/>
+</section>
+
+<!-- TRUST -->
+<section class="px-10 py-20 text-center">
+  <h2 class="text-3xl font-bold mb-10">A Broker You Can Trust</h2>
+
+  <div class="grid md:grid-cols-4 gap-8 text-lg">
+    <div>$21.3B Equity</div>
+    <div>4.7M Accounts</div>
+    <div>4.3M Trades Daily</div>
+    <div>S&P 500 Member</div>
+  </div>
+</section>
+
+<!-- STEPS -->
+<section class="px-10 py-20 bg-blue-900 text-center">
+  <h2 class="text-3xl font-bold mb-10">Start Trading in 3 Steps</h2>
+
+  <div class="grid md:grid-cols-3 gap-10">
+    <div>
+      <h3 class="font-bold text-lg">Step 1</h3>
+      <p>Complete the application</p>
+    </div>
+
+    <div>
+      <h3 class="font-bold text-lg">Step 2</h3>
+      <p>Fund your account</p>
+    </div>
+
+    <div>
+      <h3 class="font-bold text-lg">Step 3</h3>
+      <p>Start trading</p>
+    </div>
+  </div>
+
+  <button class="mt-10 bg-red-600 px-6 py-3 rounded">Open Account</button>
+</section>
+
+<!-- FOOTER -->
+<footer class="px-10 py-10 text-gray-500 text-sm bg-black">
+  <p>© 2026 MyBroker. All rights reserved.</p>
+</footer>
+
+
+<script>
+const images = [
+  "images/dashboard.jpg",
+  "images/chart.jpg",
+  "images/coin.jpg",
+  "images/bg-chart.jpg"
+];
+
+// 👉 เพิ่มรูปใหม่แค่เพิ่มตรงนี้ได้เลย
+
+let index = 0;
+const hero = document.getElementById("heroImage");
+
+setInterval(() => {
+  hero.style.opacity = 0;
+
+  setTimeout(() => {
+    index = (index + 1) % images.length;
+    hero.src = images[index];
+    hero.style.opacity = 1;
+  }, 500);
+
+}, 30000); // 40 วินาที
+</script>
+</body>
+</html>

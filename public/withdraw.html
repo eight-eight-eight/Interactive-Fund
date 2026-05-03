@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sovereign Vault - Withdraw</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link rel="icon" type="image/png" href="/favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "inverse-primary": "#735c00",
+              "surface-container-lowest": "#0e0e0e",
+              "on-tertiary-container": "#254188",
+              "on-surface-variant": "#d0c5af",
+              "outline-variant": "#4d4635",
+              "inverse-on-surface": "#313030",
+              "on-secondary-fixed": "#1a1c1c",
+              "on-primary-container": "#554300",
+              "surface-variant": "#353534",
+              "on-background": "#e5e2e1",
+              "surface": "#131313",
+              "surface-container-high": "#2a2a2a",
+              "error-container": "#93000a",
+              "secondary": "#c6c6c6",
+              "on-tertiary": "#082b72",
+              "on-primary-fixed": "#241a00",
+              "secondary-fixed-dim": "#c6c6c6",
+              "tertiary": "#bfcdff",
+              "on-primary": "#3c2f00",
+              "surface-container-low": "#1c1b1b",
+              "surface-container-highest": "#353534",
+              "error": "#ffb4ab",
+              "secondary-container": "#484949",
+              "outline": "#99907c",
+              "on-primary-fixed-variant": "#574500",
+              "primary-fixed": "#ffe088",
+              "tertiary-fixed-dim": "#b4c5ff",
+              "on-tertiary-fixed": "#00174b",
+              "tertiary-fixed": "#dbe1ff",
+              "on-surface": "#e5e2e1",
+              "on-error": "#690005",
+              "surface-bright": "#393939",
+              "background": "#131313",
+              "tertiary-container": "#97b0ff",
+              "inverse-surface": "#e5e2e1",
+              "primary": "#f2ca50",
+              "primary-fixed-dim": "#e9c349",
+              "on-secondary": "#2f3131",
+              "on-error-container": "#ffdad6",
+              "primary-container": "#d4af37",
+              "on-secondary-container": "#b8b8b8",
+              "surface-tint": "#e9c349",
+              "on-secondary-fixed-variant": "#464747",
+              "secondary-fixed": "#e3e2e2",
+              "on-tertiary-fixed-variant": "#27438a",
+              "surface-container": "#201f1f",
+              "surface-dim": "#131313"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .bg-gold-gradient {
+        background: linear-gradient(135deg, #f2ca50 0%, #d4af37 100%);
+      }
+      .glass-effect {
+        background: rgba(53, 53, 52, 0.6);
+        backdrop-filter: blur(20px);
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary selection:text-on-primary">
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-8 h-16 bg-[#131313]">
+<div class="flex items-center gap-4">
+<button onclick="window.location.href='wallet.html'" class="hover:opacity-80 transition-opacity active:scale-95 duration-150">
+  <span class="material-symbols-outlined text-primary">arrow_back</span>
+</button>
+<h1 class="font-headline font-bold text-lg uppercase tracking-widest text-primary">ถอนเงิน</h1>
+</div>
+</header>
+<main class="pt-24 pb-32 px-7 max-w-lg mx-auto space-y-8">
+<section class="space-y-2">
+<p class="font-label text-on-surface-variant text-xs uppercase tracking-widest">ยอดเงินคงเหลือ</p>
+<div class="flex items-baseline gap-2">
+<span class="font-headline font-extrabold text-4xl text-primary tracking-tight">$0.00</span>
+</div>
+</section>
+<section class="space-y-4">
+
+<h2 class="font-headline font-bold text-sm uppercase tracking-wider text-on-surface-variant">
+  บัญชีปลายทาง
+</h2>
+
+<!-- 🔥 ตรงนี้แหละที่ต้องเพิ่ม -->
+<div id="walletList" class="space-y-3"></div>
+
+<!-- ปุ่มเพิ่ม wallet -->
+<button onclick="window.location.href='account.html'"
+  class="w-full flex items-center p-4 rounded-xl bg-surface-container hover:bg-surface-container-high transition-colors group">
+
+  <div class="flex-shrink-0 w-12 h-12 rounded-lg border border-dashed border-outline-variant flex items-center justify-center">
+    <span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary">add</span>
+  </div>
+
+  <div class="ml-4 flex-grow text-left">
+    <p class="font-label font-semibold text-on-surface">New Wallet</p>
+    <p class="font-label text-sm text-on-surface-variant">เพิ่มบัญชีปลายทาง</p>
+  </div>
+
+  <span class="material-symbols-outlined text-on-surface-variant">chevron_right</span>
+</button>
+
+</section>
+<section class="space-y-4">
+
+  <div class="flex justify-between items-end">
+    <h2 class="font-headline font-bold text-sm uppercase tracking-wider text-on-surface-variant">
+      จำนวนเงินที่ถอน
+    </h2>
+
+    <!-- ปุ่ม MAX -->
+    <button onclick="setMaxAmount()"
+      class="text-primary-fixed-dim text-xs font-semibold hover:opacity-80 transition-opacity">
+      MAX AMOUNT
+    </button>
+  </div>
+
+  <!-- INPUT -->
+  <div class="relative group">
+    <div class="absolute left-6 top-1/2 -translate-y-1/2 font-headline font-bold text-2xl text-primary/50">
+      $
+    </div>
+
+    <!-- 🔥 สำคัญ: ต้องมี id="withdrawAmount" -->
+    <input id="withdrawAmount"
+      class="w-full bg-surface-container-low border-none focus:ring-1 focus:ring-primary/20 rounded-2xl py-6 pl-12 pr-6 text-3xl font-headline font-extrabold text-on-surface placeholder:text-surface-variant"
+      placeholder="0.00"
+      type="number" />
+  </div>
+
+
+</section>
+<section class="flex gap-4 p-4 rounded-xl bg-surface-container-highest/30 border border-outline-variant/10">
+<span class="material-symbols-outlined text-tertiary flex-shrink-0">verified_user</span>
+<div class="space-y-1">
+<p class="font-label text-sm font-bold text-on-surface">Security Verification</p>
+<p class="text-xs text-on-surface-variant leading-relaxed">Identity verification is mandatory for withdrawals exceeding $10,000 to ensure the safety of your sovereign assets.</p>
+</div>
+</section>
+<section class="pt-4">
+<button id="withdrawBtn"
+  class="w-full bg-gold-gradient py-5 rounded-xl text-on-primary font-headline font-extrabold text-base tracking-widest uppercase shadow-xl shadow-primary/10 active:scale-95 transition-transform">
+  ถอนเงิน
+</button>
+</section>
+<script>
+
+  const API_URL = window.location.origin;
+
+const token = localStorage.getItem("token");
+
+let selectedWallet = null;
+
+// ================= LOAD BALANCE =================
+async function loadBalance() {
+  try {
+    const res = await fetch(`${API_URL}/api/wallet/balance`, {
+      headers: {
+        Authorization: "Bearer " + token
+      }
+    });
+
+    const data = await res.json();
+
+    document.querySelector(".text-4xl").innerText =
+      "$" + Number(data.balance || 0).toLocaleString();
+
+  } catch (err) {
+    console.error("LOAD BALANCE ERROR:", err);
+  }
+}
+
+// ================= LOAD WALLETS =================
+async function loadWallets() {
+  try {
+    const res = await fetch(`${API_URL}/api/withdraw-wallet`, {
+      headers: {
+        Authorization: "Bearer " + token
+      }
+    });
+
+    const wallets = await res.json();
+    console.log("WALLETS:", wallets);
+
+    const container = document.getElementById("walletList");
+    container.innerHTML = "";
+
+    // ❗ ไม่มี wallet
+    if (!wallets || wallets.length === 0) {
+      container.innerHTML = `
+        <p class="text-center text-on-surface-variant">
+          ยังไม่มี Wallet กรุณาเพิ่มก่อน
+        </p>
+      `;
+      return;
+    }
+
+    wallets.forEach((w, index) => {
+      const div = document.createElement("div");
+
+      div.className = "flex items-center p-4 rounded-xl bg-surface-container cursor-pointer";
+
+      let title = "";
+let subtitle = "";
+
+if (w.network === "BANK") {
+  title = w.bankName || "Bank Account";
+  subtitle = "**** " + (w.accountNumber?.slice(-4) || "----");
+} else {
+  title = w.network;
+  subtitle = w.address?.slice(0,10) + "...";
+}
+
+div.innerHTML = `
+  <div class="flex-shrink-0 w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center">
+    <span class="material-symbols-outlined text-primary">account_balance_wallet</span>
+  </div>
+
+  <div class="ml-4 flex-grow">
+    <p class="font-label font-semibold text-on-surface">${title}</p>
+    <p class="text-xs text-on-surface-variant">${subtitle}</p>
+  </div>
+
+  <span id="check-${w._id}" class="material-symbols-outlined text-primary hidden">
+    check_circle
+  </span>
+`;
+
+      // click select
+      div.onclick = () => {
+        selectedWallet = w;
+        highlightSelected(w._id);
+      };
+
+      container.appendChild(div);
+
+      // auto select ตัวแรก
+      if (index === 0) {
+        selectedWallet = w;
+
+        // delay ให้ DOM render ก่อน (สำคัญมาก)
+        setTimeout(() => {
+          highlightSelected(w._id);
+        }, 50);
+      }
+    });
+
+  } catch (err) {
+    console.error("LOAD WALLET ERROR:", err);
+  }
+}
+
+// ================= SELECT =================
+function highlightSelected(id) {
+  document.querySelectorAll("[id^='check-']").forEach(el => {
+    el.classList.add("hidden");
+  });
+
+  const el = document.getElementById("check-" + id);
+
+  if (el) {
+    el.classList.remove("hidden");
+  } else {
+    console.warn("ไม่เจอ element check-" + id);
+  }
+}
+
+// ================= SUBMIT =================
+async function confirmWithdraw() {
+  const btn = document.getElementById("withdrawBtn");
+
+  const amount = Number(document.getElementById("withdrawAmount").value);
+
+  if (!selectedWallet) {
+    alert("กรุณาเลือก Wallet ก่อน");
+    return;
+  }
+
+  const address = selectedWallet.address;
+  const network = selectedWallet.network;
+  const isBank = network === "BANK";
+
+  if (isBank) {
+  if (!selectedWallet.accountNumber) {
+    alert("ไม่มีเลขบัญชี");
+    return;
+  }
+} else {
+  if (!selectedWallet.address) {
+    alert("ไม่มี address");
+    return;
+  }
+}
+
+  if (!amount || amount <= 0) {
+    alert("กรอกจำนวนเงินให้ถูกต้อง");
+    return;
+  }
+
+  try {
+    btn.disabled = true;
+    btn.innerText = "Processing...";
+
+    const res = await fetch(`${API_URL}/api/withdraw/create`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token
+      },
+      body: JSON.stringify({
+  amount,
+  network: selectedWallet.network,
+
+  // 🔥 crypto
+  address: selectedWallet.address || "",
+
+  // 🔥 bank (สำคัญ)
+  bankName: selectedWallet.bankName || "",
+  accountNumber: selectedWallet.accountNumber || "",
+  accountName: selectedWallet.accountName || ""
+})
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      alert(data.message || "ถอนเงินไม่สำเร็จ");
+      btn.disabled = false;
+      btn.innerText = "Request Withdrawal";
+      return;
+    }
+
+    // ❌ ปิด modal ก่อน
+document.getElementById("withdrawModal").classList.add("hidden");
+
+// ✅ แสดงแจ้งเตือนสีเขียว
+const box = document.getElementById("withdrawSuccess");
+box.classList.remove("hidden");
+
+// ⏱ แสดง 2 วินาที แล้วค่อยเปลี่ยนหน้า
+setTimeout(() => {
+  box.classList.add("hidden");
+  window.location.href = "wallet.html";
+}, 2000);
+
+  } catch (err) {
+    console.error("WITHDRAW ERROR:", err);
+    alert("เกิดข้อผิดพลาด");
+
+    btn.disabled = false;
+    btn.innerText = "Request Withdrawal";
+  }
+}
+
+if(!token){
+  window.location.href = "login.html";
+}
+
+// ================= MAX =================
+function setMaxAmount() {
+  const balanceText = document.querySelector(".text-4xl")?.innerText || "0";
+  const balance = Number(balanceText.replace(/[^0-9.]/g, ""));
+  document.getElementById("withdrawAmount").value = balance;
+}
+
+// ================= INIT =================
+document.addEventListener("DOMContentLoaded", () => {
+  loadBalance();
+  loadWallets();
+
+document.getElementById("withdrawBtn")
+  .addEventListener("click", openWithdrawModal);
+});
+
+
+function openWithdrawModal() {
+  const amount = Number(document.getElementById("withdrawAmount").value);
+
+  if (!selectedWallet) {
+    alert("กรุณาเลือก Wallet ก่อน");
+    return;
+  }
+
+  if (!amount || amount <= 0) {
+    alert("กรอกจำนวนเงิน");
+    return;
+  }
+
+  // ใส่ข้อมูล
+  document.getElementById("wAmount").innerText =
+    "$" + amount.toLocaleString();
+
+  const walletText = selectedWallet.network === "BANK"
+    ? selectedWallet.accountNumber
+    : selectedWallet.address;
+
+  document.getElementById("wWallet").innerText = walletText;
+
+  document.getElementById("withdrawModal").classList.remove("hidden");
+}
+
+function closeWithdrawModal(){
+  document.getElementById("withdrawModal").classList.add("hidden");
+}
+</script>
+<script>
+function goToNewWallet() {
+  window.location.href = "account.html";
+}
+</script>
+
+
+<!-- 🔥 Confirm Withdraw Modal -->
+<div id="withdrawModal"
+class="hidden fixed inset-0 bg-black/40 z-50 flex items-center justify-center">
+
+  <div class="bg-gray-700/60 backdrop-blur-xl w-[92%] max-w-md min-h-[480px] rounded-2xl p-8 flex flex-col text-center">
+
+    <h2 class="text-white font-bold text-xl mb-6">
+      ยืนยันการถอน
+    </h2>
+
+    <div class="flex-1 flex flex-col justify-center space-y-4 text-sm text-gray-300">
+
+      <div class="flex justify-between">
+        <span>จำนวนเงิน</span>
+        <span id="wAmount" class="text-white font-bold"></span>
+      </div>
+
+      <div class="flex justify-between">
+        <span>บัญชีปลายทาง</span>
+        <span id="wWallet" class="text-white font-bold text-right max-w-[60%] truncate"></span>
+      </div>
+
+    </div>
+
+    <div class="mt-8">
+
+      <button onclick="confirmWithdraw()"
+        class="w-full py-3 rounded-xl bg-gray-900 text-white font-bold mb-3">
+        ตกลง
+      </button>
+
+      <button onclick="closeWithdrawModal()"
+        class="text-gray-400 text-sm">
+        ยกเลิก
+      </button>
+
+    </div>
+
+  </div>
+</div>
+
+
+<!-- 🔥 Success Alert -->
+<div id="withdrawSuccess"
+class="hidden fixed top-10 left-1/2 -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-xl z-50 shadow-lg">
+  ยืนยันสำเร็จ ระบบกำลังตรวจสอบ
+</div>
+</body></html>

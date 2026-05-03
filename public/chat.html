@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Vault Sentinel Support</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-high": "#e7e8e9",
+                        "surface-bright": "#f8f9fa",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-fixed": "#241a00",
+                        "on-tertiary-fixed-variant": "#0c5216",
+                        "tertiary-container": "#003006",
+                        "surface-variant": "#e1e3e4",
+                        "on-surface": "#191c1d",
+                        "tertiary-fixed": "#acf4a4",
+                        "surface": "#f8f9fa",
+                        "primary-fixed": "#dbe1ff",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed-dim": "#91d78a",
+                        "on-secondary-fixed-variant": "#574500",
+                        "on-error": "#ffffff",
+                        "on-primary-fixed-variant": "#2a4386",
+                        "error-container": "#ffdad6",
+                        "secondary-fixed-dim": "#e9c349",
+                        "secondary": "#735c00",
+                        "outline": "#757682",
+                        "on-primary-fixed": "#00174a",
+                        "background": "#f8f9fa",
+                        "on-primary-container": "#758dd5",
+                        "inverse-primary": "#b3c5ff",
+                        "inverse-surface": "#2e3132",
+                        "primary-container": "#002366",
+                        "secondary-fixed": "#ffe088",
+                        "on-tertiary": "#ffffff",
+                        "on-background": "#191c1d",
+                        "primary": "#00113a",
+                        "primary-fixed-dim": "#b3c5ff",
+                        "surface-tint": "#435b9f",
+                        "inverse-on-surface": "#f0f1f2",
+                        "surface-container-highest": "#e1e3e4",
+                        "on-tertiary-fixed": "#002203",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container": "#edeeef",
+                        "secondary-container": "#fed65b",
+                        "surface-container-low": "#f3f4f5",
+                        "error": "#ba1a1a",
+                        "on-tertiary-container": "#5b9e58",
+                        "on-primary": "#ffffff",
+                        "on-secondary-container": "#745c00",
+                        "tertiary": "#001902",
+                        "surface-dim": "#d9dadb",
+                        "on-surface-variant": "#444650",
+                        "outline-variant": "#c5c6d2"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3 { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+
+  </head>
+<body class="bg-surface text-on-surface h-[100dvh] flex flex-col overflow-hidden">
+<!-- TopAppBar -->
+<header class="bg-slate-50/60 dark:bg-slate-900/60 backdrop-blur-xl shadow-[0_12px_32px_rgba(0,11,58,0.06)] fixed top-0 w-full z-50">
+<div class="flex justify-between items-center px-6 py-4 w-full">
+<div class="flex items-center gap-4">
+<button onclick="goBack()" 
+class="hover:opacity-80 transition-opacity scale-95 active:scale-90 duration-200">
+  <span class="material-symbols-outlined text-[#00113a]">arrow_back</span>
+</button>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="text-lg font-bold tracking-tight text-[#00113a]">Concierge - Online</span>
+<div class="w-2 h-2 rounded-full bg-on-tertiary-container"></div>
+</div>
+<span class="text-[10px] uppercase tracking-widest text-slate-500 font-semibold">Vault Security Protocol Active</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-[#D4AF37]" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+</div>
+</div>
+</header>
+<!-- Main Chat Canvas -->
+<main id="chatBox"
+class="flex-1 mt-20 mb-28 px-4 md:px-8 max-w-4xl mx-auto w-full flex flex-col gap-6 overflow-y-auto"
+style="height: calc(100dvh - 150px);">
+<!-- Encryption Badge -->
+<div class="flex justify-center my-4">
+<div class="bg-surface-container flex items-center gap-2 px-4 py-2 rounded-full">
+<span class="material-symbols-outlined text-sm text-outline">lock</span>
+<span class="text-xs font-medium text-on-surface-variant tracking-tight">Messages are end-to-end encrypted for your security.</span>
+</div>
+</div>
+<!-- Date Marker -->
+<div class="flex justify-center">
+<span class="text-[11px] font-bold text-outline-variant uppercase tracking-[0.2em]">Today</span>
+</div>
+<!-- Chat History -->
+<div id="messages" class="flex flex-col gap-6">
+<!-- Admin Message -->
+<div class="flex flex-col items-start gap-2 max-w-[85%]">
+<div class="flex items-center gap-2 mb-1">
+<span class="text-[10px] font-bold text-primary uppercase tracking-wider">Sentinel Concierge</span>
+</div>
+<div class="bg-surface-container-lowest text-on-surface p-4 rounded-xl rounded-tl-none shadow-sm border border-outline-variant/10">
+<p class="text-sm leading-relaxed">Welcome back. I am your dedicated digital concierge. How can I assist with your vault security today?</p>
+</div>
+<span class="text-[10px] text-outline ml-1">10:24 AM</span>
+</div>
+<!-- User Message -->
+<div class="flex flex-col items-end gap-2 self-end max-w-[85%]">
+<div class="bg-primary text-white p-4 rounded-xl rounded-tr-none shadow-md">
+<p class="text-sm leading-relaxed">Hello, I'd like to verify a recent high-value transaction. I've attached the document for review.</p>
+</div>
+<div class="flex items-center gap-1 mr-1">
+<span class="text-[10px] text-outline">10:25 AM</span>
+<span class="material-symbols-outlined text-[12px] text-on-tertiary-container" style="font-variation-settings: 'FILL' 1;">done_all</span>
+</div>
+</div>
+<!-- User Image Message -->
+<div class="flex flex-col items-end gap-2 self-end max-w-[70%]">
+<div class="bg-primary p-1.5 rounded-xl rounded-tr-none shadow-md overflow-hidden">
+<img alt="Document" class="rounded-lg w-full h-auto object-cover border border-white/10" data-alt="close-up of a premium gold-embossed financial document on a dark navy leather desk pad with professional lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCnNebP60PTudsRJnm3DJ-i0iafefJ88YgzIkNOwr2NP7bUSh63Z1fDqjPSAYPnVHy4R3LdL8rX1UgnC5SFqCOnonvh8BtGxBF77YvXGIRWLduDAfxqWRwgdERr7QFspPnA3kV-r27pTRQnIwR7kDYtaHUV_baSNgenzjviVfyCM346GAZUVECjsXScntTkGud-5qrajdNTeuwf2d5opaKEZkJemrLitqXZ0ltt4digS4Y367x0ID6iuLPCFTb8Hg0ez9MAKHUMWKQ"/>
+<div class="px-2 py-1.5 flex justify-between items-center">
+<span class="text-[10px] text-white/70 font-medium">Verification_Doc_772.jpg</span>
+<span class="material-symbols-outlined text-white text-sm">download</span>
+</div>
+</div>
+<span class="text-[10px] text-outline mr-1">10:26 AM</span>
+</div>
+<!-- Admin Typing/Response -->
+<div class="flex flex-col items-start gap-2 max-w-[85%]">
+<div class="flex items-center gap-2 mb-1">
+<span class="text-[10px] font-bold text-primary uppercase tracking-wider">Sentinel Concierge</span>
+</div>
+<div class="bg-surface-container-lowest text-on-surface p-4 rounded-xl rounded-tl-none shadow-sm border border-outline-variant/10">
+<p class="text-sm leading-relaxed">Analyzing document... Your security level allows for immediate processing. Please hold for one moment while I cross-reference this with the Vault ledger.</p>
+</div>
+<div class="flex items-center gap-2 mt-2">
+<div class="flex gap-1">
+<span class="w-1.5 h-1.5 bg-secondary rounded-full animate-bounce"></span>
+<span class="w-1.5 h-1.5 bg-secondary rounded-full animate-bounce [animation-delay:0.2s]"></span>
+<span class="w-1.5 h-1.5 bg-secondary rounded-full animate-bounce [animation-delay:0.4s]"></span>
+</div>
+<span class="text-[10px] font-medium text-secondary italic">Concierge is verifying...</span>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Chat Input Area) -->
+<nav class="bg-white dark:bg-slate-950 fixed bottom-0 w-full rounded-t-2xl z-50 shadow-[0_-8px_24px_rgba(0,11,58,0.04)]">
+<div class="flex flex-col w-full px-4 pb-8 pt-4 gap-4 max-w-4xl mx-auto">
+<!-- Input Shell -->
+<div class="flex items-center gap-2 w-full min-h-[56px] bg-surface-container-high rounded-2xl px-3 py-2 transition-all focus-within:bg-surface-container-lowest focus-within:shadow-lg focus-within:ring-1 focus-within:ring-primary/20">
+<button onclick="document.getElementById('imageInput').click()"
+class="text-slate-400 dark:text-slate-500 hover:text-primary transition-colors p-2">
+<span class="material-symbols-outlined">attach_file</span>
+</button>
+<button onclick="document.getElementById('imageInput').click()"
+class="text-slate-400 dark:text-slate-500 hover:text-primary transition-colors p-2">
+<span class="material-symbols-outlined">add_a_photo</span>
+</button>
+<input class="flex-1 min-w-0 bg-transparent border-none focus:ring-0 text-sm text-on-surface placeholder:text-outline/60 font-body py-3" placeholder="Speak to the Concierge..." type="text"/>
+<button id="sendBtn" class="flex-shrink-0 w-12 h-12 flex items-center justify-center bg-gradient-to-br from-[#00113a] to-[#002366] text-white rounded-xl hover:opacity-90 transition-all scale-95 active:scale-90 shadow-md">
+<span class="material-symbols-outlined">send</span>
+</button>
+</div>
+</div>
+</nav>
+<!-- 🔥 IMAGE PREVIEW MODAL -->
+<div id="imagePreviewBox" class="hidden fixed inset-0 bg-black/70 z-50 flex items-center justify-center">
+  
+  <div class="bg-white p-4 rounded-xl flex flex-col items-center gap-4 w-[90%] max-w-md">
+    
+    <img id="previewImage" class="max-h-[400px] rounded-lg object-contain" />
+
+    <div class="flex gap-4 w-full">
+      <button id="cancelImage" class="flex-1 bg-gray-300 py-2 rounded-lg">
+        ยกเลิก
+      </button>
+
+      <button id="sendImage" class="flex-1 bg-blue-600 text-white py-2 rounded-lg">
+        ส่ง
+      </button>
+    </div>
+
+  </div>
+
+</div>
+<input type="file" id="imageInput" accept="image/*" hidden>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+const API_URL = window.location.origin;  
+const socket = io(API_URL, {
+  transports: ["websocket"]
+});
+const token = localStorage.getItem("token");
+const chatContainer = document.getElementById("chatBox");
+const imageInput = document.getElementById("imageInput");
+const messagesBox = document.getElementById("messages");
+const input = document.querySelector("input");
+const sendBtn = document.getElementById("sendBtn");
+
+let userId = null;
+
+let selectedFile = null;
+
+function renderMessage(msg) {
+  const div = document.createElement("div");
+
+  const time = new Date(msg.createdAt || Date.now()).toLocaleTimeString();
+
+  let content = "";
+
+  if (msg.copyText) {
+    content = renderCopyCard(
+      msg.copyLabel || "Copied Data",
+      msg.copyText
+    );
+  }
+  else if (msg.image) {
+    content = `<img src="${msg.image}" class="rounded-xl max-w-[200px]" />`;
+  }
+  else {
+    content = `<p class="text-sm">${msg.message || ""}</p>`;
+  }
+
+  if (msg.sender === "admin") {
+    div.innerHTML = `
+      <div class="flex flex-col items-start w-full space-y-1">
+        <div class="max-w-[85%] bg-primary text-white px-4 py-3 rounded-2xl">
+          ${content}
+        </div>
+        <span class="text-xs text-gray-400">${time}</span>
+      </div>
+    `;
+  } else {
+    div.innerHTML = `
+      <div class="flex flex-col items-end w-full space-y-1">
+        <div class="max-w-[85%] bg-gray-200 px-4 py-3 rounded-2xl">
+          ${content}
+        </div>
+        <span class="text-xs text-gray-400">${time}</span>
+      </div>
+    `;
+  }
+
+  document.getElementById("messages").appendChild(div);
+}
+
+// เลือกรูป → แสดง preview
+imageInput.addEventListener("change", () => {
+  const file = imageInput.files[0];
+  if (!file) return;
+
+  selectedFile = file;
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    document.getElementById("previewImage").src = e.target.result;
+    document.getElementById("imagePreviewBox").classList.remove("hidden");
+  };
+
+  reader.readAsDataURL(file);
+});
+
+document.getElementById("cancelImage").addEventListener("click", () => {
+  selectedFile = null;
+  imageInput.value = "";
+
+  document.getElementById("imagePreviewBox").classList.add("hidden");
+});
+
+document.getElementById("sendImage").addEventListener("click", async () => {
+  if (!selectedFile) return;
+
+  const formData = new FormData();
+  formData.append("image", selectedFile);
+
+  try {
+    const res = await fetch(`${API_URL}/api/upload`, {
+      method: "POST",
+      body: formData
+    });
+
+    const data = await res.json();
+
+    socket.emit("sendMessage", {
+      userId,
+      sender: "user",
+      image: data.imageUrl
+    });
+
+    // reset
+    selectedFile = null;
+    imageInput.value = "";
+    document.getElementById("imagePreviewBox").classList.add("hidden");
+
+  } catch (err) {
+    console.error("❌ upload error:", err);
+  }
+});
+
+// ================= GET USER =================
+async function getUser() {
+  try {
+    const res = await fetch(`${API_URL}/api/user/profile`, {
+      headers: {
+        Authorization: "Bearer " + token
+      }
+    });
+
+    const data = await res.json();
+    console.log("USER:", data);
+
+    userId = data._id;
+
+    // 🔥 join room
+    socket.emit("joinRoom", userId);
+
+    // โหลดแชทเก่า
+    loadOldMessages();
+
+  } catch (err) {
+    console.error("❌ getUser error:", err);
+  }
+}
+
+getUser();
+
+// ================= LOAD OLD CHAT =================
+async function loadOldMessages() {
+  try {
+    messagesBox.innerHTML = "";
+
+    const res = await fetch(`${API_URL}/api/chat/messages/${userId}`, {
+      headers: {
+        Authorization: "Bearer " + token
+      }
+    });
+
+    const data = await res.json(); 
+    const messages = data.messages || data;
+  
+
+    messages.forEach(msg => {
+      renderMessage(msg);
+    });
+
+    scrollToBottom();
+
+  } catch (err) {
+    console.error("❌ loadOldMessages error:", err);
+  }
+}
+
+// ================= RENDER MESSAGE =================
+function renderMessage(msg) {
+  const div = document.createElement("div");
+  const time = new Date(msg.createdAt).toLocaleTimeString();
+let content = "";
+
+if (msg.copyText) {
+
+  content = renderCopyCard(
+    msg.copyLabel || "Copied Data",
+    msg.copyText
+  );
+
+}
+else if (msg.image) {
+
+  content = `<img src="${msg.image}" class="rounded-xl max-w-[200px]" />`;
+
+}
+else {
+
+  content = msg.message;
+
+}
+
+  if (msg.sender === "user") {
+    div.innerHTML = `
+      <div class="flex flex-col items-end gap-2 ml-auto max-w-[85%]">
+        <div class="bg-primary text-white p-4 rounded-xl">
+          ${content}
+        </div>
+        <span class="text-xs text-gray-400">${time}</span>
+      </div>
+    `;
+  } else {
+    div.innerHTML = `
+      <div class="flex flex-col items-start gap-2 max-w-[85%]">
+        <div class="bg-surface-container-lowest p-4 rounded-xl">
+          ${content}
+        </div>
+        <span class="text-xs text-gray-400">${time}</span>
+      </div>
+    `;
+  }
+
+  messagesBox.appendChild(div);
+}
+
+
+// ================= SOCKET RECEIVE =================
+socket.on("receiveMessage", (msg) => {
+  renderMessage(msg);
+  scrollToBottom();
+});
+
+// ================= SEND MESSAGE =================
+sendBtn.addEventListener("click", () => {
+  const message = input.value.trim();
+
+  if (!message || !userId) {
+    console.log("❌ ยังส่งไม่ได้");
+    return;
+  }
+
+  socket.emit("sendMessage", {
+    userId,
+    sender: "user",
+    message
+  });
+
+  input.value = "";
+});
+
+function renderCopyCard(label, value) {
+  return `
+    <div class="w-full bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
+
+      <div class="px-4 py-2 bg-gray-100 flex justify-between items-center border-b">
+        <span class="text-xs font-bold uppercase">${label}</span>
+
+        <span class="material-symbols-outlined text-sm">
+          security
+        </span>
+      </div>
+
+      <div class="p-4 flex items-center gap-3">
+
+        <code class="flex-1 text-sm break-all">
+          ${value}
+        </code>
+
+        <button onclick="copyText('${value}')"
+          class="bg-yellow-600 text-white px-4 py-2 rounded-lg flex items-center gap-1">
+
+          <span class="material-symbols-outlined text-sm">
+            content_copy
+          </span>
+
+          COPY
+        </button>
+
+      </div>
+    </div>
+  `;
+}
+
+function copyText(text) {
+  navigator.clipboard.writeText(text);
+
+  const toast = document.createElement("div");
+  toast.innerText = "คัดลอกไปยังคีย์บอร์ดแล้ว";
+
+  toast.className = `
+    fixed 
+    top-1/2 left-1/2 
+    -translate-x-1/2 -translate-y-1/2
+    bg-gray-800/90 text-gray-200
+    px-6 py-3 rounded-xl
+    text-sm font-medium
+    shadow-lg z-50
+    backdrop-blur
+  `;
+
+  document.body.appendChild(toast);
+
+  setTimeout(() => {
+    toast.style.opacity = "0";
+    toast.style.transition = "opacity 0.3s";
+
+    setTimeout(() => toast.remove(), 300);
+  }, 1200);
+}
+
+function scrollToBottom() {
+  setTimeout(() => {
+    messagesBox.lastElementChild?.scrollIntoView({
+      behavior: "smooth",
+      block: "end"
+    });
+  }, 100);
+}
+
+// ================= BACK =================
+function goBack() {
+  if (document.referrer) {
+    window.history.back();
+  } else {
+    window.location.href = "profile.html";
+  }
+}
+
+if (!token) {
+  alert("Please login");
+  window.location.href = "login.html";
+}
+</script>
+</body></html>

@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link rel="icon" type="image/png" href="/favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "secondary": "#c6c6c6",
+            "on-error": "#690005",
+            "background": "#131313",
+            "tertiary-container": "#97b0ff",
+            "error-container": "#93000a",
+            "tertiary": "#bfcdff",
+            "on-primary-container": "#554300",
+            "primary": "#f2ca50",
+            "surface-container-low": "#1c1b1b",
+            "tertiary-fixed-dim": "#b4c5ff",
+            "surface-container-lowest": "#0e0e0e",
+            "outline": "#99907c",
+            "inverse-primary": "#735c00",
+            "on-tertiary-fixed": "#00174b",
+            "secondary-fixed": "#e3e2e2",
+            "on-error-container": "#ffdad6",
+            "surface-bright": "#393939",
+            "surface": "#131313",
+            "surface-variant": "#353534",
+            "on-primary-fixed-variant": "#574500",
+            "surface-tint": "#e9c349",
+            "on-primary-fixed": "#241a00",
+            "tertiary-fixed": "#dbe1ff",
+            "on-tertiary": "#082b72",
+            "on-tertiary-container": "#254188",
+            "primary-fixed-dim": "#e9c349",
+            "on-secondary-container": "#b8b8b8",
+            "surface-container-highest": "#353534",
+            "on-surface-variant": "#d0c5af",
+            "on-secondary-fixed": "#1a1c1c",
+            "on-tertiary-fixed-variant": "#27438a",
+            "secondary-container": "#484949",
+            "on-primary": "#3c2f00",
+            "error": "#ffb4ab",
+            "on-background": "#e5e2e1",
+            "on-surface": "#e5e2e1",
+            "on-secondary": "#2f3131",
+            "on-secondary-fixed-variant": "#464747",
+            "inverse-surface": "#e5e2e1",
+            "surface-container-high": "#2a2a2a",
+            "secondary-fixed-dim": "#c6c6c6",
+            "outline-variant": "#4d4635",
+            "surface-container": "#201f1f",
+            "primary-fixed": "#ffe088",
+            "surface-dim": "#131313",
+            "inverse-on-surface": "#313030",
+            "primary-container": "#d4af37"
+          },
+          fontFamily: {
+            "headline": ["Manrope"],
+            "body": ["Inter"],
+            "label": ["Inter"]
+          },
+          borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+        },
+      },
+    }
+  </script>
+<style>
+
+  #txModal div{
+  animation: scaleIn 0.2s ease;
+}
+
+@keyframes scaleIn{
+  from{ transform:scale(0.8); opacity:0; }
+  to{ transform:scale(1); opacity:1; }
+}
+
+
+  .nav-link{
+  color:#d0c5af;
+}
+
+.nav-link.active{
+  background:#2a2a2a;
+  color:#f2ca50;
+  transform: scale(1.05);
+}
+
+.nav-link.active .nav-icon{
+  font-variation-settings: 'FILL' 1;
+}
+
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .metallic-sheen {
+      background: linear-gradient(135deg, #f2ca50 0%, #d4af37 100%);
+    }
+    .glass-effect {
+      background: rgba(53, 53, 52, 0.6);
+      backdrop-filter: blur(20px);
+    }
+    .glow-dot {
+      box-shadow: 0 0 10px 2px rgba(233, 195, 73, 0.4);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body antialiased">
+<!-- TopAppBar -->
+<header class="bg-[#131313] flex justify-between items-center px-8 py-4 w-full fixed top-0 z-50">
+<div class="flex items-center gap-3">
+
+  <!-- โลโก้ -->
+  <img src="images/logo.png" class="w-10 h-10 object-contain"/>
+
+  <!-- ชื่อ -->
+  <span class="text-white font-headline font-semibold text-lg tracking-tight">
+    Interactive  <span class="text-[#f2ca50] font-bold"></span>
+  </span>
+
+</div>
+<div class="relative">
+  <button onclick="goToNotifications()"
+    class="text-[#f2ca50] hover:opacity-80 transition-opacity active:scale-95 duration-150">
+
+    <span class="material-symbols-outlined">notifications</span>
+
+    <!-- 🔴 จุดแดง -->
+    <span id="notifDot"
+      class="hidden absolute top-0 right-0 w-2.5 h-2.5 bg-red-500 rounded-full">
+    </span>
+
+  </button>
+</div>
+</header>
+<!-- Separation Logic -->
+<div class="bg-[#1c1b1b] h-[1px] w-full opacity-50 fixed top-[72px] z-40"></div>
+<main class="pt-24 pb-32 px-7 max-w-2xl mx-auto">
+<!-- Total Balance Card -->
+<section class="mb-10">
+<div class="bg-surface-container rounded-xl p-6 relative overflow-hidden">
+<!-- Abstract Decoration -->
+<div class="absolute -right-12 -top-12 w-48 h-48 bg-primary/5 rounded-full blur-3xl"></div>
+<div class="flex justify-between items-start mb-4">
+<span class="text-on-surface-variant font-label text-sm uppercase tracking-widest">ยอดคงเหลือ</span>
+<span class="bg-on-tertiary-container/10 text-on-tertiary-container px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Verified Asset</span>
+</div>
+<div class="space-y-1">
+<h2 id="balance" class="font-headline font-extrabold text-5xl text-primary tracking-tight">
+  $0.<span class="text-2xl opacity-70">00</span>
+</h2>
+<div class="flex items-center gap-2 mt-2">
+<span class="material-symbols-outlined text-primary-fixed-dim text-lg" data-icon="pentagon" style="font-variation-settings: 'FILL' 1;">pentagon</span>
+<p id="goldOz" class="font-headline font-bold text-xl text-on-surface tracking-tight">
+  0.00 <span class="text-on-surface-variant font-medium">oz Gold</span>
+</p>
+</div>
+</div>
+<div class="mt-8 flex gap-3">
+<button onclick="goDeposit()" class="flex-1 metallic-sheen text-on-primary font-headline font-bold py-4 rounded-xl active:scale-[0.98] transition-transform">
+            ฝาก
+          </button>
+<button onclick="goWithdraw()" class="flex-1 border border-outline-variant/20 text-on-surface font-headline font-bold py-4 rounded-xl active:scale-[0.98] transition-transform">
+            ถอน
+          </button>
+</div>
+</div>
+</section>
+<!-- Portfolio Allocation -->
+<section class="mb-12">
+<div class="flex justify-between items-end mb-6">
+<h3 class="font-headline font-bold text-2xl tracking-tight">ข้อมูลพอร์ต</h3>
+<span class="text-primary font-label text-xs uppercase tracking-widest font-bold">บริหารจัดการ</span>
+</div>
+<div class="grid grid-cols-1 gap-4">
+<!-- Gold Asset -->
+<div class="bg-surface-container-low p-5 rounded-xl flex items-center justify-between group">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-3xl" data-icon="workspace_premium" style="font-variation-settings: 'FILL' 1;">add_card</span>
+</div>
+<div>
+<p class="font-headline font-bold text-on-surface">Total deposits</p>
+<p class="font-label text-xs text-on-surface-variant uppercase tracking-tighter">Limit per 24 h</p>
+</div>
+</div>
+<div class="text-right">
+<p id="goldValue" class="font-headline font-bold text-on-surface">$0</p>
+<p class="text-xs text-gray-400">Total Deposits</p>
+</div>
+</div>
+<!-- Silver Asset -->
+<div class="bg-surface-container-low p-5 rounded-xl flex items-center justify-between group">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-surface-container-high flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-3xl" data-icon="toll" style="font-variation-settings: 'FILL' 1;">north_east</span>
+</div>
+<div>
+<p class="font-headline font-bold text-on-surface">Withdrawn Today</p>
+<p class="font-label text-xs text-on-surface-variant uppercase tracking-tighter">Already used</p>
+</div>
+</div>
+<div class="text-right">
+<p id="silverValue" class="font-headline font-bold text-on-surface">$0</p>
+<p class="text-xs text-gray-400">Withdrawn Today</p>
+</div>
+</div>
+<!-- Cash Asset -->
+<div class="bg-surface-container-low p-5 rounded-xl flex items-center justify-between group">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-surface-container-high flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-3xl" data-icon="account_balance_wallet">account_balance_wallet</span>
+</div>
+<div>
+<p class="font-headline font-bold text-on-surface">USD</p>
+<p class="font-label text-xs text-on-surface-variant uppercase tracking-tighter">Total balance</p>
+</div>
+</div>
+<div class="text-right">
+<p id="usdValue" class="font-headline font-bold text-on-surface">$0</p>
+<p class="font-label text-xs text-on-surface-variant font-medium">Stables</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Recent Transactions -->
+<section>
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-headline font-bold text-2xl tracking-tight">กิจกรรมล่าสุด</h3>
+<button class="text-primary-fixed-dim font-label text-xs uppercase tracking-widest font-bold">ประวัติ</button>
+</div>
+<div id="activityList" class="space-y-1"></div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-40 bg-[#131313]/80 backdrop-blur-xl flex justify-around items-center px-4 pb-6 pt-2 border-t border-white/10">
+
+  <!-- TRADE -->
+  <a href="trade.html" class="nav-link flex flex-col items-center justify-center px-4 py-2 rounded-2xl transition-all duration-200">
+    <span class="material-symbols-outlined nav-icon">show_chart</span>
+    <span class="text-[10px] mt-1 tracking-widest">TRADE</span>
+  </a>
+
+  <!-- WALLET -->
+  <a href="wallet.html" class="nav-link flex flex-col items-center justify-center px-4 py-2 rounded-2xl transition-all duration-200">
+    <span class="material-symbols-outlined nav-icon">account_balance_wallet</span>
+    <span class="text-[10px] mt-1 tracking-widest">WALLET</span>
+  </a>
+
+  <!-- PROFILE -->
+  <a href="profile.html" class="nav-link flex flex-col items-center justify-center px-4 py-2 rounded-2xl transition-all duration-200">
+    <span class="material-symbols-outlined nav-icon">person</span>
+    <span class="text-[10px] mt-1 tracking-widest">PROFILE</span>
+  </a>
+
+</nav>
+<script>
+
+  const API_URL = window.location.origin;
+// ================== AUTH CHECK ==================
+const token = localStorage.getItem("token");
+
+if (!token) {
+  alert("กรุณาเข้าสู่ระบบก่อน");
+  window.location.href = "login.html";
+}
+
+// ================== FORMAT BALANCE ==================
+function formatBalance(amount) {
+  const parts = amount.toFixed(2).split(".");
+  return `$${Number(parts[0]).toLocaleString()}.<span class="text-2xl opacity-70">${parts[1]}</span>`;
+}
+
+// ================== LOAD BALANCE ==================
+async function loadBalance() {
+  try {
+    const res = await fetch(`${API_URL}/api/wallet/balance`, {
+      headers: {
+          Authorization: "Bearer " + token
+        }
+    });
+
+    if (!res.ok) {
+      throw new Error("โหลดข้อมูลไม่สำเร็จ");
+    }
+
+    const data = await res.json();
+
+    document.getElementById("balance").innerHTML = formatBalance(data.balance);
+
+    // ================= CALCULATE GOLD =================
+
+// อัตราแปลง (ปรับได้)
+const goldRate = 0.00035; 
+
+const goldOz = (data.balance * goldRate).toFixed(2);
+
+document.getElementById("goldOz").innerHTML =
+  `${goldOz} <span class="text-on-surface-variant font-medium">oz Gold</span>`;
+    
+    document.getElementById("goldValue").innerText =
+  "$" + (data.totalDeposit || 0).toLocaleString();
+
+document.getElementById("silverValue").innerText =
+  "$" + (data.withdrawnToday || 0).toLocaleString();
+
+document.getElementById("usdValue").innerText =
+  "$" + (data.balance || 0).toLocaleString();
+
+  } catch (err) {
+    console.error("❌ ERROR:", err);
+
+    alert("Session หมดอายุ กรุณา login ใหม่");
+
+    localStorage.removeItem("token");
+    window.location.href = "login.html";
+  }
+}
+
+// ================== NAVIGATION ==================
+function goDeposit() {
+  window.location.href = "deposit.html";
+}
+
+function goWithdraw() {
+  window.location.href = "withdraw.html";
+}
+
+
+// ================== INIT ==================
+loadBalance();
+
+
+// 🔥 auto refresh ทุก 5 วินาที (เหมือนเว็บเทรดจริง)
+setInterval(loadBalance, 5000);
+
+</script>
+<script>
+
+// ================= LOAD TRANSACTIONS =================
+async function loadTransactions() {
+  try {
+    const res = await fetch(`${API_URL}/api/wallet/transactions`, {
+      headers: {
+        Authorization: token
+      }
+    });
+
+    const data = await res.json();
+
+    const container = document.getElementById("activityList");
+
+    let html = "";
+
+    data.forEach(tx => {
+
+      // ===== STATUS =====
+      let statusText = "";
+      let statusColor = "";
+
+      if (tx.status === "pending") {
+        statusText = "Pending";
+        statusColor = "text-yellow-400";
+      }
+
+      if (tx.status === "approved") {
+        statusText = "Completed";
+        statusColor = "text-on-tertiary-container";
+      }
+
+      if (tx.status === "rejected") {
+        statusText = "Failed";
+        statusColor = "text-red-400";
+      }
+
+      // ===== TYPE =====
+      const isDeposit = tx.type === "deposit";
+
+      const icon = isDeposit ? "south_west" : "north_east";
+
+      html += `
+      <div onclick='openTxModal(${JSON.stringify(tx)})'
+  class="flex items-center justify-between py-4 cursor-pointer hover:bg-[#2a2a2a]/50 rounded-lg transition">
+
+        <div class="flex items-center gap-4">
+          <div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center">
+            <span class="material-symbols-outlined text-xl ${isDeposit 
+                ? "text-green-400 drop-shadow-[0_0_6px_rgba(34,197,94,0.6)]" 
+                : "text-red-400 drop-shadow-[0_0_6px_rgba(239,68,68,0.6)]"}">
+              ${icon}
+            </span>
+          </div>
+
+          <div>
+            <p class="font-headline font-bold text-sm">
+              ${isDeposit ? "USD Deposit" : "USD withdraw"}
+            </p>
+
+            <p class="text-[11px] text-on-surface-variant uppercase tracking-widest">
+              ${new Date(tx.createdAt).toLocaleString()}
+            </p>
+          </div>
+        </div>
+
+        <div class="text-right">
+          <p class="font-headline font-bold text-sm ${isDeposit ? "text-green-400" : "text-red-400"}">
+            ${isDeposit ? "+" : "-"}$${tx.amount.toLocaleString()}
+          </p>
+
+          <p class="text-[10px] font-bold uppercase tracking-widest ${statusColor}">
+            ${statusText}
+          </p>
+        </div>
+
+      </div>
+      `;
+    });
+
+    container.innerHTML = html;
+
+  } catch (err) {
+    console.error("LOAD TX ERROR:", err);
+  }
+}
+
+function goToNotifications() {
+  window.location.href = "notifications.html";
+}
+
+async function checkNotifications() {
+  try {
+    const res = await fetch(`${API_URL}/api/notifications`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token")
+      }
+    });
+
+    const data = await res.json();
+
+    // 🔥 เช็ค unread
+    const hasUnread = data.some(n => !n.isRead);
+
+    const dot = document.getElementById("notifDot");
+
+    if (dot) {
+      dot.style.display = hasUnread ? "block" : "none";
+    }
+
+  } catch (err) {
+    console.error("NOTIF ERROR:", err);
+  }
+}
+
+// 🔥 โหลดตอนเข้าเว็บ
+document.addEventListener("DOMContentLoaded", () => {
+  checkNotifications();
+  loadTransactions();
+
+  // 🔥 เพิ่มตรงนี้
+  setInterval(() => {
+    checkNotifications();   // 👈 เพิ่มบรรทัดนี้
+    loadTransactions();
+  }, 3000);
+});
+
+// 🔥 Active Bottom Nav
+(function(){
+
+  const path = window.location.pathname.split("/").pop();
+
+  document.querySelectorAll(".nav-link").forEach(link => {
+
+    const href = link.getAttribute("href");
+
+    if(path === href){
+
+      link.classList.add("active");
+
+    }
+
+  });
+
+})();
+
+// 🔥 เปิด modal
+function openTxModal(tx){
+
+  const isDeposit = tx.type === "deposit";
+
+  const modal = document.getElementById("txModal");
+  const icon = document.getElementById("txIcon");
+  const title = document.getElementById("txTitle");
+  const amount = document.getElementById("txAmount");
+  const info = document.getElementById("txInfo");
+  const timeEl = document.getElementById("txTime");
+
+  // ===== STATUS =====
+  if(tx.status === "pending"){
+    icon.innerHTML = `<span class="material-symbols-outlined text-yellow-400 text-8xl animate-spin">
+  hourglass_top
+</span>`;
+    title.innerText = "กำลังดำเนินการ";
+    info.innerText = "ธุรกรรมกำลังดำเนินการ กรุณารอสักครู่";
+  }
+
+  if(tx.status === "approved"){
+    icon.innerHTML = `<span class="material-symbols-outlined text-green-400 text-8xl drop-shadow-[0_0_15px_rgba(34,197,94,0.6)]">
+  check_circle
+</span>`;
+    title.innerText = "สำเร็จแล้ว";
+    info.innerText = "ธุรกรรมของคุณเสร็จสมบูรณ์";
+  }
+
+  if(tx.status === "rejected"){
+    icon.innerHTML = `<span class="material-symbols-outlined text-red-400 text-8xl drop-shadow-[0_0_15px_rgba(239,68,68,0.6)]">
+  cancel
+</span>`;
+    title.innerText = "ไม่สำเร็จ";
+    info.innerText = "ธุรกรรมล้มเหลว กรุณาลองใหม่";
+  }
+
+  // ===== AMOUNT =====
+  amount.innerHTML = `
+    <span class="${isDeposit ? "text-green-400" : "text-red-400"}">
+      ${isDeposit ? "+" : "-"}$${tx.amount.toLocaleString()}
+    </span>
+  `;
+
+  const d = new Date(tx.createdAt);
+
+const dateStr = d.toLocaleDateString("th-TH");
+const timeStr = d.toLocaleTimeString("th-TH");
+
+timeEl.innerHTML = `
+  <span>${dateStr}</span>
+  <span class="mx-1 opacity-50">•</span>
+  <span>${timeStr}</span>
+`;
+
+  modal.classList.remove("hidden");
+}
+
+// 🔥 ปิด modal
+function closeTxModal(){
+  document.getElementById("txModal").classList.add("hidden");
+}
+
+</script>
+
+<script>
+function goDeposit() {
+  window.location.href = "deposit.html";
+}
+
+function goWithdraw() {
+  window.location.href = "withdraw.html";
+}
+</script>
+
+<!-- 🔥 Transaction Status Modal -->
+<div id="txModal" class="hidden fixed inset-0 bg-black/70 z-50 flex items-center justify-center">
+
+<div class="bg-[#1c1b1b] w-[90%] min-h-[90vh] rounded-3xl p-7 flex flex-col justify-between text-center">
+
+  <!-- 🔥 TOP CONTENT -->
+  <div class="flex flex-col items-center">
+
+    <!-- ICON -->
+    <div id="txIcon" class="text-8xl mb-8"></div>
+
+    <!-- TITLE -->
+    <h2 id="txTitle" class="text-xl font-bold mb-3"></h2>
+
+    <!-- AMOUNT -->
+    <div id="txAmount" class="text-5xl font-extrabold mb-3"></div>
+
+
+    <p id="txTime" class="text-xs text-gray-500 mb-4"></p>
+
+    <!-- INFO -->
+    <p id="txInfo" class="text-gray-400 text-sm"></p>
+
+  </div>
+
+  <!-- 🔥 BUTTON BOTTOM -->
+  <button onclick="closeTxModal()"
+    class="w-full py-4 rounded-2xl bg-[#f2ca50] text-black font-bold active:scale-95">
+    ตกลง
+  </button>
+
+</div>
+
+</div>
+
+</body></html>

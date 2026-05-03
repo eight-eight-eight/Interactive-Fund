@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+body {
+  font-family: 'Inter', sans-serif;
+}
+</style>
+
+</head>
+
+<body class="bg-gray-100 min-h-screen flex items-center justify-center px-4">
+
+<!-- CARD -->
+<div class="w-full max-w-md bg-white p-6 rounded-xl shadow">
+
+  <!-- LOGO -->
+  <div class="flex justify-center mb-4">
+    <img src="images/logo.png" class="h-12 object-contain"/>
+  </div>
+
+  <!-- TITLE -->
+  <h1 class="text-2xl font-bold text-gray-900 text-center mb-2">
+    Interactive Brokers
+  </h1>
+
+  <p class="text-gray-500 text-sm text-center mb-6">
+    Secure Access to Your Wealth
+  </p>
+
+  <!-- FORM -->
+  <div class="space-y-4">
+
+    <!-- EMAIL -->
+    <div>
+      <label class="block text-xs text-gray-500 mb-1">Email Address</label>
+      <input id="email" type="email"
+        class="w-full bg-white border border-gray-300 rounded px-3 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        placeholder="vault@sovereign.com">
+    </div>
+
+    <!-- PASSWORD -->
+    <div>
+      <div class="flex justify-between mb-1">
+        <label class="text-xs text-gray-500">Password</label>
+        <a href="#" class="text-blue-600 text-xs font-semibold">Forgot?</a>
+      </div>
+
+      <div>
+  <input id="password" type="password"
+    class="w-full bg-white border border-gray-300 rounded px-3 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+    placeholder="••••••••">
+
+  <!-- checkbox -->
+  <label class="flex items-center gap-2 mt-2 text-sm text-gray-600 cursor-pointer">
+    <input type="checkbox" onclick="togglePasswordCheckbox()" class="cursor-pointer">
+    Show password
+  </label>
+</div>
+    </div>
+
+    <!-- BUTTON -->
+    <button onclick="login()"
+      class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
+      Login
+    </button>
+
+  </div>
+
+  <!-- FOOTER -->
+  <p class="text-gray-500 text-sm text-center mt-6">
+    Don't have an account?
+    <a href="register.html" class="text-blue-600 font-semibold hover:underline">
+      Sign Up
+    </a>
+  </p>
+
+</div>
+
+<!-- SUCCESS -->
+<div id="successBox" 
+  class="hidden fixed inset-0 flex items-center justify-center z-50">
+  <div class="bg-green-500 text-white px-8 py-5 rounded-lg shadow-xl text-lg font-semibold">
+    เข้าสู่ระบบสำเร็จ 
+  </div>
+</div>
+
+<!-- ERROR -->
+<div id="errorBox" 
+  class="hidden fixed inset-0 flex items-center justify-center z-50">
+  <div class="bg-red-500 text-white px-8 py-5 rounded-lg shadow-xl text-lg font-semibold">
+    เกิดข้อผิดพลาด
+  </div>
+</div>
+
+<script>
+const API_URL = window.location.origin;
+
+async function login() {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  if (!email || !password) {
+    showError("กรอกข้อมูลให้ครบ");
+    return;
+  }
+
+  try {
+    const res = await fetch(`${API_URL}/api/auth/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ email, password })
+    });
+
+    const data = await res.json();
+
+    if (res.ok && data.token) {
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("role", data.role);
+      localStorage.setItem("userId", data.user._id);
+      localStorage.setItem("user", JSON.stringify(data.user));
+
+
+      showSuccess("เข้าสู่ระบบสำเร็จ ");
+
+      setTimeout(() => {
+        if (data.role === "admin") {
+          window.location.href = "admin-user-management.html";
+        } else {
+          window.location.href = "trade.html";
+        }
+      }, 2000);
+
+    } else {
+      showError(data.message || "เข้าสู่ระบบไม่สำเร็จ");
+    }
+
+  } catch (err) {
+    showError("Server error");
+  }
+}
+
+function showSuccess(msg){
+  const box = document.getElementById("successBox");
+  box.querySelector("div").innerText = msg;
+  box.classList.remove("hidden");
+
+  setTimeout(() => {
+    box.classList.add("hidden");
+  }, 2000);
+}
+
+function showError(msg){
+  const box = document.getElementById("errorBox");
+  box.querySelector("div").innerText = msg;
+  box.classList.remove("hidden");
+
+  setTimeout(() => {
+    box.classList.add("hidden");
+  }, 2500);
+}
+
+function togglePasswordCheckbox(){
+  const input = document.getElementById("password");
+
+  if(input.type === "password"){
+    input.type = "text";
+  } else {
+    input.type = "password";
+  }
+}
+</script>
+
+</body>
+</html>

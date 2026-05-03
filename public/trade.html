@@ -1,0 +1,1798 @@
+
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Vault Sentinel - XAU/USD Terminal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "error-container": "#410002",
+                    "outline-variant": "#444650",
+                    "inverse-on-surface": "#191c1d",
+                    "on-secondary-fixed": "#241a00",
+                    "on-primary-container": "#dbe1ff",
+                    "primary-container": "#00113a",
+                    "on-tertiary-container": "#acf4a4",
+                    "on-secondary": "#3e2e00",
+                    "on-primary": "#ffffff",
+                    "secondary-fixed": "#ffe088",
+                    "secondary-fixed-dim": "#e9c349",
+                    "tertiary-fixed": "#acf4a4",
+                    "outline": "#8e9099",
+                    "tertiary": "#001902",
+                    "surface-container-high": "#282a2b",
+                    "surface-dim": "#111414",
+                    "on-primary-fixed-variant": "#2a4386",
+                    "on-primary-fixed": "#00174a",
+                    "error": "#ffb4ab",
+                    "surface-variant": "#444650",
+                    "inverse-primary": "#435b9f",
+                    "secondary-container": "#574500",
+                    "background": "#0a0a0a",
+                    "surface": "#0a0a0a",
+                    "on-error": "#690005",
+                    "on-surface": "#e1e3e4",
+                    "surface-tint": "#b3c5ff",
+                    "surface-bright": "#373a3a",
+                    "surface-container": "#1d1f20",
+                    "on-tertiary": "#00390a",
+                    "surface-container-low": "#191c1d",
+                    "primary": "#b3c5ff",
+                    "tertiary-container": "#005315",
+                    "on-secondary-container": "#ffe088",
+                    "inverse-surface": "#e1e3e4",
+                    "surface-container-lowest": "#0c0e0f",
+                    "on-background": "#e1e3e4",
+                    "on-error-container": "#ffdad6",
+                    "on-surface-variant": "#c5c6d2",
+                    "primary-fixed-dim": "#b3c5ff",
+                    "secondary": "#e9c349",
+                    "on-tertiary-fixed": "#002203",
+                    "tertiary-fixed-dim": "#91d78a",
+                    "primary-fixed": "#dbe1ff",
+                    "on-tertiary-fixed-variant": "#0c5216",
+                    "on-secondary-fixed-variant": "#574500",
+                    "surface-container-highest": "#333536"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+   .duration-btn {
+  padding: 12px;
+  border-radius: 12px;
+  background: rgba(0,0,0,0.5);
+  color: #fff;
+  font-weight: bold;
+  transition: all 0.2s ease;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.duration-btn:hover {
+  background: rgba(255,255,255,0.1);
+  transform: scale(1.03);
+}
+
+.duration-btn.active {
+  background: linear-gradient(135deg, #4ade80, #22c55e);
+  color: #000;
+  box-shadow: 0 0 10px rgba(34,197,94,0.4);
+}
+
+#assetTabs::-webkit-scrollbar{
+  display:none;
+}
+
+#assetTabs div {
+  backdrop-filter: blur(6px);
+}
+
+#assetTabs{
+  scroll-padding-left: 20px;
+  scroll-padding-right: 20px;
+}
+
+
+.cat-btn {
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: #1c1f26;
+  color: #aaa;
+  font-size: 13px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 28px;
+  min-width: 60px;
+  flex: 0 0 auto;
+
+  transition: all 0.2s ease;
+}
+
+/* hover */
+.cat-btn:hover {
+  background: #2a2f38;
+  color: #fff;
+}
+
+/* active = แบบในรูป */
+.cat-btn.active {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: #fff;
+  font-weight: 500;
+  box-shadow: 0 0 6px rgba(34,197,94,0.4);
+}
+
+/* 🔥 ทำให้ scroll แนวนอนลื่นจริง */
+#categoryTabs {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  touch-action: pan-x; /* 🔥 ล็อคให้เลื่อนแนวนอนเท่านั้น */
+}
+
+/* 🔥 กัน gesture ชนกับ list */
+#marketList {
+  touch-action: pan-y;
+}
+
+
+#categoryTabs {
+  overscroll-behavior-x: contain;
+}
+
+#marketList {
+  overscroll-behavior-y: contain;
+}
+
+#categoryTabs {
+  scroll-snap-type: x mandatory;
+}
+
+.cat-btn {
+  scroll-snap-align: start;
+}
+
+
+#categoryTabs {
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+#tradingview_chart canvas {
+  background: transparent !important;
+}
+
+.nav-link{
+  color:#d0c5af;
+}
+
+.nav-link.active{
+  background:#2a2a2a;
+  color:#f2ca50;
+  transform: scale(1.05);
+}
+
+.nav-link.active .nav-icon{
+  font-variation-settings: 'FILL' 1;
+}
+
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .chart-grid {
+            background-image: linear-gradient(to right, rgba(212, 175, 55, 0.1) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(212, 175, 55, 0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+
+
+  </style>
+</head>
+<body class="bg-[#0a0a0a] font-body text-on-surface antialiased overflow-x-hidden overflow-y-auto min-h-screen flex flex-col dark">
+<!-- TopAppBar -->
+<header class="bg-[#131313] flex items-center px-8 py-4 w-full relative z-50">
+
+  <!-- LEFT -->
+  <div class="flex items-center gap-3">
+    <img src="images/logo.png" class="w-10 h-10 object-contain"/>
+
+    <span class="text-white font-headline font-semibold text-lg tracking-tight">
+      Interactive  <span class="text-[#f2ca50] font-bold"> </span>
+    </span>
+  </div>
+
+  <!-- 💰 BALANCE (อยู่กลางแบบเนียน) -->
+  <div class="ml-5 text-green-400 font-bold text-lg" id="userBalance">
+    $0.00
+  </div>
+
+  <!-- RIGHT -->
+  <div class="ml-auto relative">
+    <button onclick="goToNotifications()"
+      class="text-[#f2ca50] hover:opacity-80 transition-opacity active:scale-95 duration-150">
+
+      <span class="material-symbols-outlined">notifications</span>
+
+      <span id="notifDot"
+        class="hidden absolute top-0 right-0 w-2.5 h-2.5 bg-red-500 rounded-full">
+      </span>
+
+    </button>
+  </div>
+
+</header>
+<!-- Main Content Area -->
+<main class="flex-grow pb-24 md:pb-0 flex flex-col md:flex-row">
+<!-- Left: Interactive Trading Chart -->
+<section class="bg-[#0a0a0a] flex flex-col h-[40vh] overflow-hidden relative">
+
+  <!-- 🌍 BG -->
+  <div class="absolute inset-0 z-0 pointer-events-none">
+    <img src="images/world.png"
+         class="w-full h-full object-cover opacity-20">
+  </div>
+
+  <!-- DARK -->
+  <div class="absolute inset-0 bg-black/10 z-0 pointer-events-none"></div>
+
+ 
+
+   <!-- 🔥 ASSET BAR -->
+  <div class="px-3 pt-0 pb-1 shrink-0">
+    <div id="assetTabs" class="flex gap-2 overflow-x-auto w-full"></div>
+  </div>
+
+  <!-- 📈 CHART WRAPPER -->
+<div class="flex-1 relative h-full">
+
+  <!-- chart -->
+  <div id="tradingview_chart" class="absolute inset-0"></div>
+
+  <!-- 🔥 PRICE OVERLAY (อยู่ในกราฟเท่านั้น) -->
+  <div class="absolute top-2 left-4 z-10 flex items-center gap-2 pointer-events-none">
+
+    <span id="livePrice"
+      class="text-green-400 text-3xl font-extrabold">
+      Loading...
+    </span>
+
+    <span id="livePercent"
+      class="text-[#acf4a4] bg-[#005315]/40 px-2 py-0.5 rounded text-xs font-bold">
+      0%
+    </span>
+
+  </div>
+
+</div>
+
+  <!-- 📊 PROGRESS BAR (ใต้กราฟพอดี) -->
+<div class="relative z-20 w-full px-4 py-2">
+
+  <div class="flex justify-between text-xs mb-1">
+    <span id="sellPercent" class="text-red-400">50%</span>
+    <span id="buyPercent" class="text-green-400">50%</span>
+  </div>
+
+  <div class="w-full h-2 bg-[#1d1f20] rounded-full overflow-hidden">
+    <div id="powerBar"
+         class="h-full bg-gradient-to-r from-red-500 to-green-500 transition-all duration-300"
+         style="width: 50%">
+    </div>
+  </div>
+
+</div>
+
+</section>
+
+<!-- Right: Trading Sidebar (Controls) -->
+<aside class="w-full md:w-[360px] bg-[#0c0e0f] flex flex-col z-20 border-l border-white/5">
+
+ <div class="p-3 flex flex-col gap-3">
+  
+
+<!-- Input Fields -->
+<div class="grid grid-cols-2 gap-4 items-end">
+
+  <!-- Amount -->
+  <div class="space-y-2">
+
+    <!-- Balance -->
+    <div class="flex items-center justify-between text-xs text-gray-400 mb-1">
+      <span>เงินต้น</span>
+    </div>
+
+    <!-- Input -->
+    <div class="relative">
+      <span class="absolute left-3 top-1/2 -translate-y-1/2 text-[#D4AF37] font-bold">
+        $
+      </span>
+
+      <input 
+        id="amountInput"
+        type="number"
+        value="100"
+        oninput="updateProfit()"
+        class="w-full h-[48px] pl-8 pr-4 bg-[#1d1f20] border border-white/5 rounded-xl font-bold text-on-surface text-base outline-none"
+      />
+    </div>
+
+  </div>
+
+  <!-- Duration -->
+  <div class="space-y-2">
+
+    <div class="flex items-center justify-between text-xs text-gray-400 mb-1">
+      <span>เลือกเวลา</span>
+    </div>
+
+    <div class="relative">
+
+      <input 
+        id="durationInput"
+        readonly
+        type="text"
+        value="00:05:00"
+        onclick="openDurationModal()"
+        class="w-full h-[48px] pl-4 pr-10 bg-[#1d1f20] border border-white/5 rounded-xl font-bold text-on-surface text-base outline-none cursor-pointer"
+      />
+
+      <span class="absolute right-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-[#D4AF37]">
+        schedule
+      </span>
+
+    </div>
+
+  </div>
+
+</div>
+<!-- Profit Display (Compact) -->
+<div class="p-3 bg-[#005315]/10 rounded-xl border border-[#acf4a4]/20 flex justify-between items-center">
+
+  <!-- 🔥 ซ้าย: ข้อความ + จำนวนเงิน -->
+  <div class="text-sm font-bold text-[#acf4a4]">
+    รีเทิร์นที่คาด
+    <span id="profitAmount" class="ml-2 text-[#acf4a4]">
+      +$0.00
+    </span>
+  </div>
+
+  <!-- 🔥 ขวา: % -->
+  <div id="profitPercent" class="text-sm font-bold text-[#acf4a4]">
+    +0%
+  </div>
+
+</div>
+<!-- Action Buttons -->
+<div class="grid grid-cols-2 gap-4">
+<button onclick="openTrade('BUY')" 
+class="group flex flex-col items-center justify-center gap-1 py-1 px-4 bg-[#4caf50] text-white rounded-xl active:scale-95 transition-all shadow-lg hover:brightness-110">
+<span class="material-symbols-outlined text-3xl group-hover:-translate-y-1 transition-transform" data-icon="trending_up" data-weight="fill">trending_up</span>
+<span class="font-headline font-bold text-xl">ซื้อ</span>
+</button>
+<button onclick="openTrade('SELL')" 
+class="group flex flex-col items-center justify-center gap-1 py-1 px-4 bg-[#f44336] text-white rounded-xl active:scale-95 transition-all shadow-lg hover:brightness-110">
+<span class="material-symbols-outlined text-3xl group-hover:translate-y-1 transition-transform" data-icon="trending_down" data-weight="fill">trending_down</span>
+<span class="font-headline font-bold text-xl">ขาย</span>
+</button>
+</div>
+<!-- Market Status -->
+<div class="mt-auto pt-6 flex items-center justify-between text-xs font-medium text-on-surface-variant">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#acf4a4] animate-pulse"></span>
+<span>ตลาดเปิดทำการ</span>
+</div>
+<div class="flex items-center gap-2 text-[#D4AF37]">
+<span class="material-symbols-outlined text-base" data-icon="bolt">bolt</span>
+<span>คำสั่งซื้อที่ดำเนินอยู่</span>
+</div>
+</div>
+
+<!-- ACTIVE ORDERS -->
+<div id="activeOrders" class="space-y-3"></div>
+
+<div class="mt-4">
+
+  <h3 class="text-sm text-gray-400 mb-2">คำสั่งซื้อที่ปิดแล้ว</h3>
+
+  <div id="closedOrders" class="flex flex-col gap-3"></div>
+
+</div>
+</div>
+</aside>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-40 bg-[#131313]/80 backdrop-blur-xl flex justify-around items-center px-4 pb-6 pt-2 border-t border-white/10">
+
+  <!-- TRADE -->
+  <a href="trade.html" class="nav-link flex flex-col items-center justify-center px-4 py-2 rounded-2xl transition-all duration-200">
+    <span class="material-symbols-outlined nav-icon">show_chart</span>
+    <span class="text-[10px] mt-1 tracking-widest">TRADE</span>
+  </a>
+
+  <!-- WALLET -->
+  <a href="wallet.html" class="nav-link flex flex-col items-center justify-center px-4 py-2 rounded-2xl transition-all duration-200">
+    <span class="material-symbols-outlined nav-icon">account_balance_wallet</span>
+    <span class="text-[10px] mt-1 tracking-widest">WALLET</span>
+  </a>
+
+  <!-- PROFILE -->
+  <a href="profile.html" class="nav-link flex flex-col items-center justify-center px-4 py-2 rounded-2xl transition-all duration-200">
+    <span class="material-symbols-outlined nav-icon">person</span>
+    <span class="text-[10px] mt-1 tracking-widest">PROFILE</span>
+  </a>
+
+</nav>
+
+<script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+<script type="module">
+// 🔊 ORDER SOUND
+const orderSound = new Audio("/sounds/order.mp3");
+orderSound.volume = 1;
+const API_URL = window.location.origin;  
+import { initChart, loadChart, startBackgroundFeeds, getCurrentPrice } from "./js/chart.js";
+
+function formatSymbol(symbol){
+  return symbol.split(":")[1];
+}
+let currentSymbol = "BINANCE:BTCUSDT";
+
+const { chart, candleSeries } = initChart();
+
+
+// โหลดครั้งแรก
+loadChart(currentSymbol, candleSeries);
+
+// ให้ฟังก์ชันอื่นใช้ได้
+window.candleSeries = candleSeries;
+
+const activeOrdersMap = new Map();
+
+const assetIcons = {
+  "BINANCE:BTCUSDT": "images/assets/btc.png",
+  "BINANCE:ETHUSDT": "images/assets/eth.png",
+  "BINANCE:BNBUSDT": "images/assets/bnb.png",
+  "BINANCE:SOLUSDT": "images/assets/sol.png",
+  "BINANCE:XRPUSDT": "images/assets/xrp.png",
+  "BINANCE:ADAUSDT": "images/assets/ada.png",   
+  "BINANCE:DOGEUSDT": "images/assets/doge.png",
+  "BINANCE:AVAXUSDT": "images/assets/avax.png", 
+  "BINANCE:DOTUSDT": "images/assets/dot.png",  
+  "BINANCE:LINKUSDT": "images/assets/link.png", 
+
+  "NASDAQ:AAPL": "images/assets/aapl.png",
+  "NASDAQ:MSFT": "images/assets/msft.png", 
+  "NASDAQ:TSLA": "images/assets/tsla.png",
+  "NASDAQ:NVDA": "images/assets/nvda.png",
+  "NASDAQ:AMZN": "images/assets/amzn.png",
+
+  "NASDAQ:AMD": "images/assets/amd.png",
+"NASDAQ:META": "images/assets/meta.png",
+"NASDAQ:NFLX": "images/assets/nflx.png",
+"NASDAQ:GOOGL": "images/assets/google.png",
+
+"NYSE:JPM": "images/assets/jpm.png",
+"NYSE:KO": "images/assets/ko.png",
+"NYSE:DIS": "images/assets/dis.png",
+
+"NYSE:SPY": "images/assets/spy.png",
+"NASDAQ:QQQ": "images/assets/qqq.png",
+"NYSE:THD": "images/assets/thd.png",
+
+"C:XAGUSD": "images/assets/silver.png",
+
+  "C:XAUUSD": "images/assets/gold.png"
+};
+
+
+
+// ✅ เช็ค token
+const token = localStorage.getItem("token");
+
+if (!token) {
+  window.location.href = "login.html";
+} else {
+  loadUser(); // ✅ เรียกตรงนี้
+}
+
+// ✅ ดึงข้อมูล user (balance)
+async function loadUser() {
+  try {
+    const res = await fetch(`${API_URL}/api/wallet/balance`, {
+      headers: {
+        "Authorization": "Bearer " + token
+      }
+    });
+
+    const data = await res.json();
+
+
+
+    console.log("USER DATA:", data);
+
+    // 🔥 แสดง balance (เดี๋ยวเราจะใส่ UI ทีหลัง)
+    document.getElementById("userBalance").innerText =
+  "$" + (data.balance || 0).toLocaleString(undefined,{
+    minimumFractionDigits:2
+  });
+    // document.getElementById("balance").innerText = data.balance;
+
+  } catch (err) {
+    console.log("โหลดข้อมูลไม่ได้");
+  }
+}
+
+// เรียกใช้งาน
+loadUser();
+
+
+
+const tradeConfig = {
+  2:  { min: 20,     percent: 15 },
+  5:  { min: 4500,   percent: 26 },
+  20: { min: 27000,  percent: 40 },
+  60: { min: 146000, percent: 58 }
+};
+
+let favorites = JSON.parse(localStorage.getItem("fav") || "[]");
+const assets = [
+
+{ name:"Bitcoin", symbol:"BINANCE:BTCUSDT", icon:"images/assets/btc.png", type:"crypto" },
+{ name:"Ethereum", symbol:"BINANCE:ETHUSDT", icon:"images/assets/eth.png", type:"crypto" },
+{ name:"BNB", symbol:"BINANCE:BNBUSDT", icon:"images/assets/bnb.png", type:"crypto" },
+{ name:"Solana", symbol:"BINANCE:SOLUSDT", icon:"images/assets/sol.png", type:"crypto" },
+{ name:"XRP", symbol:"BINANCE:XRPUSDT", icon:"images/assets/xrp.png", type:"crypto" },
+{ name:"Cardano", symbol:"BINANCE:ADAUSDT", icon:"images/assets/ada.png", type:"crypto" },
+{ name:"Dogecoin", symbol:"BINANCE:DOGEUSDT", icon:"images/assets/doge.png", type:"crypto" },
+{ name:"Avalanche", symbol:"BINANCE:AVAXUSDT", icon:"images/assets/avax.png", type:"crypto" },
+{ name:"Polkadot", symbol:"BINANCE:DOTUSDT", icon:"images/assets/dot.png", type:"crypto" },
+{ name:"Chainlink", symbol:"BINANCE:LINKUSDT", icon:"images/assets/link.png", type:"crypto" },
+
+{ name:"Apple", symbol:"NASDAQ:AAPL", icon:"images/assets/aapl.png", type:"stock" },
+{ name:"Microsoft", symbol:"NASDAQ:MSFT", icon:"images/assets/msft.png", type:"stock" },
+{ name:"Tesla", symbol:"NASDAQ:TSLA", icon:"images/assets/tsla.png", type:"stock" },
+{ name:"Nvidia", symbol:"NASDAQ:NVDA", icon:"images/assets/nvda.png", type:"stock" },
+{ name:"Amazon", symbol:"NASDAQ:AMZN", icon:"images/assets/amzn.png", type:"stock" },
+
+// =====================
+// 🚀 US STOCKS (เพิ่มความมัน)
+// =====================
+{ name:"AMD", symbol:"NASDAQ:AMD", icon:"images/assets/amd.png", type:"stock" },
+{ name:"Meta", symbol:"NASDAQ:META", icon:"images/assets/meta.png", type:"stock" },
+{ name:"Netflix", symbol:"NASDAQ:NFLX", icon:"images/assets/nflx.png", type:"stock" },
+{ name:"Google", symbol:"NASDAQ:GOOGL", icon:"images/assets/google.png", type:"stock" },
+
+// =====================
+// 🏦 STABLE STOCKS
+// =====================
+{ name:"JPMorgan", symbol:"NYSE:JPM", icon:"images/assets/jpm.png", type:"stock" },
+{ name:"Coca-Cola", symbol:"NYSE:KO", icon:"images/assets/ko.png", type:"stock" },
+{ name:"Disney", symbol:"NYSE:DIS", icon:"images/assets/dis.png", type:"stock" },
+
+// =====================
+// 🌍 ETF / MARKET
+// =====================
+{ name:"S&P 500 ETF", symbol:"NYSE:SPY", icon:"images/assets/spy.png", type:"etf" },
+{ name:"Nasdaq ETF", symbol:"NASDAQ:QQQ", icon:"images/assets/qqq.png", type:"etf" },
+{ name:"Thailand ETF", symbol:"NYSE:THD", icon:"images/assets/thd.png", type:"etf" },
+
+// =====================
+// 🥈 COMMODITY เพิ่ม
+// =====================
+{ name:"Silver", symbol:"C:XAGUSD", icon:"images/assets/silver.png", type:"commodity" },
+
+{ name:"Gold", symbol:"C:XAUUSD", icon:"images/assets/gold.png", type:"commodity" }
+
+];
+
+let assetTabs = [
+  assets[0],
+  assets[10],
+  assets[11]
+];
+
+startBackgroundFeeds(assets.map(a=>a.symbol));
+
+// 🔥 preload icons
+assets.forEach(a=>{
+  const img = new Image();
+  img.src = a.icon;
+});
+
+function renderTabs(){
+
+  const container = document.getElementById("assetTabs");
+  container.innerHTML = "";
+
+  const total = assetTabs.length;
+
+  // 🔥 คำนวณขนาด active ตามจำนวน
+  let activeWidth = "";
+
+  if(total === 1){
+    activeWidth = "flex-1";            // เต็ม
+  }
+  else if(total === 2){
+    activeWidth = "flex-[2]";          // ใหญ่
+  }
+  else if(total === 3){
+    activeWidth = "flex-[1.5]";
+  }
+  else{
+    activeWidth = "flex-[1.3]";
+  }
+
+  assetTabs.forEach((a,index)=>{
+
+    const active = a.symbol === currentSymbol;
+
+    // ✅ ACTIVE TAB
+    if(active){
+      container.innerHTML += `
+        <div onclick="selectAsset('${a.symbol}','${a.name}','${a.icon}')"
+          class="flex items-center gap-3 px-4 py-3 rounded-2xl ${activeWidth} bg-[#2b3a5a] cursor-pointer transition-all duration-200">
+
+          <div class="relative shrink-0">
+            <img src="${a.icon}" class="w-7 h-7 rounded-full">
+
+            <div class="absolute -bottom-1 -right-1 bg-orange-500 text-white text-[9px] px-1 rounded">
+              OTC
+            </div>
+          </div>
+
+          <div class="flex flex-col leading-tight overflow-hidden">
+            <span class="text-white text-sm font-bold truncate">
+              ${a.name}
+            </span>
+            <span class="text-gray-400 text-[10px]">
+              Blitz
+            </span>
+          </div>
+
+          <button onclick="event.stopPropagation(); removeTab(${index})"
+            class="ml-auto text-gray-400 hover:text-red-400">
+            ✕
+          </button>
+
+        </div>
+      `;
+    }
+
+    // ✅ INACTIVE TAB (icon only)
+    else{
+      container.innerHTML += `
+        <div onclick="selectAsset('${a.symbol}','${a.name}','${a.icon}')"
+          class="w-11 h-11 flex items-center justify-center rounded-2xl bg-[#1a1f2e] cursor-pointer shrink-0 transition-all duration-200">
+
+          <div class="relative">
+            <img src="${a.icon}" class="w-6 h-6 rounded-full">
+
+            <div class="absolute -bottom-1 -right-1 bg-orange-500 text-white text-[8px] px-1 rounded">
+              OTC
+            </div>
+          </div>
+
+        </div>
+      `;
+    }
+
+  });
+
+  // ➕ BUTTON
+  container.innerHTML += `
+    <div onclick="toggleMarket()"
+      class="w-11 h-11 flex items-center justify-center rounded-2xl bg-[#1a1f2e] text-white text-xl cursor-pointer shrink-0">
+      +
+    </div>
+  `;
+
+  // 🔥 auto scroll ไปขวาสุด
+  container.scrollLeft = container.scrollWidth;
+}
+
+function renderMarket(list){
+
+  const container = document.getElementById("marketList");
+
+  let html = ""; // 🔥 เก็บทั้งหมดไว้ก่อน
+
+  list.forEach(asset => {
+
+    const isFav = favorites.includes(asset.symbol);
+
+    html += `
+      <div onclick="selectAsset('${asset.symbol}','${asset.name}','${asset.icon}')"
+        class="flex items-center justify-between p-3 bg-[#14161a] rounded-xl border border-white/5 hover:bg-[#1c1f26] transition">
+
+        <div class="flex items-center gap-3">
+          <img src="${asset.icon}" class="w-7 h-7 rounded-full">
+
+          <div>
+            <div class="font-bold">${asset.name}</div>
+            <div class="text-xs text-gray-400">
+  ${asset.symbol.split(":")[1]}
+</div>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+
+          <span onclick="event.stopPropagation(); toggleFav('${asset.symbol}')"
+            class="text-yellow-400 cursor-pointer">
+            ${isFav ? "★" : "☆"}
+          </span>
+
+          <div class="text-green-400 font-bold">
+            +${Math.floor(Math.random()*20+70)}%
+          </div>
+
+        </div>
+
+      </div>
+    `;
+  });
+
+  container.innerHTML = html; // 🔥 ใส่ทีเดียว
+}
+
+
+
+renderMarket(assets);
+
+const searchInput = document.getElementById("searchAsset");
+
+if(searchInput){
+  searchInput.addEventListener("input",(e)=>{
+    const keyword = e.target.value.toLowerCase();
+
+    const filtered = assets.filter(a =>
+      a.name.toLowerCase().includes(keyword)
+    );
+
+    renderMarket(filtered);
+  });
+}
+
+
+function filterCategory(type){
+  if(type === "all"){
+    renderMarket(assets);
+  }else{
+    renderMarket(assets.filter(a => a.type === type));
+  }
+}
+
+function selectAsset(symbol,name,icon){
+
+    currentSymbol = symbol;
+
+    const exist = assetTabs.find(a => a.symbol === symbol);
+
+    if(!exist){
+        assetTabs.push({ symbol, name, icon });
+
+        // 🔥 LIMIT 4
+        if(assetTabs.length > 4){
+            assetTabs.shift();
+        }
+    }
+
+    renderTabs();
+
+   try{
+  loadChart(symbol, candleSeries);
+}catch(e){
+  console.error("Chart load error:", e);
+}
+
+    const panel = document.getElementById("marketPanel");
+if(panel){
+  panel.classList.add("hidden");
+}
+
+}
+
+
+function removeTab(index){
+
+  assetTabs.splice(index,1);
+
+  if(assetTabs.length === 0){
+    assetTabs.push(assets[0]);
+  }
+
+  const last = assetTabs[assetTabs.length - 1];
+
+  currentSymbol = last.symbol;
+
+  renderTabs();
+
+  if(candleSeries){
+    loadChart(last.symbol, candleSeries);
+  }
+}
+
+
+let selectedTime = 5;
+let minAmount = 500;
+
+function openDurationModal(){
+    document.getElementById("durationModal").classList.remove("hidden");
+}
+
+function closeDurationModal(){
+    document.getElementById("durationModal").classList.add("hidden");
+}
+
+function selectDuration(time,label){
+
+    selectedTime = time;
+
+    const config = tradeConfig[time];
+
+    minAmount = config.min;
+    const percent = config.percent;
+
+    // เปลี่ยนเวลา
+    document.getElementById("durationInput").value = label;
+
+    // เปลี่ยนขั้นต่ำ
+    document.getElementById("amountInput").placeholder =
+        "ขั้นต่ำ $" + minAmount;
+
+    // เปลี่ยน %
+    document.getElementById("profitPercent").innerText =
+        percent + "%";
+
+    // คำนวณใหม่
+    updateProfit();
+
+    closeDurationModal();
+}
+
+async function openTrade(type){
+
+  try{
+
+    const token = localStorage.getItem("token");
+
+    // 🔥 ดึงค่า input
+    const amount = Number(document.getElementById("amountInput").value);
+    const symbol = currentSymbol; // 👉 ต้องมีตัวนี้อยู่แล้ว
+    const duration = selectedTime;
+    const percent = tradeConfig[selectedTime].percent;
+    const currentMinAmount = tradeConfig[selectedTime].min;
+
+    if(amount < currentMinAmount){
+    showAlert(`ยอดเงินที่ป้อนไม่เพียงพอ 
+    ขั้นต่ำของ ${formatTime(selectedTime)} คือ $${currentMinAmount.toLocaleString()}`);
+    return;
+    }
+
+    const price = getCurrentPrice(currentSymbol);
+
+    // ❌ กัน error
+    if(!price || isNaN(price)){
+      showAlert("ราคาโหลดไม่ทัน");
+      return;
+    }
+
+    if(!amount || amount <= 0){
+      showAlert("ใส่จำนวนเงินให้ถูกต้อง");
+      return;
+    }
+
+    // 🔥 ยิง API
+    const res = await fetch(`${API_URL}/api/trade/open`,{
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json",
+        "Authorization":"Bearer " + token
+      },
+      body: JSON.stringify({
+        type,
+        amount,
+        symbol,
+        duration,
+        percent,
+        price
+      })
+    });
+
+    const data = await res.json();
+
+    if(!res.ok){
+      showAlert(data.message || "เปิดออเดอร์ไม่สำเร็จ");
+      return;
+    }
+
+    document.getElementById("userBalance").innerText =
+    "$" + data.balance.toLocaleString(undefined,{
+    minimumFractionDigits:2
+     });
+    data.order.userId = localStorage.getItem("userId");
+    // ✅ render order
+    renderOrder(data.order);
+
+    // ✅ start timer
+    startTimer(data.order);
+
+    // ✅ start fake profit
+   data.order.profitInterval = startProfitSimulation(data.order);
+
+   // 🔊 PLAY SOUND
+   orderSound.currentTime = 0;
+   orderSound.play();
+
+    // 🎉 success
+    console.log("OPEN SUCCESS", data);
+
+  }catch(err){
+    console.log("OPEN ERROR:", err);
+    alert("Server error");
+  }
+}
+
+
+
+function updateProfit(){
+
+    const amount = Number(document.getElementById("amountInput").value) || 0;
+
+    const percent = tradeConfig[selectedTime].percent;
+
+    const profit = amount * (percent / 100);
+
+    document.getElementById("profitAmount").innerText =
+        "+$" + profit.toLocaleString(undefined,{minimumFractionDigits:2});
+}
+
+
+async function loadBalance(){
+
+    const res = await fetch(`${API_URL}/api/wallet/balance`, {
+        headers: {
+            "Authorization": "Bearer " + token
+        }
+    });
+
+    const data = await res.json();
+
+    document.getElementById("userBalance").innerText =
+        "$" + data.balance.toLocaleString(undefined,{
+            minimumFractionDigits:2
+        });
+}
+ loadBalance();
+
+function renderOrder(order){
+
+  const container = document.getElementById("activeOrders");
+
+   // 🔥 กันซ้ำ
+  if(document.getElementById("order-" + order._id)){
+    return;
+  }
+
+  function normalizeSymbol(sym){
+  return sym.replace("_","");
+}
+
+const icon = assetIcons[normalizeSymbol(order.symbol)] || "images/assets/gold.png";
+
+  const div = document.createElement("div");
+
+  div.id = "order-" + order._id;
+
+  div.className = "bg-[#1c2740] rounded-2xl p-4 flex justify-between items-center cursor-pointer hover:opacity-90 transition";
+
+  // ✅ HTML ล้วน (ไม่มี JS ปน)
+  div.innerHTML = `
+     
+    <!-- LEFT -->
+    <div class="flex items-center gap-3">
+
+      <!-- ICON -->
+      <div class="relative">
+        <img src="${icon}" class="w-10 h-10 rounded-full"/>
+
+        <div class="absolute -bottom-1 -left-1 bg-orange-500 text-white text-[10px] px-1 rounded">
+          OTC
+        </div>
+      </div>
+
+      <!-- TEXT -->
+      <div>
+        <div class="text-white font-bold">
+          ${formatSymbol(order.symbol)}
+        </div>
+
+        <div class="flex items-center gap-2 text-gray-300 text-sm">
+
+          <div class="w-5 h-5 rounded-full border border-white flex items-center justify-center">
+            <span class="material-symbols-outlined animate-spin text-[#D4AF37] text-sm">
+              schedule
+            </span>
+          </div>
+
+          <span id="timer-${order._id}">00:00</span>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT -->
+    <div class="text-right">
+
+      <div id="profit-${order._id}" class="text-gray-400 text-sm">$0.00</div>
+
+      <div class="flex items-center gap-2 justify-end">
+        <span class="text-white font-bold">$${order.amount}</span>
+
+        <div class="${order.type === "BUY" ? "bg-green-500" : "bg-red-500"} w-6 h-6 rounded-full flex items-center justify-center text-white text-xs">
+          ${order.type === "BUY" ? "▲" : "▼"}
+        </div>
+      </div>
+
+    </div>
+  `;
+
+  // ✅ 👉 onclick ต้องอยู่ตรงนี้ (นอก innerHTML)
+  div.onclick = () => {
+  window.location.href = `order-detail.html?orderId=${order._id}`;
+};
+
+  container.prepend(div);
+}
+
+
+async function loadTradeHistory(){
+
+  const token = localStorage.getItem("token");
+
+  const res = await fetch(`${API_URL}/api/trade/history`,{
+    headers:{
+      "Authorization":"Bearer "+token
+    }
+  });
+
+  const orders = await res.json();
+
+  const container = document.getElementById("closedOrders");
+
+  container.innerHTML = "";
+
+  if(!orders.length){
+    container.innerHTML = `
+      <div class="text-center text-gray-400 text-sm py-4">
+        No closed orders
+      </div>
+    `;
+    return;
+  }
+
+  orders.forEach(order => {
+
+    const color = order.result === "win" ? "text-green-400" : "text-red-400";
+
+    const profit = order.result === "win"
+      ? order.amount * (order.percent / 100)
+      : order.amount;
+
+    const div = document.createElement("div");
+
+    div.className = "bg-[#1c2740] rounded-2xl p-4 flex justify-between items-center";
+
+    div.innerHTML = `
+
+      <div class="flex items-center gap-3">
+
+        <div class="relative">
+          <img src="${assetIcons[order.symbol] || "images/assets/btc.png"}" 
+               class="w-10 h-10 rounded-full"/>
+
+          <div class="absolute -bottom-1 -left-1 bg-orange-500 text-white text-[10px] px-1 rounded">
+            OTC
+          </div>
+        </div>
+
+        <div>
+          <div class="text-white font-bold">
+             ${formatSymbol(order.symbol)}
+               </div>
+
+          <div class="text-xs text-gray-400">
+            ${order.type} • ${new Date(order.closeTime).toLocaleTimeString()}
+          </div>
+        </div>
+
+      </div>
+
+      <div class="text-right">
+
+  <!-- กำไร -->
+  <div class="${color} font-bold">
+    ${order.result === "win"
+      ? "+" + profit.toFixed(2)
+      : "$0.00"}
+  </div>
+
+  <!-- เงินต้น + ลูกศร -->
+  <div class="flex items-center justify-end gap-2 mt-1">
+
+    <div class="text-gray-400 text-sm">
+      $${order.amount.toFixed(2)}
+    </div>
+
+    <div class="${
+      order.type === "BUY" ? "bg-green-500" : "bg-red-500"
+    } w-6 h-6 rounded-full flex items-center justify-center text-white text-xs">
+      ${order.type === "BUY" ? "▲" : "▼"}
+    </div>
+
+  </div>
+
+</div>
+
+    `;
+
+    div.onclick = () => {
+  window.location.href = `order-detail.html?orderId=${order._id}`;
+};
+
+    container.appendChild(div);
+
+  });
+
+}
+ 
+
+function startTimer(order){
+
+  const el = document.getElementById("timer-" + order._id);
+  if(!el) return;
+
+  const total = order.duration * 60;
+
+  const interval = setInterval(async ()=>{
+
+    const now = new Date();
+    const open = new Date(order.openTime);
+
+    let time = total - Math.floor((now - open) / 1000);
+
+    if(time < 0) time = 0;
+
+    const min = Math.floor(time / 60);
+    const sec = time % 60;
+
+    el.innerText =
+      String(min).padStart(2,"0") + ":" +
+      String(sec).padStart(2,"0");
+
+    if(time <= 0){
+
+  clearInterval(interval);
+
+  if(order.profitInterval){
+    clearInterval(order.profitInterval);
+  }
+
+  // ❌ ลบบรรทัดนี้ทิ้งเลย
+  // el.innerText = "หมดเวลา";
+
+  // ✅ ปิด order + เอา balance กลับมา
+  const res = await fetch(`${API_URL}/api/trade/close/${order._id}`,{
+    method:"POST",
+    headers:{
+      "Authorization":"Bearer " + localStorage.getItem("token")
+    }
+  });
+
+  const data = await res.json();
+
+  // ✅ อัปเดต balance REALTIME
+  const balanceEl = document.getElementById("userBalance");
+
+  if(balanceEl){
+    balanceEl.innerText =
+      "$" + data.balance.toLocaleString(undefined,{
+        minimumFractionDigits:2
+      });
+
+    // 🔥 เอฟเฟกต์เด้งนิด ๆ
+    balanceEl.classList.add("scale-110");
+
+    setTimeout(()=>{
+      balanceEl.classList.remove("scale-110");
+    },300);
+  }
+
+  // ✅ ลบการ์ดทันที (ไม่โชว์ "หมดเวลา")
+  const card = document.getElementById("order-" + order._id);
+if(card) card.remove();
+
+  activeOrdersMap.delete(order._id);
+
+  loadTradeHistory();
+}
+
+  },1000);
+}
+
+
+async function startProfitSimulation(order){
+
+  const token = localStorage.getItem("token");
+
+  let forceResult = "lose";
+
+  // 🔥 ไปถาม backend ว่า asset นี้ win ไหม
+  try{
+    const res = await fetch(
+      `${API_URL}/api/admin/get-trade-setting?userId=${order.userId}&symbol=${order.symbol.split(":")[1]}`,
+      {
+        headers:{
+          "Authorization":"Bearer " + token
+        }
+      }
+    );
+
+    const data = await res.json();
+    forceResult = data.forceResult;
+
+  }catch(err){
+    console.log("โหลด setting ไม่ได้");
+  }
+
+  let profit = 0;
+
+  const el = document.getElementById("profit-" + order._id);
+
+  const maxProfit = order.amount * (order.percent / 100);
+
+  const interval = setInterval(()=>{
+
+   // 🎲 สุ่มขึ้นลง (ทุกออเดอร์มีเขียวแดงหมด)
+const change = Math.random() * order.amount * 0.04;
+
+// bias ตามผลที่ต้องการ
+let direction;
+
+if(forceResult === "win"){
+  direction = Math.random() > 0.4 ? 1 : -1; // เขียวเยอะกว่า
+}else{
+  direction = Math.random() > 0.6 ? 1 : -1; // แดงเยอะกว่า
+}
+
+profit += direction * change;
+
+// 🎯 กันไม่ให้ทะลุ
+if(profit > maxProfit) profit = maxProfit - Math.random()*2;
+const maxLoss = order.amount * (order.percent / 100);
+
+if(profit < -maxLoss) profit = -maxLoss + Math.random()*1;
+    
+   // ⏱ คำนวณเวลา
+const now = new Date();
+const open = new Date(order.openTime);
+const total = order.duration * 60;
+
+const timePassed = Math.floor((now - open) / 1000);
+const timeLeft = total - timePassed;
+
+// 🔥 ล็อคผล 3 วิสุดท้าย
+if(timeLeft <= 3){
+  if(forceResult === "win"){
+
+  const change = Math.random() * order.amount * 0.03;
+  profit += (Math.random() - 0.5) * change;
+
+}else{
+
+  const change = Math.random() * order.amount * 0.03;
+  profit += (Math.random() - 0.5) * change;
+
+}
+}
+
+    if(el){
+
+      el.innerText = "$" + profit.toFixed(2);
+
+      if(profit >= 0){
+  el.className = "text-green-400 text-sm";
+}else{
+  el.className = "text-red-400 text-sm";
+}
+
+    }
+
+  },500);
+
+  return interval;
+}
+
+function renderHistory(order){
+
+  const container = document.getElementById("closedOrders");
+
+  const icon = assetIcons[order.symbol] || "images/assets/btc.png";
+
+  const isWin = order.result === "win";
+
+  const profit = isWin
+    ? order.amount * (order.percent / 100)
+    : order.amount;
+
+  const div = document.createElement("div");
+
+  div.className = "bg-[#1c2740] rounded-2xl p-4 flex justify-between items-center";
+
+  div.innerHTML = `
+
+    <!-- LEFT -->
+    <div class="flex items-center gap-3">
+
+      <!-- ICON -->
+      <div class="relative">
+        <img src="${icon}" class="w-10 h-10 rounded-full"/>
+
+        <div class="absolute -bottom-1 -left-1 bg-orange-500 text-white text-[10px] px-1 rounded">
+          OTC
+        </div>
+      </div>
+
+      <!-- TEXT -->
+      <div>
+
+        <div class="text-white font-bold">
+          ${formatSymbol(order.symbol)}
+        </div>
+
+        <div class="flex items-center gap-2 text-gray-300 text-sm">
+
+          <span>
+            ${order.type}
+          </span>
+
+          <span>•</span>
+
+          <span>
+            ${new Date(order.closeTime).toLocaleTimeString()}
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- RIGHT -->
+    <div class="text-right">
+
+      <div class="${isWin ? "text-green-400" : "text-red-400"} font-bold">
+        ${isWin ? "+" : "-"}$${profit.toFixed(2)}
+      </div>
+
+      <div class="flex items-center gap-2 justify-end mt-1">
+
+        <span class="text-gray-300 text-xs uppercase">
+          ${order.result}
+        </span>
+
+        <div class="${order.type === "BUY" ? "bg-green-500" : "bg-red-500"} w-6 h-6 rounded-full flex items-center justify-center text-white text-xs">
+          ${order.type === "BUY" ? "▲" : "▼"}
+        </div>
+
+      </div>
+
+    </div>
+
+  `;
+
+  container.appendChild(div);
+}
+
+async function loadActiveOrders(){
+
+  const token = localStorage.getItem("token");
+
+  const res = await fetch(`${API_URL}/api/trade/active`,{
+    headers:{
+      "Authorization":"Bearer " + token
+    }
+  });
+
+  const orders = await res.json();
+
+  orders.forEach(order => {
+
+    // ===============================
+    // 🔥 กัน order หมดเวลา
+    // ===============================
+    const now = Date.now();
+    const open = new Date(order.openTime).getTime();
+    const durationMs = order.duration * 60 * 1000;
+
+    // ❌ ถ้าหมดเวลาแล้ว → ไม่ต้อง render
+    if(now > open + durationMs){
+      return;
+    }
+
+    // ===============================
+    // 🔥 กันซ้ำ
+    // ===============================
+    if(!activeOrdersMap.has(order._id)){
+
+      activeOrdersMap.set(order._id, order);
+
+      order.userId = localStorage.getItem("userId");
+
+      renderOrder(order);
+      startTimer(order);
+      order.profitInterval = startProfitSimulation(order);
+
+    }
+
+  });
+
+}
+
+loadActiveOrders();
+loadTradeHistory();
+
+async function checkNotifications() {
+  try {
+    const res = await fetch(`${API_URL}/api/notifications`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token")
+      }
+    });
+
+    const data = await res.json();
+
+    const hasUnread = data.some(n => !n.isRead);
+
+    const dot = document.getElementById("notifDot");
+
+    if (dot) {
+      dot.style.display = hasUnread ? "block" : "none";
+    }
+
+  } catch (err) {
+    console.error("NOTIF ERROR:", err);
+  }
+}
+
+renderTabs();
+
+document.addEventListener("DOMContentLoaded", () => {
+  checkNotifications();
+  loadTradeHistory();
+
+  // 🔥 เช็คทันทีเมื่อกลับมาหน้า (focus)
+  window.addEventListener("focus", () => {
+    checkNotifications();
+  });
+
+  // 🔁 polling
+  setInterval(() => {
+    checkNotifications();
+  }, 1000);
+});
+
+// 🔥 polling แบบเบาๆ (optional)
+setInterval(loadActiveOrders, 5000);
+
+// ค่าเริ่มต้น
+selectedTime = 5;
+minAmount = tradeConfig[5].min;
+
+document.getElementById("profitPercent").innerText =
+    tradeConfig[5].percent + "%";
+
+updateProfit();
+
+
+
+if(typeof LightweightCharts === "undefined"){
+  console.error("Chart lib not loaded");
+}
+
+function toggleMarket(){
+  console.log("CLICK +"); // 🔥 debug
+
+  const panel = document.getElementById("marketPanel");
+
+  if(!panel){
+    console.log("❌ ไม่เจอ marketPanel");
+    return;
+  }
+
+  panel.classList.toggle("hidden");
+}
+
+window.selectAsset = selectAsset;
+window.removeTab = removeTab;
+window.toggleMarket = toggleMarket;
+window.filterCategory = filterCategory;
+window.openDurationModal = openDurationModal;
+window.closeDurationModal = closeDurationModal;
+window.selectDuration = selectDuration;
+window.openTrade = openTrade;
+
+window.toggleFav = function(symbol){
+
+  if(favorites.includes(symbol)){
+    favorites = favorites.filter(s => s !== symbol);
+  }else{
+    favorites.push(symbol);
+  }
+
+  localStorage.setItem("fav", JSON.stringify(favorites));
+
+  renderMarket(assets);
+}
+
+window.goToNotifications = function () {
+  window.location.href = "notifications.html";
+}
+
+
+// ===============================
+// 🔥 MARKET POWER (มีชีวิตจริง)
+// ===============================
+
+let marketPower = 50;
+
+window.addEventListener("priceMove", (e) => {
+
+  const { price, lastPrice } = e.detail;
+
+  if(!lastPrice) return;
+
+  const diff = price - lastPrice;
+
+  let strength = diff * 5;
+
+  if(strength > 5) strength = 5;
+  if(strength < -5) strength = -5;
+
+  marketPower += strength;
+
+  // noise นิดเดียว
+  marketPower += (Math.random() - 0.5) * 1.5;
+
+  if(marketPower > 95) marketPower = 95;
+  if(marketPower < 5) marketPower = 5;
+
+  const buy = Math.floor(marketPower);
+  const sell = 100 - buy;
+
+  document.getElementById("buyPercent").innerText = buy + "%";
+  document.getElementById("sellPercent").innerText = sell + "%";
+  document.getElementById("powerBar").style.width = buy + "%";
+
+});
+
+
+
+
+// ===============================
+// 🔥 REALTIME EXPECTED PROFIT
+// ===============================
+
+const amountInput = document.getElementById("amountInput");
+const profitAmount = document.getElementById("profitAmount");
+const profitPercent = document.getElementById("profitPercent");
+
+// 🎯 ค่า % (ดึงจาก UI หรือกำหนดเอง)
+let percent = 15;
+
+// ถ้าคุณมี element percent อยู่แล้ว → ดึงมา
+if(profitPercent){
+  percent = parseFloat(profitPercent.innerText) || 15;
+}
+
+// 🔥 ฟังก์ชันคำนวณ
+function updateExpectedProfit(){
+
+  let amount = parseFloat(amountInput.value);
+
+  if(isNaN(amount) || amount <= 0){
+    profitAmount.innerText = "+$0.00";
+    return;
+  }
+
+  const profit = amount * (percent / 100);
+
+  // 💰 แสดงผล
+  profitAmount.innerText = "+$" + profit.toLocaleString(undefined,{
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+
+}
+
+const catContainer = document.getElementById("categoryTabs");
+
+if(catContainer){
+  catContainer.addEventListener("click", (e) => {
+
+    const btn = e.target.closest(".cat-btn");
+    if(!btn) return;
+
+    const type = btn.dataset.type;
+
+    // 🔥 เปลี่ยน active
+    document.querySelectorAll(".cat-btn")
+      .forEach(b => b.classList.remove("active"));
+
+    btn.classList.add("active");
+
+    // 🔥 เรียก filter เดิมของคุณ
+    filterCategory(type);
+  });
+}
+
+// 🔥 trigger ตอนพิมพ์
+amountInput.addEventListener("input", updateExpectedProfit);
+
+// 🔥 run ครั้งแรก
+updateExpectedProfit();
+
+
+// 🔥 Active Bottom Nav
+(function(){
+
+  const path = window.location.pathname.split("/").pop();
+
+  document.querySelectorAll(".nav-link").forEach(link => {
+
+    const href = link.getAttribute("href");
+
+    if(path === href){
+
+      link.classList.add("active");
+
+    }
+
+  });
+
+})();
+
+
+function showAlert(msg){
+  document.getElementById("alertText").innerText = msg;
+  document.getElementById("customAlert").classList.remove("hidden");
+}
+
+window.closeAlert = function(){
+  document.getElementById("customAlert").classList.add("hidden");
+}
+
+function formatTime(min){
+  const m = String(min).padStart(2,"0");
+  return `00:${m}:00`;
+}
+
+</script>
+
+<!-- 🔥 Duration Modal (New Style) -->
+<div id="durationModal"
+class="hidden fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
+
+  <div class="bg-gray-700/60 backdrop-blur-xl border border-white/10
+              w-[85%] max-w-sm rounded-2xl p-6 text-center shadow-2xl">
+
+    <!-- TITLE -->
+    <h2 class="text-white font-bold mb-5 text-lg">
+      เลือกเวลา
+    </h2>
+
+    <!-- GRID -->
+    <div class="grid grid-cols-2 gap-3">
+
+      <button onclick="selectDuration(2,'00:02:00')" class="duration-btn">00:02:00</button>
+      <button onclick="selectDuration(5,'00:05:00')" class="duration-btn">00:05:00</button>
+      <button onclick="selectDuration(20,'00:20:00')" class="duration-btn">00:20:00</button>
+      <button onclick="selectDuration(60,'01:00:00')" class="duration-btn">01:00:00</button>
+
+    </div>
+
+    <!-- CLOSE -->
+    <button onclick="closeDurationModal()"
+      class="mt-5 w-full py-3 rounded-xl bg-gray-900 text-white font-bold active:scale-95 transition">
+      ปิด
+    </button>
+
+  </div>
+</div>
+
+<div id="marketPanel"
+class="hidden fixed inset-0 bg-[#0a0a0a] z-50 flex flex-col">
+
+  <!-- HEADER -->
+  <div class="p-4 flex items-center gap-3 border-b border-white/5">
+
+  <div class="flex-1 relative">
+    <input id="searchAsset"
+      placeholder="Search asset..."
+      class="w-full bg-[#111315] px-4 py-2.5 rounded-xl text-white outline-none border border-white/5 focus:border-green-400 transition">
+
+  </div>
+
+  <button onclick="toggleMarket()"
+    class="text-gray-400 hover:text-red-400 text-xl transition">
+    ✕
+  </button>
+
+</div>
+
+  <!-- CATEGORY -->
+<div id="categoryTabs"
+  class="flex items-center gap-2 px-3 py-2 overflow-x-auto no-scrollbar
+         sticky top-0 z-10 bg-[#0a0a0a]">
+
+  <button data-type="all" class="cat-btn active">All</button>
+  <button data-type="crypto" class="cat-btn">Crypto</button>
+  <button data-type="stock" class="cat-btn">Stock</button>
+  <button data-type="commodity" class="cat-btn">Commodity</button>
+  <button data-type="etf" class="cat-btn">ETF</button>
+
+</div>
+
+  <!-- LIST -->
+  <div id="marketList" class="flex flex-col gap-3 px-3 pb-3 overflow-y-auto"></div>
+
+</div>
+
+
+<!-- 🔥 Custom Alert -->
+<div id="customAlert" class="hidden fixed inset-0 bg-black/40 z-50 flex items-center justify-center">
+
+  <div class="bg-gray-700/60 backdrop-blur-md w-[85%] max-w-sm rounded-2xl p-6 text-center shadow-xl">
+
+    <!-- TEXT ONLY -->
+    <div id="alertText" class="text-white text-sm leading-relaxed mb-6"></div>
+
+    <!-- BUTTON -->
+    <button onclick="closeAlert()"
+      class="w-full py-3 rounded-xl bg-gray-900 text-white font-bold active:scale-95 transition">
+      ตกลง
+    </button>
+
+  </div>
+
+</div>
+</body>
+</html>

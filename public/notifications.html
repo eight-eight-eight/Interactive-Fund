@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sovereign Vault | Notifications</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link rel="icon" type="image/png" href="/favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-container": "#484949",
+                        "on-tertiary": "#082b72",
+                        "surface-bright": "#393939",
+                        "primary-container": "#d4af37",
+                        "surface-container-highest": "#353534",
+                        "inverse-surface": "#e5e2e1",
+                        "background": "#131313",
+                        "error": "#ffb4ab",
+                        "tertiary-fixed": "#dbe1ff",
+                        "primary": "#f2ca50",
+                        "outline-variant": "#4d4635",
+                        "primary-fixed-dim": "#e9c349",
+                        "on-primary-container": "#554300",
+                        "inverse-primary": "#735c00",
+                        "secondary": "#c6c6c6",
+                        "on-tertiary-container": "#254188",
+                        "on-tertiary-fixed": "#00174b",
+                        "on-error-container": "#ffdad6",
+                        "tertiary": "#bfcdff",
+                        "surface-variant": "#353534",
+                        "outline": "#99907c",
+                        "surface": "#131313",
+                        "on-surface": "#e5e2e1",
+                        "secondary-fixed": "#e3e2e2",
+                        "on-secondary": "#2f3131",
+                        "inverse-on-surface": "#313030",
+                        "on-surface-variant": "#d0c5af",
+                        "on-primary-fixed": "#241a00",
+                        "surface-container-lowest": "#0e0e0e",
+                        "surface-container": "#201f1f",
+                        "on-secondary-container": "#b8b8b8",
+                        "on-error": "#690005",
+                        "error-container": "#93000a",
+                        "on-secondary-fixed-variant": "#464747",
+                        "primary-fixed": "#ffe088",
+                        "on-primary-fixed-variant": "#574500",
+                        "on-secondary-fixed": "#1a1c1c",
+                        "on-tertiary-fixed-variant": "#27438a",
+                        "surface-container-low": "#1c1b1b",
+                        "secondary-fixed-dim": "#c6c6c6",
+                        "tertiary-container": "#97b0ff",
+                        "surface-tint": "#e9c349",
+                        "on-primary": "#3c2f00",
+                        "on-background": "#e5e2e1",
+                        "surface-dim": "#131313",
+                        "tertiary-fixed-dim": "#b4c5ff",
+                        "surface-container-high": "#2a2a2a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #131313;
+            color: #e5e2e1;
+            font-family: 'Inter', sans-serif;
+        }
+        .metallic-gradient {
+            background: linear-gradient(135deg, #f2ca50 0%, #d4af37 100%);
+        }
+        .glass-nav {
+            background: rgba(19, 19, 19, 0.7);
+            backdrop-filter: blur(20px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 right-0 z-50 bg-[#131313] dark:bg-[#131313]">
+<div class="flex items-center px-8 w-full h-16">
+<button onclick="goBack()" class="mr-4 text-[#f2ca50] active:scale-95 duration-200">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+</button>
+<h1 class="font-['Manrope'] text-2xl font-bold tracking-tight text-[#f2ca50]">การแจ้งเตือน</h1>
+</div>
+<div class="bg-[#1c1b1b] h-[1px] w-full"></div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow pt-24 pb-32 px-6 max-w-2xl mx-auto w-full">
+<!-- Today Header -->
+<div class="mb-6">
+<span class="font-headline text-sm font-extrabold uppercase tracking-widest text-on-surface-variant">กิจกรรมล่าสุด</span>
+</div>
+<div id="notificationList" class="space-y-4"></div>
+<!-- Decorative Illustration -->
+<div class="mt-12 opacity-30 flex flex-col items-center justify-center text-center px-12">
+<div class="w-24 h-24 mb-4 rounded-full bg-surface-container flex items-center justify-center border border-outline-variant/20">
+<span class="material-symbols-outlined text-4xl text-on-surface-variant" data-icon="notifications_none">notifications_none</span>
+</div>
+<p class="font-body text-xs text-on-surface-variant">Stay informed on your digital bullion status and vault security events.</p>
+</div>
+</main>
+
+<script>
+const API_URL = window.location.origin;
+const API = `${API_URL}/api/notifications`;
+
+function formatThaiMessage(n){
+
+  const amount = n.message.match(/\$[\d,]+/)?.[0] || "$0";
+
+  if (n.type === "TRANSACTION") {
+
+    if (n.transactionType === "DEPOSIT") {
+      return `
+        <span class="text-gray-400">ฝากเงินจำนวน </span>
+        <span class="text-green-400 font-bold">${amount}</span>
+        <span class="text-gray-400"> สำเร็จ</span>
+      `;
+    } else {
+      return `
+        <span class="text-gray-400">ถอนเงินจำนวน </span>
+        <span class="text-red-400 font-bold">${amount}</span>
+        <span class="text-gray-400"> สำเร็จ</span>
+      `;
+    }
+  }
+
+  return `<span class="text-gray-300">${n.message}</span>`;
+}
+
+async function loadNotifications() {
+  try {
+    const res = await fetch(API, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token")
+      }
+    });
+
+    const data = await res.json();
+
+    const container = document.getElementById("notificationList");
+    container.innerHTML = "";
+
+    if (data.length === 0) {
+      container.innerHTML = "<p class='text-center text-gray-400'>No notifications</p>";
+      return;
+    }
+
+    data.forEach(n => {
+      container.innerHTML += `
+        <div class="bg-surface-container rounded-xl p-5">
+          <div class="flex gap-4">
+            <div>
+              <span class="material-symbols-outlined text-2xl ${getColor(n)}">
+               ${getIcon(n)}
+                </span>
+            </div>
+            <div class="flex-grow">
+              <div class="flex justify-between">
+                <h3 class="font-bold">
+                   ${n.title}
+                 </h3>
+                <span class="text-xs text-gray-400">${formatTime(n.createdAt)}</span>
+              </div>
+              <p class="text-sm">
+                  ${formatThaiMessage(n)}
+               </p>
+            </div>
+          </div>
+        </div>
+      `;
+    });
+
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+// 🔥 mark read
+async function markRead() {
+  await fetch(API + "/read-all", {
+    method: "POST",
+    headers: {
+      Authorization: "Bearer " + localStorage.getItem("token")
+    }
+  });
+}
+
+// icon auto
+function getIcon(n) {
+  if (n.type === "TRANSACTION") {
+    if (n.transactionType === "DEPOSIT") return "south_west";
+    return "north_east";
+  }
+
+  if (n.type === "SYSTEM") return "terminal";
+  if (n.type === "PROMOTION") return "auto_awesome";
+  if (n.type === "SECURITY") return "verified_user";
+
+  return "notifications";
+}
+
+function getColor(n) {
+  if (n.type === "TRANSACTION") {
+    if (n.transactionType === "DEPOSIT") return "text-green-400";
+    return "text-red-400";
+  }
+
+  if (n.type === "SYSTEM") return "text-yellow-400";
+  if (n.type === "PROMOTION") return "text-purple-400";
+  if (n.type === "SECURITY") return "text-blue-400";
+
+  return "text-gray-400";
+}
+// เวลา
+function formatTime(date) {
+  const d = new Date(date);
+  return d.toLocaleString();
+}
+
+async function markAsRead() {
+  try {
+    await fetch(`${API_URL}/api/notifications/read-all`, {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token")
+      }
+    });
+  } catch (err) {
+    console.error("MARK READ ERROR:", err);
+  }
+}
+
+// 🔥 โหลดตอนเข้า + mark read
+document.addEventListener("DOMContentLoaded", async () => {
+
+  await markAsRead();        // 🔥 mark ก่อน
+  await loadNotifications(); // 🔥 แล้วค่อยโหลด
+
+});
+</script>
+
+<script>
+function goBack() {
+  window.history.back();
+}
+</script>
+</body></html>

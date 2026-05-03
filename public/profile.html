@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link rel="icon" type="image/png" href="/favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "secondary": "#c6c6c6",
+              "on-error": "#690005",
+              "background": "#131313",
+              "tertiary-container": "#97b0ff",
+              "error-container": "#93000a",
+              "tertiary": "#bfcdff",
+              "on-primary-container": "#554300",
+              "primary": "#f2ca50",
+              "surface-container-low": "#1c1b1b",
+              "tertiary-fixed-dim": "#b4c5ff",
+              "surface-container-lowest": "#0e0e0e",
+              "outline": "#99907c",
+              "inverse-primary": "#735c00",
+              "on-tertiary-fixed": "#00174b",
+              "secondary-fixed": "#e3e2e2",
+              "on-error-container": "#ffdad6",
+              "surface-bright": "#393939",
+              "surface": "#131313",
+              "surface-variant": "#353534",
+              "on-primary-fixed-variant": "#574500",
+              "surface-tint": "#e9c349",
+              "on-primary-fixed": "#241a00",
+              "tertiary-fixed": "#dbe1ff",
+              "on-tertiary": "#082b72",
+              "on-tertiary-container": "#254188",
+              "primary-fixed-dim": "#e9c349",
+              "on-secondary-container": "#b8b8b8",
+              "surface-container-highest": "#353534",
+              "on-surface-variant": "#d0c5af",
+              "on-secondary-fixed": "#1a1c1c",
+              "on-tertiary-fixed-variant": "#27438a",
+              "secondary-container": "#484949",
+              "on-primary": "#3c2f00",
+              "error": "#ffb4ab",
+              "on-background": "#e5e2e1",
+              "on-surface": "#e5e2e1",
+              "on-secondary": "#2f3131",
+              "on-secondary-fixed-variant": "#464747",
+              "inverse-surface": "#e5e2e1",
+              "surface-container-high": "#2a2a2a",
+              "secondary-fixed-dim": "#c6c6c6",
+              "outline-variant": "#4d4635",
+              "surface-container": "#201f1f",
+              "primary-fixed": "#ffe088",
+              "surface-dim": "#131313",
+              "inverse-on-surface": "#313030",
+              "primary-container": "#d4af37"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "1.5rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+
+  .nav-link{
+  color:#d0c5af;
+}
+
+.nav-link.active{
+  background:#2a2a2a;
+  color:#f2ca50;
+  transform: scale(1.05);
+}
+
+.nav-link.active .nav-icon{
+  font-variation-settings: 'FILL' 1;
+}
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .bg-gold-metallic {
+            background: linear-gradient(135deg, #f2ca50 0%, #d4af37 100%);
+        }
+        .glass-panel {
+            background: rgba(53, 53, 52, 0.6);
+            backdrop-filter: blur(20px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+
+  <style>
+@keyframes scaleIn {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-scale {
+  animation: scaleIn 0.2s ease;
+}
+</style>
+  </head>
+<body class="bg-background text-on-surface font-body min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="bg-[#131313] sticky top-0 z-40 w-full flex justify-between items-center px-8 py-4">
+<div class="flex items-center gap-3">
+
+  <!-- โลโก้ -->
+  <img src="images/logo.png" class="w-10 h-10 object-contain"/>
+
+  <!-- ชื่อ -->
+  <span class="text-white font-headline font-semibold text-lg tracking-tight">
+   Interactive  <span class="text-[#f2ca50] font-bold"></span>
+  </span>
+
+</div>
+<div class="relative">
+  <button onclick="goToNotifications()"
+    class="text-[#f2ca50] hover:opacity-80 transition-opacity active:scale-95 duration-150">
+
+    <span class="material-symbols-outlined">notifications</span>
+
+    <!-- 🔴 จุดแดง -->
+    <span id="notifDot"
+      class="hidden absolute top-0 right-0 w-2.5 h-2.5 bg-red-500 rounded-full">
+    </span>
+
+  </button>
+</div>
+</header>
+<div class="bg-[#1c1b1b] h-[1px] w-full opacity-50"></div>
+<main class="px-8 mt-10">
+<!-- Profile Hero Section -->
+<section class="mb-12">
+<div class="flex flex-col items-center text-center">
+<div class="relative mb-6">
+<div id="profileRing" class="w-28 h-28 rounded-full p-1 bg-gold-metallic">
+<div class="w-full h-full rounded-full overflow-hidden border-4 border-surface">
+<img 
+  src="/images/profile.png"
+  class="w-full h-full object-cover"
+/>
+</div>
+</div>
+<div id="kycBadge" class="absolute -bottom-1 right-1 bg-gold-metallic text-on-primary-fixed text-[10px] font-bold px-3 py-1 rounded-full border-2 border-surface flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+                        Verified
+                    </div>
+</div>
+<h2 id="username" class="font-headline font-bold text-3xl text-primary tracking-tight mb-1">
+  Loading...
+</h2>
+
+<div class="flex items-center gap-2 justify-center">
+  <p id="vaultId" class="font-label text-on-surface-variant text-sm tracking-widest uppercase">
+    Vault ID: -
+  </p>
+
+  <!-- ปุ่ม copy -->
+  <button onclick="copyVaultId()" class="text-primary hover:scale-110 transition">
+    <span class="material-symbols-outlined text-sm">content_copy</span>
+  </button>
+</div>
+</div>
+</section>
+<!-- Profile Stats Bento Grid -->
+<div class="grid grid-cols-2 gap-4 mb-12">
+<div class="bg-surface-container rounded-xl p-5 border border-outline-variant/10">
+<p class="text-on-surface-variant text-xs font-label uppercase tracking-widest mb-2">มูลค่าพอร์ต</p>
+<p id="portfolioValue" class="font-headline text-xl text-primary font-bold">0 oz</p>
+</div>
+<div class="bg-surface-container rounded-xl p-5 border border-outline-variant/10">
+<p class="text-on-surface-variant text-xs font-label uppercase tracking-widest mb-2">เข้าร่วมเมื่อ</p>
+<p id="memberSince" class="font-headline text-xl text-on-surface font-bold">-</p>
+</div>
+</div>
+<!-- Settings Groups -->
+<div class="space-y-10">
+<!-- Account Group -->
+<div>
+<h3 class="font-headline text-on-surface-variant text-xs uppercase tracking-[0.2em] font-bold mb-6 px-2">ความปลอดภัย &amp; การเข้าถึง</h3>
+<div class="bg-surface-container rounded-xl overflow-hidden">
+<button onclick="goToKYC()" class="w-full flex items-center justify-between p-5 hover:bg-surface-container-high transition-colors group">
+
+  <div class="flex items-center gap-4">
+    <div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center text-primary">
+      <span class="material-symbols-outlined">verified_user</span>
+    </div>
+
+    <div class="text-left">
+      <p class="text-on-surface font-medium">Security (KYC)</p>
+      <p class="text-on-surface-variant text-xs">การตรวจสอบตัวตน</p>
+    </div>
+  </div>
+
+  <span class="material-symbols-outlined text-outline-variant group-hover:translate-x-1 transition-transform">
+    chevron_right
+  </span>
+</button>
+<div class="h-[1px] bg-outline-variant/10 mx-5"></div>
+<button onclick="goToPaymentMethods()"class="w-full flex items-center justify-between p-5 hover:bg-surface-container-high transition-colors group">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+</div>
+<div class="flex items-center justify-between cursor-pointer hover:opacity-80">
+  
+  <div class="text-left">
+    <p class="text-on-surface font-medium">Payment Methods</p>
+    <p class="text-on-surface-variant text-xs">ธนาคารและบัตรที่เชื่อมโยงกัน</p>
+  </div>
+
+</div>
+</div>
+<span class="material-symbols-outlined text-outline-variant group-hover:translate-x-1 transition-transform" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- Support Group -->
+<div>
+<h3 class="font-headline text-on-surface-variant text-xs uppercase tracking-[0.2em] font-bold mb-6 px-2">ข้อมูล</h3>
+<div class="bg-surface-container rounded-xl overflow-hidden">
+<button onclick="goToChat()" 
+class="w-full flex items-center justify-between p-5 hover:bg-surface-container-high transition-colors group">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+</div>
+<div class="text-left">
+<p class="text-on-surface font-medium">Help &amp; Support</p>
+<p class="text-on-surface-variant text-xs">คำถามที่พบบ่อยและบริการให้คำปรึกษาสด</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline-variant group-hover:translate-x-1 transition-transform" data-icon="chevron_right">chevron_right</span>
+</button>
+<div class="h-[1px] bg-outline-variant/10 mx-5"></div>
+<button onclick="goToPrivacy()"
+  class="w-full flex items-center justify-between p-5 hover:bg-surface-container-high transition-colors group">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+</div>
+<div class="text-left">
+<p class="text-on-surface font-medium">Privacy Policy</p>
+<p class="text-on-surface-variant text-xs">การใช้งาน &amp; การปกป้องข้อมูลผู้ใช้</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline-variant group-hover:translate-x-1 transition-transform" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- Logout -->
+<div class="pt-4">
+<button id="logoutBtn"
+class="w-full py-5 rounded-xl border border-outline-variant/20 text-error font-headline font-bold flex items-center justify-center gap-2 active:scale-95 transition-transform duration-200">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+                    ออกจากระบบ
+                </button>
+<p class="text-center text-on-surface-variant/40 text-[10px] mt-6 tracking-widest uppercase">Version 4.2.0-GOLD</p>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-40 bg-[#131313]/80 backdrop-blur-xl flex justify-around items-center px-4 pb-6 pt-2 border-t border-white/10">
+
+  <!-- TRADE -->
+  <a href="trade.html" class="nav-link flex flex-col items-center justify-center px-4 py-2 rounded-2xl transition-all duration-200">
+    <span class="material-symbols-outlined nav-icon">show_chart</span>
+    <span class="text-[10px] mt-1 tracking-widest">TRADE</span>
+  </a>
+
+  <!-- WALLET -->
+  <a href="wallet.html" class="nav-link flex flex-col items-center justify-center px-4 py-2 rounded-2xl transition-all duration-200">
+    <span class="material-symbols-outlined nav-icon">account_balance_wallet</span>
+    <span class="text-[10px] mt-1 tracking-widest">WALLET</span>
+  </a>
+
+  <!-- PROFILE -->
+  <a href="profile.html" class="nav-link flex flex-col items-center justify-center px-4 py-2 rounded-2xl transition-all duration-200">
+    <span class="material-symbols-outlined nav-icon">person</span>
+    <span class="text-[10px] mt-1 tracking-widest">PROFILE</span>
+  </a>
+
+</nav>
+
+<script>
+
+  const API_URL = window.location.origin;
+async function loadProfile() {
+  try {
+    const token = localStorage.getItem('token');
+
+    const res = await fetch(`${API_URL}/api/user/profile`, {
+      headers: {
+        'Authorization': 'Bearer ' + token
+      }
+    });
+
+    const data = await res.json();
+
+    // 👤 Username
+    document.getElementById('username').innerText = data.username;
+
+    // 🆔 Vault ID
+    document.getElementById('vaultId').innerText = "Vault ID: " + data.vaultId;
+
+    // 📅 Member Since
+    const date = new Date(data.createdAt);
+    const options = { year: 'numeric', month: 'short' };
+    document.getElementById('memberSince').innerText =
+      date.toLocaleDateString('en-US', options);
+
+    // 💰 Portfolio → แปลงเป็นทอง
+    const goldRate = 0.00035;
+    const gold = data.balance * goldRate;
+
+    document.getElementById('portfolioValue').innerText =
+      gold.toFixed(2) + " oz";
+
+      // ================= KYC STATUS =================
+const ring = document.getElementById("profileRing");
+const badge = document.getElementById("kycBadge");
+
+const status = data.kyc?.status || "none";
+
+if (status === "approved") {
+  ring.className = "w-28 h-28 rounded-full p-1 bg-green-500";
+
+  badge.className = "absolute -bottom-1 right-1 bg-green-500 text-white text-[10px] font-bold px-3 py-1 rounded-full border-2 border-surface flex items-center gap-1";
+
+  badge.innerHTML = `
+    <span class="material-symbols-outlined text-[12px]" style="font-variation-settings:'FILL' 1;">verified</span>
+    Verified
+  `;
+
+} else if (status === "pending") {
+  ring.className = "w-28 h-28 rounded-full p-1 bg-yellow-500";
+
+  badge.className = "absolute -bottom-1 right-1 bg-yellow-500 text-black text-[10px] font-bold px-3 py-1 rounded-full border-2 border-surface flex items-center gap-1";
+
+  badge.innerHTML = `
+    <span class="material-symbols-outlined text-[12px]">hourglass_top</span>
+    Pending
+  `;
+
+} else {
+  ring.className = "w-28 h-28 rounded-full p-1 bg-gray-500";
+
+  badge.className = "absolute -bottom-1 right-1 bg-gray-500 text-white text-[10px] font-bold px-3 py-1 rounded-full border-2 border-surface flex items-center gap-1";
+
+  badge.innerHTML = `
+    <span class="material-symbols-outlined text-[12px]">error</span>
+    Unverified
+  `;
+}
+
+  } catch (err) {
+    console.error("Profile load error:", err);
+  }
+}
+
+function copyVaultId() {
+  const text = document.getElementById("vaultId").innerText;
+  const id = text.replace("Vault ID: ", "");
+
+  navigator.clipboard.writeText(id);
+
+  const msg = document.createElement("div");
+  msg.innerText = "Copied!";
+  msg.className = "fixed top-5 right-5 bg-primary text-black px-4 py-2 rounded-lg";
+
+  document.body.appendChild(msg);
+
+  setTimeout(() => msg.remove(), 1500);
+}
+
+
+
+
+function goToNotifications() {
+  window.location.href = "notifications.html";
+}
+
+async function checkNotifications() {
+  try {
+    const res = await fetch(`${API_URL}/api/notifications`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token")
+      }
+    });
+
+    const data = await res.json();
+
+    // 🔥 เช็ค unread
+    const hasUnread = data.some(n => !n.isRead);
+
+    const dot = document.getElementById("notifDot");
+
+    if (dot) {
+      if (hasUnread) {
+  dot.classList.remove("hidden");
+} else {
+  dot.classList.add("hidden");
+}
+    }
+
+  } catch (err) {
+    console.error("NOTIF ERROR:", err);
+  }
+}
+
+function goToKYC() {
+  window.location.href = "kyc-form.html";
+}
+function goToPaymentMethods() {
+  window.location.href = "wallet-methods.html";
+}
+function goToPrivacy() {
+  window.location.href = "privacy-policy.html";
+}
+function goToChat() {
+  window.location.href = "chat.html";
+}
+
+ 
+
+const logoutBtn = document.getElementById("logoutBtn");
+if (logoutBtn) {
+  logoutBtn.addEventListener("click", openLogoutModal);
+}
+
+
+function openLogoutModal(){
+  document.getElementById("logoutModal").classList.remove("hidden");
+}
+
+function closeLogoutModal(){
+  document.getElementById("logoutModal").classList.add("hidden");
+}
+
+function confirmLogout(){
+  // ลบข้อมูล
+  localStorage.removeItem("token");
+  localStorage.removeItem("user");
+  localStorage.removeItem("userId");
+
+  sessionStorage.clear();
+
+  // ไป login
+  window.location.href = "login.html";
+}
+
+// 🔥 Active Bottom Nav
+(function(){
+
+  const path = window.location.pathname.split("/").pop();
+
+  document.querySelectorAll(".nav-link").forEach(link => {
+
+    const href = link.getAttribute("href");
+
+    if(path === href){
+
+      link.classList.add("active");
+
+    }
+
+  });
+
+})();
+
+
+let interval;
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  loadProfile();
+  checkNotifications();
+
+  interval = setInterval(() => {
+    loadProfile();
+    checkNotifications();
+  }, 1000);
+
+});
+
+
+window.addEventListener("beforeunload", () => {
+  clearInterval(interval);
+});
+
+window.addEventListener("focus", () => {
+  loadProfile();
+  checkNotifications();
+});
+</script>
+
+
+<!-- LOGOUT MODAL -->
+<div id="logoutModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+
+<div class="bg-white rounded-2xl p-6 w-[90%] max-w-sm shadow-2xl text-center animate-scale">
+
+  <h2 class="text-lg font-semibold text-gray-900 mb-2">
+    ยืนยันการออกจากระบบ
+  </h2>
+
+  <p class="text-gray-600 text-sm mb-6">
+    คุณต้องการออกจากระบบใช่หรือไม่?
+  </p>
+
+  <div class="flex gap-3">
+
+    <!-- ยกเลิก -->
+    <button onclick="closeLogoutModal()"
+      class="flex-1 border border-gray-300 text-gray-700 py-2 rounded-lg hover:bg-gray-100 transition">
+      ยกเลิก
+    </button>
+
+    <!-- ออกจากระบบ -->
+    <button onclick="confirmLogout()"
+      class="flex-1 bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition">
+      ออกจากระบบ
+    </button>
+
+  </div>
+
+</div>
+
+</div>
+</body></html>

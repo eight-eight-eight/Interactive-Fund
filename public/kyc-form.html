@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary": "#ffffff",
+                    "error": "#ba1a1a",
+                    "on-primary-fixed-variant": "#2a4386",
+                    "on-tertiary-fixed-variant": "#0c5216",
+                    "outline": "#757682",
+                    "primary-fixed": "#dbe1ff",
+                    "surface-dim": "#d9dadb",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary-fixed-variant": "#574500",
+                    "error-container": "#ffdad6",
+                    "on-primary-fixed": "#00174a",
+                    "tertiary-fixed-dim": "#91d78a",
+                    "tertiary": "#001902",
+                    "on-surface": "#191c1d",
+                    "surface-container-high": "#e7e8e9",
+                    "surface-variant": "#e1e3e4",
+                    "on-tertiary-fixed": "#002203",
+                    "secondary-container": "#fed65b",
+                    "surface": "#f8f9fa",
+                    "secondary-fixed": "#ffe088",
+                    "surface-container-low": "#f3f4f5",
+                    "primary": "#00113a",
+                    "inverse-primary": "#b3c5ff",
+                    "on-secondary-container": "#745c00",
+                    "on-secondary-fixed": "#241a00",
+                    "background": "#f8f9fa",
+                    "secondary": "#735c00",
+                    "on-error-container": "#93000a",
+                    "primary-fixed-dim": "#b3c5ff",
+                    "inverse-surface": "#2e3132",
+                    "on-background": "#191c1d",
+                    "on-surface-variant": "#444650",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary-fixed": "#acf4a4",
+                    "primary-container": "#002366",
+                    "surface-container": "#edeeef",
+                    "surface-bright": "#f8f9fa",
+                    "on-primary": "#ffffff",
+                    "surface-tint": "#435b9f",
+                    "outline-variant": "#c5c6d2",
+                    "tertiary-container": "#003006",
+                    "inverse-on-surface": "#f0f1f2",
+                    "secondary-fixed-dim": "#e9c349",
+                    "surface-container-highest": "#e1e3e4",
+                    "on-error": "#ffffff",
+                    "on-tertiary-container": "#5b9e58",
+                    "on-primary-container": "#758dd5"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .liquid-bar-shimmer {
+            background: linear-gradient(90deg, #D4AF37 0%, #FFE088 50%, #D4AF37 100%);
+            background-size: 200% 100%;
+        }
+        .security-pulse {
+            box-shadow: 0 0 0 0 rgba(0, 17, 58, 0.1);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body text-on-surface selection:bg-secondary-container">
+<!-- TopAppBar -->
+<header class="bg-slate-50/60 dark:bg-navy-950/60 backdrop-blur-xl fixed top-0 w-full z-50 shadow-[0_12px_32_rgba(0,11,58,0.06)]">
+<div class="flex items-center px-6 h-16 w-full">
+<button onclick="goBack()" class="active:scale-95 duration-200 text-slate-500">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h1 class="ml-4 font-headline tracking-tight font-semibold text-[#00113a] text-lg">การยืนยันตัวตน KYC</h1>
+</div>
+<!-- Liquid Bar Progress -->
+<div class="h-1 w-full bg-surface-variant overflow-hidden">
+<div class="h-full w-[65%] liquid-bar-shimmer"></div>
+</div>
+</header>
+<main class="pt-24 pb-32 px-6 max-w-lg mx-auto">
+<!-- Welcome Message -->
+<section class="mb-10">
+<h2 class="font-headline text-3xl font-extrabold tracking-tight text-primary mb-2">Secure Your Identity</h2>
+<p class="text-on-surface-variant text-sm font-medium leading-relaxed">To access the Sovereign Vault, please verify your credentials. This process is encrypted and takes less than 3 minutes.</p>
+</section>
+<!-- Personal Details Section -->
+<section class="mb-8">
+<div class="flex items-center gap-2 mb-4">
+<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-primary-fixed">
+<span class="text-xs font-bold">01</span>
+</div>
+<h3 class="font-headline text-lg font-bold tracking-tight">รายละเอียดส่วนบุคคล</h3>
+</div>
+<div class="space-y-4">
+<!-- Nationality Dropdown -->
+<div class="relative">
+  <label class="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-1.5 ml-1">
+    สัญชาติ
+  </label>
+
+  <div class="relative group">
+    <select id="nationality" class="w-full h-14 pl-4 pr-10 bg-surface-container-high border-none rounded-xl text-on-surface focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest appearance-none transition-all font-medium">
+
+      <option>เลือกประเทศของคุณ</option>
+
+      <!-- East Asia -->
+      <option>China</option>
+      <option>Japan</option>
+      <option>South Korea</option>
+      <option>North Korea</option>
+      <option>Mongolia</option>
+      <option>Taiwan</option>
+      <option>United Kingdom</option> 
+      <option>United States</option> 
+      <option>Switzerland</option>
+
+      <!-- Southeast Asia -->
+      <option>Thailand</option>
+      <option>Laos</option>
+      <option>Vietnam</option>
+      <option>Cambodia</option>
+      <option>Myanmar</option>
+      <option>Malaysia</option>
+      <option>Singapore</option>
+      <option>Indonesia</option>
+      <option>Philippines</option>
+      <option>Brunei</option>
+      <option>Timor-Leste</option>
+
+      <!-- South Asia -->
+      <option>India</option>
+      <option>Pakistan</option>
+      <option>Bangladesh</option>
+      <option>Sri Lanka</option>
+      <option>Nepal</option>
+      <option>Bhutan</option>
+      <option>Maldives</option>
+      <option>Afghanistan</option>
+
+      <!-- Central Asia -->
+      <option>Kazakhstan</option>
+      <option>Uzbekistan</option>
+      <option>Turkmenistan</option>
+      <option>Kyrgyzstan</option>
+      <option>Tajikistan</option>
+
+      <!-- Western Asia / Middle East -->
+      <option>Saudi Arabia</option>
+      <option>United Arab Emirates</option>
+      <option>Qatar</option>
+      <option>Kuwait</option>
+      <option>Bahrain</option>
+      <option>Oman</option>
+      <option>Yemen</option>
+      <option>Iran</option>
+      <option>Iraq</option>
+      <option>Israel</option>
+      <option>Palestine</option>
+      <option>Jordan</option>
+      <option>Lebanon</option>
+      <option>Syria</option>
+      <option>Turkey</option>
+      <option>Armenia</option>
+      <option>Azerbaijan</option>
+      <option>Georgia</option>
+      <option>Cyprus</option>
+
+    </select>
+  </div>
+</div>
+<!-- Full Name Input -->
+<div>
+<label class="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-1.5 ml-1">ชื่อ-นามสกุลเต็ม (ตามบัตรประชาชน)</label>
+<input id="fullName" class="w-full h-14 px-4 bg-surface-container-high border-none rounded-xl text-on-surface focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all font-medium placeholder:text-outline/60" placeholder="ใส่ข้อมูล" type="text"/>
+</div>
+<!-- Address Multi-line -->
+<div>
+<label class="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-1.5 ml-1">ข้อมูลที่อยู่ (ตามบัตรประชาชน)</label>
+<textarea id="address" class="w-full p-4 bg-surface-container-high border-none rounded-xl text-on-surface focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all font-medium placeholder:text-outline/60 resize-none" placeholder="ใส่ข้อมูลที่อยู่" rows="3"></textarea>
+</div>
+</div>
+</section>
+<!-- Identity Documents Section -->
+<section class="mb-8">
+<div class="flex items-center gap-2 mb-4">
+<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-primary-fixed">
+<span class="text-xs font-bold">02</span>
+</div>
+<h3 class="font-headline text-lg font-bold tracking-tight">เอกสารแสดงตน</h3>
+</div>
+<div class="space-y-4">
+<div>
+<label class="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-1.5 ml-1">หมายเลขบัตรประชาชน/หนังสือเดินทาง</label>
+<div class="relative">
+<input id="idNumber" class="w-full h-14 pl-12 pr-4 bg-surface-container-high border-none rounded-xl text-on-surface focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all font-medium placeholder:text-outline/60" placeholder="A00000000" type="text"/>
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">badge</span>
+</div>
+</div>
+<!-- Document Upload Stage -->
+<div class="grid grid-cols-1 gap-4 mt-6">
+
+  <label class="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-1.5 ml-1">
+    อัปโหลดรูปภาพเอกสาร
+  </label>
+
+  <input type="file" id="frontImage" accept="image/*" hidden>
+  <input type="file" id="backImage" accept="image/*" hidden>
+
+  <!-- FRONT -->
+  <div onclick="document.getElementById('frontImage').click()"
+    id="frontUploadBox"
+    class="group relative bg-surface-container-lowest rounded-xl p-6 border-2 border-dashed border-outline-variant/30 flex flex-col items-center justify-center min-h-[160px] cursor-pointer hover:border-secondary transition-colors overflow-hidden">
+
+    <div id="frontPlaceholder">
+      <div class="mb-3 w-12 h-12 rounded-full bg-surface-container-low flex items-center justify-center mx-auto">
+        <span class="material-symbols-outlined text-secondary text-3xl">
+          add_a_photo
+        </span>
+      </div>
+
+      <span class="font-bold text-primary tracking-tight block text-center">
+        ด้านหน้าของบัตร
+      </span>
+
+      <span class="text-xs text-on-surface-variant mt-1 block text-center">
+        ตรวจสอบให้แน่ใจว่าข้อความมองเห็นได้ชัดเจน
+      </span>
+    </div>
+
+    <img id="frontPreview"
+      class="hidden mt-3 rounded-xl max-h-40 object-cover"/>
+
+    <p id="frontFileName"
+      class="hidden text-xs text-green-600 mt-2 font-medium"></p>
+  </div>
+
+
+  <!-- BACK -->
+  <div onclick="document.getElementById('backImage').click()"
+    id="backUploadBox"
+    class="group relative bg-surface-container-lowest rounded-xl p-6 border-2 border-dashed border-outline-variant/30 flex flex-col items-center justify-center min-h-[160px] cursor-pointer hover:border-secondary transition-colors overflow-hidden">
+
+    <div id="backPlaceholder">
+      <div class="mb-3 w-12 h-12 rounded-full bg-surface-container-low flex items-center justify-center mx-auto">
+        <span class="material-symbols-outlined text-secondary text-3xl">
+          photo_library
+        </span>
+      </div>
+
+      <span class="font-bold text-primary tracking-tight block text-center">
+        ด้านหลังของบัตร
+      </span>
+
+      <span class="text-xs text-on-surface-variant mt-1 block text-center">
+        ตรวจสอบให้แน่ใจว่าข้อความมองเห็นได้ชัดเจน
+      </span>
+    </div>
+
+    <img id="backPreview"
+      class="hidden mt-3 rounded-xl max-h-40 object-cover"/>
+
+    <p id="backFileName"
+      class="hidden text-xs text-green-600 mt-2 font-medium"></p>
+  </div>
+
+</div>
+</div>
+</section>
+<!-- Security Assurance -->
+<section class="bg-tertiary-fixed/20 rounded-2xl p-5 mb-12 flex items-start gap-4">
+<div class="mt-1">
+<span class="material-symbols-outlined text-on-tertiary-container" style="font-variation-settings: 'FILL' 1;">security</span>
+</div>
+<div>
+<h4 class="text-sm font-bold text-tertiary mb-1">Vault-Grade Security</h4>
+<p class="text-xs font-medium text-on-tertiary-container leading-relaxed">Your data is encrypted and protected according to international security standards. We never store biometric data on public servers.</p>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full bg-white dark:bg-[#00113a] shadow-[0_-8px_24px_rgba(0,11,58,0.04)] rounded-t-2xl z-50 mb-safe">
+<div class="flex justify-between items-center px-8 py-5 gap-4">
+<!-- Save Draft (Inactive State Logic) -->
+<button class="flex-1 flex flex-col items-center justify-center text-slate-400 px-4 py-2 hover:bg-slate-50 transition-all duration-150 active:translate-y-0.5">
+<span class="material-symbols-outlined mb-1">save</span>
+<span class="font-inter text-[10px] font-medium uppercase tracking-widest">Save Draft</span>
+</button>
+<!-- Submit (Active State Logic) -->
+<button onclick="submitKYC()" class="flex-[2] flex items-center justify-center gap-3 bg-[#D4AF37] text-white rounded-xl px-6 py-4 shadow-lg shadow-secondary/20">
+<span class="font-inter text-xs font-bold uppercase tracking-[0.15em]">Submit for Verification</span>
+<span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">lock_person</span>
+</button>
+</div>
+</nav>
+<!-- Decorative Aesthetic Elements -->
+<div class="fixed top-0 right-0 -z-10 w-64 h-64 bg-secondary/5 rounded-full blur-[100px] pointer-events-none"></div>
+<div class="fixed bottom-0 left-0 -z-10 w-96 h-96 bg-primary/5 rounded-full blur-[120px] pointer-events-none"></div>
+
+<script>
+const API_URL = window.location.origin;
+
+// 🔙 back
+function goBack() {
+  window.history.back();
+}
+
+// 🔥 TOAST (เขียว / แดง)
+function showToast(message, type) {
+  const toast = document.getElementById("kycToast");
+
+  toast.textContent = message;
+
+  if (type === "success") {
+    toast.className =
+      "fixed top-6 left-1/2 -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-xl z-50 shadow-lg";
+  } else {
+    toast.className =
+      "fixed top-6 left-1/2 -translate-x-1/2 bg-red-500 text-white px-6 py-3 rounded-xl z-50 shadow-lg";
+  }
+
+  toast.classList.remove("hidden");
+
+  setTimeout(() => {
+    toast.classList.add("hidden");
+  }, 2500);
+}
+
+// 📤 SUBMIT KYC
+async function submitKYC() {
+  const token = localStorage.getItem("token");
+
+  const nationality = document.getElementById("nationality").value;
+  const fullName = document.getElementById("fullName").value;
+  const address = document.getElementById("address").value;
+  const idNumber = document.getElementById("idNumber").value;
+
+  const frontFile = document.getElementById("frontImage").files[0];
+  const backFile = document.getElementById("backImage").files[0];
+
+  // 🔥 VALIDATE TEXT
+  if (!fullName || !address || !idNumber || nationality === "เลือกประเทศของคุณ") {
+    showToast("กรอกข้อมูลให้ครบ", "error");
+    return;
+  }
+
+  // 🔥 VALIDATE FILE
+  if (!frontFile || !backFile) {
+    showToast("กรุณาอัปโหลดรูปบัตรให้ครบ", "error");
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append("nationality", nationality);
+  formData.append("fullName", fullName);
+  formData.append("address", address);
+  formData.append("idNumber", idNumber);
+  formData.append("frontImage", frontFile);
+  formData.append("backImage", backFile);
+
+  try {
+    const res = await fetch(`${API_URL}/api/kyc/submit`, {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + token
+      },
+      body: formData
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      showToast("ส่งข้อมูลสำเร็จ กำลังตรวจสอบ...", "success");
+
+      setTimeout(() => {
+        window.location.href = "profile.html";
+      }, 2000);
+
+    } else {
+      showToast(data.message || "เกิดข้อผิดพลาด", "error");
+    }
+
+  } catch (err) {
+    console.error("KYC ERROR:", err);
+    showToast("Server error", "error");
+  }
+}
+
+// 🖼 PREVIEW IMAGE
+function setupImagePreview(inputId, previewId, fileNameId, placeholderId) {
+  const input = document.getElementById(inputId);
+
+  input.addEventListener("change", function () {
+    const file = this.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = function (e) {
+      document.getElementById(previewId).src = e.target.result;
+      document.getElementById(previewId).classList.remove("hidden");
+
+      const name = document.getElementById(fileNameId);
+      name.innerText = "✔ " + file.name;
+      name.classList.remove("hidden");
+
+      document.getElementById(placeholderId).classList.add("hidden");
+    };
+
+    reader.readAsDataURL(file);
+  });
+}
+
+// 🔥 INIT PREVIEW
+setupImagePreview("frontImage", "frontPreview", "frontFileName", "frontPlaceholder");
+setupImagePreview("backImage", "backPreview", "backFileName", "backPlaceholder");
+
+</script>
+
+
+<!-- 🟢 KYC SUCCESS TOAST -->
+<div id="kycToast"
+class="hidden fixed top-6 left-1/2 -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-xl z-50 shadow-lg">
+  ข้อมูลถูกส่งแล้ว ระบบกำลังทำการตรวจสอบ
+</div>
+</body></html>

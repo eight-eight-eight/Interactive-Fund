@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sovereign Vault - Join the Gilded Circle</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-background": "#e5e2e1",
+                        "tertiary-fixed": "#dbe1ff",
+                        "on-tertiary": "#082b72",
+                        "surface-container-lowest": "#0e0e0e",
+                        "outline-variant": "#4d4635",
+                        "surface-container": "#201f1f",
+                        "surface-dim": "#131313",
+                        "surface-variant": "#353534",
+                        "tertiary-fixed-dim": "#b4c5ff",
+                        "on-tertiary-fixed-variant": "#27438a",
+                        "on-primary-fixed-variant": "#574500",
+                        "on-tertiary-fixed": "#00174b",
+                        "on-secondary-fixed-variant": "#464747",
+                        "on-error-container": "#ffdad6",
+                        "inverse-on-surface": "#313030",
+                        "secondary-container": "#484949",
+                        "tertiary-container": "#97b0ff",
+                        "outline": "#99907c",
+                        "surface-container-highest": "#353534",
+                        "background": "#131313",
+                        "surface-tint": "#e9c349",
+                        "secondary-fixed-dim": "#c6c6c6",
+                        "secondary-fixed": "#e3e2e2",
+                        "on-error": "#690005",
+                        "on-secondary": "#2f3131",
+                        "tertiary": "#bfcdff",
+                        "on-primary-fixed": "#241a00",
+                        "surface-container-high": "#2a2a2a",
+                        "inverse-surface": "#e5e2e1",
+                        "inverse-primary": "#735c00",
+                        "primary-container": "#d4af37",
+                        "on-surface": "#e5e2e1",
+                        "on-primary-container": "#554300",
+                        "surface": "#131313",
+                        "primary": "#f2ca50",
+                        "on-secondary-fixed": "#1a1c1c",
+                        "error": "#ffb4ab",
+                        "secondary": "#c6c6c6",
+                        "on-surface-variant": "#d0c5af",
+                        "on-tertiary-container": "#254188",
+                        "on-secondary-container": "#b8b8b8",
+                        "error-container": "#93000a",
+                        "primary-fixed": "#ffe088",
+                        "on-primary": "#3c2f00",
+                        "primary-fixed-dim": "#e9c349",
+                        "surface-container-low": "#1c1b1b",
+                        "surface-bright": "#393939"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "1.5rem", // Overridden per Design System 5.1
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .gold-gradient {
+            background: linear-gradient(135deg, #f2ca50 0%, #d4af37 100%);
+        }
+        .glass-panel {
+            background: rgba(53, 53, 52, 0.6);
+            backdrop-filter: blur(20px);
+        }
+        .metallic-glow {
+            text-shadow: 0 0 10px rgba(233, 195, 73, 0.2);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-gray-100 font-sans text-gray-800 min-h-screen">
+<!-- Top Navigation Shell (Suppressed Nav, Only Branding/Action) -->
+<header class="bg-[#0A1F44] px-4 md:px-8 py-3 flex items-center justify-between">
+
+  <!-- LOGO -->
+  <div class="flex items-center gap-3">
+    <img src="images/logo.png" class="h-10 md:h-12"/>
+    <span class="text-white font-semibold text-xl md:text-2xl">IBKR</span>
+  </div>
+
+  <!-- 🌐 LANGUAGE -->
+  <div class="relative">
+    <button onclick="toggleLang()" class="text-white text-xl">🌐</button>
+
+    <div id="langMenu" 
+  class="hidden absolute right-0 mt-2 w-48 bg-white text-black rounded shadow-lg z-50 max-h-80 overflow-y-auto">
+
+  <div onclick="selectLang('en')" class="px-4 py-2 hover:bg-gray-100 cursor-pointer">English</div>
+  <div onclick="selectLang('de')" class="px-4 py-2 hover:bg-gray-100 cursor-pointer">Deutsch</div>
+  <div onclick="selectLang('es')" class="px-4 py-2 hover:bg-gray-100 cursor-pointer">Español</div>
+  <div onclick="selectLang('fr')" class="px-4 py-2 hover:bg-gray-100 cursor-pointer">Français</div>
+  <div onclick="selectLang('it')" class="px-4 py-2 hover:bg-gray-100 cursor-pointer">Italiano</div>
+  <div onclick="selectLang('hu')" class="px-4 py-2 hover:bg-gray-100 cursor-pointer">Magyar</div>
+  <div onclick="selectLang('nl')" class="px-4 py-2 hover:bg-gray-100 cursor-pointer">Nederlands</div>
+  <div onclick="selectLang('pt')" class="px-4 py-2 hover:bg-gray-100 cursor-pointer">Português</div>
+  <div onclick="selectLang('ru')" class="px-4 py-2 hover:bg-gray-100 cursor-pointer">Русский</div>
+
+  <div onclick="selectLang('zh-cn')" class="px-4 py-2 hover:bg-gray-100 cursor-pointer">简体中文</div>
+  <div onclick="selectLang('zh-tw')" class="px-4 py-2 hover:bg-gray-100 cursor-pointer">繁體中文</div>
+
+  <div onclick="selectLang('ja')" class="px-4 py-2 hover:bg-gray-100 cursor-pointer">日本語</div>
+  <div onclick="selectLang('ko')" class="px-4 py-2 hover:bg-gray-100 cursor-pointer">한국어</div>
+
+  <div onclick="selectLang('th')" class="px-4 py-2 hover:bg-gray-100 cursor-pointer">ไทย</div>
+  <div onclick="selectLang('la')" class="px-4 py-2 hover:bg-gray-100 cursor-pointer">ລາວ</div>
+
+</div>
+  </div>
+
+</header>
+<main class="flex justify-center items-start py-10 px-4">
+
+  <div class="w-full max-w-md bg-white p-6 rounded shadow">
+
+    <!-- TITLE -->
+    <h1 data-lang="title">Create a Username and Password</h1>
+
+    <p data-lang="subtitle" class="text-sm text-gray-500 mb-6">
+  Create your account to start trading.
+</p>
+
+    <!-- FORM -->
+    <form class="space-y-4" onsubmit="register(event)">
+
+      <!-- EMAIL -->
+      <div>
+        <label data-lang="email">Email Address</label>
+        <input id="email" type="email"
+          class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Required">
+      </div>
+
+      <!-- USERNAME -->
+      <div>
+       <label data-lang="username">Username</label>
+        <input id="name" type="text"
+          class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Required">
+      </div>
+
+      <!-- PASSWORD -->
+      <div>
+        <label data-lang="password">Password</label>
+        <input id="password" type="password"
+          class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Required">
+      </div>
+
+      <!-- CONFIRM -->
+      <div>
+        <label data-lang="confirm">Confirm Password</label>
+        <input id="confirmPassword" type="password"
+          class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Required">
+      </div>
+
+      <!-- COUNTRY -->
+      <div>
+        <label data-lang="country">Country</label>
+        <select class="w-full border border-gray-300 rounded px-3 py-2">
+          <!-- East Asia -->
+      <option>China</option>
+      <option>Japan</option>
+      <option>South Korea</option>
+      <option>North Korea</option>
+      <option>Mongolia</option>
+      <option>Taiwan</option>
+      <option>United Kingdom</option> 
+      <option>United States</option> 
+      <option>Switzerland</option>
+
+      <!-- Southeast Asia -->
+      <option>Thailand</option>
+      <option>Laos</option>
+      <option>Vietnam</option>
+      <option>Cambodia</option>
+      <option>Myanmar</option>
+      <option>Malaysia</option>
+      <option>Singapore</option>
+      <option>Indonesia</option>
+      <option>Philippines</option>
+      <option>Brunei</option>
+      <option>Timor-Leste</option>
+
+      <!-- South Asia -->
+      <option>India</option>
+      <option>Pakistan</option>
+      <option>Bangladesh</option>
+      <option>Sri Lanka</option>
+      <option>Nepal</option>
+      <option>Bhutan</option>
+      <option>Maldives</option>
+      <option>Afghanistan</option>
+
+      <!-- Central Asia -->
+      <option>Kazakhstan</option>
+      <option>Uzbekistan</option>
+      <option>Turkmenistan</option>
+      <option>Kyrgyzstan</option>
+      <option>Tajikistan</option>
+
+      <!-- Western Asia / Middle East -->
+      <option>Saudi Arabia</option>
+      <option>United Arab Emirates</option>
+      <option>Qatar</option>
+      <option>Kuwait</option>
+      <option>Bahrain</option>
+      <option>Oman</option>
+      <option>Yemen</option>
+      <option>Iran</option>
+      <option>Iraq</option>
+      <option>Israel</option>
+      <option>Palestine</option>
+      <option>Jordan</option>
+      <option>Lebanon</option>
+      <option>Syria</option>
+      <option>Turkey</option>
+      <option>Armenia</option>
+      <option>Azerbaijan</option>
+      <option>Georgia</option>
+      <option>Cyprus</option>
+        </select>
+      </div>
+
+      <!-- BUTTON -->
+     <button type="submit"
+  data-lang="create"
+  class="w-full bg-blue-600 text-white py-3 rounded hover:bg-blue-700 transition">
+  Create Account
+</button>
+
+    </form>
+
+  </div>
+
+</main>
+
+<script>
+const API_URL = window.location.origin;
+
+async function register(e) {
+  e.preventDefault();
+
+  const name = document.getElementById("name").value;
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+  const confirmPassword = document.getElementById("confirmPassword").value;
+
+  if (!email || !password) {
+    showError("กรอกข้อมูลให้ครบ");
+    return;
+  }
+
+  if (password !== confirmPassword) {
+    showError("รหัสผ่านไม่ตรงกัน");
+    return;
+  }
+
+  try {
+    const res = await fetch(`${API_URL}/api/auth/register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        email,
+        password,
+        username: name
+      })
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+  showSuccess();
+
+  setTimeout(() => {
+    window.location.href = "login.html";
+  }, 5000); // รอ 2 วิ
+} else {
+      showError(data.message || "สมัครไม่สำเร็จ");
+    }
+
+  } catch (err) {
+    showError("Server error");
+  }
+}
+
+function showSuccess(){
+  const box = document.getElementById("successBox");
+
+  box.classList.remove("hidden");
+
+  setTimeout(() => {
+    box.classList.add("hidden");
+  }, 5000);
+}
+
+const translations = {
+  en: {
+    title: "Create a Username and Password",
+    subtitle: "Create your account to start trading.",
+    email: "Email Address",
+    username: "Username",
+    password: "Password",
+    confirm: "Confirm Password",
+    country: "Country",
+    create: "Create Account"
+  },
+
+  th: {
+    title: "สร้างชื่อผู้ใช้และรหัสผ่าน",
+    subtitle: "สร้างบัญชีของคุณเพื่อเริ่มการซื้อขาย",
+    email: "อีเมล",
+    username: "ชื่อผู้ใช้",
+    password: "รหัสผ่าน",
+    confirm: "ยืนยันรหัสผ่าน",
+    country: "ประเทศ",
+    create: "สร้างบัญชี"
+  },
+
+  la: {
+    title: "ສ້າງຊື່ຜູ້ໃຊ້ແລະລະຫັດຜ່ານ",
+    subtitle: "ສ້າງບັນຊີເພື່ອເລີ່ມການເທຣດ",
+    email: "ອີເມວ",
+    username: "ຊື່ຜູ້ໃຊ້",
+    password: "ລະຫັດຜ່ານ",
+    confirm: "ຢືນຢັນລະຫັດຜ່ານ",
+    country: "ປະເທດ",
+    create: "ສ້າງບັນຊີ"
+  },
+
+  // 🌍 เพิ่มครบตามเมนู
+
+  de: {
+    title: "Benutzername und Passwort erstellen",
+    subtitle: "Erstellen Sie Ihr Konto, um mit dem Handel zu beginnen.",
+    email: "E-Mail-Adresse",
+    username: "Benutzername",
+    password: "Passwort",
+    confirm: "Passwort bestätigen",
+    country: "Land",
+    create: "Konto erstellen"
+  },
+
+  es: {
+    title: "Crear nombre de usuario y contraseña",
+    subtitle: "Crea tu cuenta para empezar a operar.",
+    email: "Correo electrónico",
+    username: "Nombre de usuario",
+    password: "Contraseña",
+    confirm: "Confirmar contraseña",
+    country: "País",
+    create: "Crear cuenta"
+  },
+
+  fr: {
+    title: "Créer un nom d'utilisateur et un mot de passe",
+    subtitle: "Créez votre compte pour commencer à trader.",
+    email: "Adresse e-mail",
+    username: "Nom d'utilisateur",
+    password: "Mot de passe",
+    confirm: "Confirmer le mot de passe",
+    country: "Pays",
+    create: "Créer un compte"
+  },
+
+  it: {
+    title: "Crea nome utente e password",
+    subtitle: "Crea il tuo account per iniziare a fare trading.",
+    email: "Email",
+    username: "Nome utente",
+    password: "Password",
+    confirm: "Conferma password",
+    country: "Paese",
+    create: "Crea account"
+  },
+
+  hu: {
+    title: "Felhasználónév és jelszó létrehozása",
+    subtitle: "Hozza létre fiókját a kereskedés megkezdéséhez.",
+    email: "Email cím",
+    username: "Felhasználónév",
+    password: "Jelszó",
+    confirm: "Jelszó megerősítése",
+    country: "Ország",
+    create: "Fiók létrehozása"
+  },
+
+  nl: {
+    title: "Gebruikersnaam en wachtwoord aanmaken",
+    subtitle: "Maak uw account aan om te beginnen met handelen.",
+    email: "E-mailadres",
+    username: "Gebruikersnaam",
+    password: "Wachtwoord",
+    confirm: "Bevestig wachtwoord",
+    country: "Land",
+    create: "Account aanmaken"
+  },
+
+  pt: {
+    title: "Criar nome de usuário e senha",
+    subtitle: "Crie sua conta para começar a negociar.",
+    email: "Email",
+    username: "Nome de usuário",
+    password: "Senha",
+    confirm: "Confirmar senha",
+    country: "País",
+    create: "Criar conta"
+  },
+
+  ru: {
+    title: "Создать имя пользователя и пароль",
+    subtitle: "Создайте аккаунт, чтобы начать торговать.",
+    email: "Электронная почта",
+    username: "Имя пользователя",
+    password: "Пароль",
+    confirm: "Подтвердите пароль",
+    country: "Страна",
+    create: "Создать аккаунт"
+  },
+
+  "zh-cn": {
+    title: "创建用户名和密码",
+    subtitle: "创建您的账户以开始交易。",
+    email: "电子邮件",
+    username: "用户名",
+    password: "密码",
+    confirm: "确认密码",
+    country: "国家",
+    create: "创建账户"
+  },
+
+  "zh-tw": {
+    title: "建立使用者名稱和密碼",
+    subtitle: "建立您的帳戶以開始交易。",
+    email: "電子郵件",
+    username: "使用者名稱",
+    password: "密碼",
+    confirm: "確認密碼",
+    country: "國家",
+    create: "建立帳戶"
+  },
+
+  ja: {
+    title: "ユーザー名とパスワードを作成",
+    subtitle: "取引を開始するにはアカウントを作成してください。",
+    email: "メールアドレス",
+    username: "ユーザー名",
+    password: "パスワード",
+    confirm: "パスワード確認",
+    country: "国",
+    create: "アカウント作成"
+  },
+
+  ko: {
+    title: "사용자 이름 및 비밀번호 생성",
+    subtitle: "거래를 시작하려면 계정을 만드세요.",
+    email: "이메일",
+    username: "사용자 이름",
+    password: "비밀번호",
+    confirm: "비밀번호 확인",
+    country: "국가",
+    create: "계정 생성"
+  }
+};
+
+function setLang(lang){
+  localStorage.setItem("lang", lang);
+  applyLang(lang);
+}
+
+function applyLang(lang){
+  document.querySelectorAll("[data-lang]").forEach(el => {
+    const key = el.getAttribute("data-lang");
+
+    // ถ้ามีภาษา → ใช้
+    if(translations[lang] && translations[lang][key]){
+      el.innerText = translations[lang][key];
+    } 
+    // fallback → English
+    else if(translations["en"][key]){
+      el.innerText = translations["en"][key];
+    }
+  });
+}
+
+function toggleLang(){
+  document.getElementById("langMenu").classList.toggle("hidden");
+}
+
+// โหลดภาษา
+const savedLang = localStorage.getItem("lang") || "en";
+applyLang(savedLang);
+
+function selectLang(lang){
+  setLang(lang);
+
+  // 🔥 ปิด dropdown
+  document.getElementById("langMenu").classList.add("hidden");
+}
+
+document.addEventListener("click", function(e){
+  const menu = document.getElementById("langMenu");
+
+  if(!e.target.closest(".relative")){
+    menu.classList.add("hidden");
+  }
+});
+
+function showError(message){
+  const box = document.getElementById("errorBox");
+
+  box.querySelector("div").innerText = message;
+
+  box.classList.remove("hidden");
+
+  setTimeout(() => {
+    box.classList.add("hidden");
+  }, 2500);
+}
+</script>
+
+
+<div id="successBox" 
+  class="hidden fixed inset-0 flex items-center justify-center z-50">
+
+  <div class="bg-green-500 text-white px-8 py-5 rounded-lg shadow-xl text-lg font-semibold">
+    สมัครสำเร็จ 
+  </div>
+
+</div>
+
+<div id="errorBox" 
+  class="hidden fixed inset-0 flex items-center justify-center z-50">
+
+  <div class="bg-red-500 text-white px-8 py-5 rounded-lg shadow-xl text-lg font-semibold">
+    เกิดข้อผิดพลาด
+  </div>
+
+</div>
+
+</body></html>

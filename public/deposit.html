@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Deposit - Sovereign Vault</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link rel="icon" type="image/png" href="/favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "inverse-primary": "#735c00",
+              "surface-container-lowest": "#0e0e0e",
+              "on-tertiary-container": "#254188",
+              "on-surface-variant": "#d0c5af",
+              "outline-variant": "#4d4635",
+              "inverse-on-surface": "#313030",
+              "on-secondary-fixed": "#1a1c1c",
+              "on-primary-container": "#554300",
+              "surface-variant": "#353534",
+              "on-background": "#e5e2e1",
+              "surface": "#131313",
+              "surface-container-high": "#2a2a2a",
+              "error-container": "#93000a",
+              "secondary": "#c6c6c6",
+              "on-tertiary": "#082b72",
+              "on-primary-fixed": "#241a00",
+              "secondary-fixed-dim": "#c6c6c6",
+              "tertiary": "#bfcdff",
+              "on-primary": "#3c2f00",
+              "surface-container-low": "#1c1b1b",
+              "surface-container-highest": "#353534",
+              "error": "#ffb4ab",
+              "secondary-container": "#484949",
+              "outline": "#99907c",
+              "on-primary-fixed-variant": "#574500",
+              "primary-fixed": "#ffe088",
+              "tertiary-fixed-dim": "#b4c5ff",
+              "on-tertiary-fixed": "#00174b",
+              "tertiary-fixed": "#dbe1ff",
+              "on-surface": "#e5e2e1",
+              "on-error": "#690005",
+              "surface-bright": "#393939",
+              "background": "#131313",
+              "tertiary-container": "#97b0ff",
+              "inverse-surface": "#e5e2e1",
+              "primary": "#f2ca50",
+              "primary-fixed-dim": "#e9c349",
+              "on-secondary": "#2f3131",
+              "on-error-container": "#ffdad6",
+              "primary-container": "#d4af37",
+              "on-secondary-container": "#b8b8b8",
+              "surface-tint": "#e9c349",
+              "on-secondary-fixed-variant": "#464747",
+              "secondary-fixed": "#e3e2e2",
+              "on-tertiary-fixed-variant": "#27438a",
+              "surface-container": "#201f1f",
+              "surface-dim": "#131313"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .metallic-gradient {
+        background: linear-gradient(135deg, #f2ca50 0%, #d4af37 100%);
+      }
+      .glass-effect {
+        backdrop-filter: blur(20px);
+      }
+      body {
+        background-color: #131313;
+        color: #e5e2e1;
+        font-family: 'Inter', sans-serif;
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-8 h-16 bg-[#131313] dark:bg-[#131313]">
+<div class="flex items-center gap-4">
+<button onclick="window.location.href='wallet.html'" class="text-[#f2ca50] hover:opacity-80 transition-opacity active:scale-95 duration-150">
+  <span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h1 class="font-['Manrope'] font-bold text-lg uppercase tracking-widest text-[#f2ca50]">การฝากสินทรัพย์</h1>
+</div>
+</header>
+<main class="pt-24 px-8 max-w-lg mx-auto">
+<!-- Section: Title -->
+<div class="mb-10">
+<h2 class="font-headline text-3xl font-extrabold tracking-tight text-on-surface mb-2">Deposit Funds</h2>
+<p class="font-body text-on-surface-variant text-sm">ฝากเงินทุนเข้าคลังของคุณเพื่อเริ่มซื้อขายได้ทันที</p>
+</div>
+<!-- Section: Amount Input -->
+<div class="mb-10">
+<label class="font-label text-xs uppercase tracking-widest text-on-surface-variant mb-4 block">จำนวนเงินที่ฝาก</label>
+<div class="relative flex items-center justify-center bg-surface-container-low rounded-xl p-8 transition-all hover:bg-surface-container border border-transparent focus-within:border-primary/20">
+<span class="font-headline text-4xl font-bold text-primary mr-2">$</span>
+<input id="amount" class="bg-transparent border-none text-center font-headline text-5xl font-extrabold text-on-surface focus:ring-0 p-0 w-full" placeholder="0.00" type="text" value="2500"/>
+</div>
+<!-- Quick Selection Chips -->
+<div class="flex justify-between gap-3 mt-6">
+<button onclick="addAmount(100)" class="flex-1 py-3 px-4 rounded-xl bg-surface-container-high text-on-surface font-label text-sm hover:bg-surface-variant transition-colors border border-outline-variant/10">+$100</button>
+<button onclick="addAmount(500)" class="flex-1 py-3 px-4 rounded-xl bg-surface-container-high text-on-surface font-label text-sm hover:bg-surface-variant transition-colors border border-outline-variant/10">+$500</button>
+<button onclick="addAmount(1000)" class="flex-1 py-3 px-4 rounded-xl bg-surface-container-high text-on-surface font-label text-sm hover:bg-surface-variant transition-colors border border-outline-variant/10">+$1,000</button>
+</div>
+</div>
+<!-- Section: Deposit Methods -->
+<div class="mb-10">
+  <label class="font-label text-xs uppercase tracking-widest text-on-surface-variant mb-4 block">
+    วิธีการชำระเงิน
+  </label>
+
+  <div class="grid grid-cols-1 gap-3">
+
+    <!-- Method: Bank -->
+    <div id="bankBox"
+      onclick="selectMethod('bank')"
+      class="flex items-center p-4 bg-surface-container-high rounded-xl border border-primary/30 cursor-pointer transition-all">
+
+      <div class="w-12 h-12 rounded-lg bg-surface-container-highest flex items-center justify-center text-primary mr-4">
+        <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">
+          account_balance
+        </span>
+      </div>
+
+      <div class="flex-1">
+        <p class="font-headline font-bold text-on-surface">Bank Transfer</p>
+        <p class="text-xs text-on-surface-variant">Secure SEPA & Wire transfers</p>
+      </div>
+
+      <!-- ✅ check อยู่ขวา -->
+      <span id="check-bank"
+        class="material-symbols-outlined text-primary">
+        check_circle
+      </span>
+    </div>
+
+
+    <!-- Method: Crypto -->
+    <div id="cryptoBox"
+      onclick="selectMethod('crypto')"
+      class="flex items-center p-4 bg-surface-container-low rounded-xl border border-transparent hover:border-outline-variant/30 cursor-pointer transition-all">
+
+      <div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center text-on-surface-variant mr-4">
+        <span class="material-symbols-outlined">currency_bitcoin</span>
+      </div>
+
+      <div class="flex-1">
+        <p class="font-headline font-bold text-on-surface">Crypto</p>
+        <p class="text-xs text-on-surface-variant">BTC, ETH, USDT</p>
+      </div>
+
+      <!-- ✅ check อยู่ขวา + ซ่อน -->
+      <span id="check-crypto"
+        class="material-symbols-outlined text-primary hidden">
+        check_circle
+      </span>
+    </div>
+
+  </div>
+</div>
+<!-- Section: Bank Details (Dynamic Content) -->
+<div id="details" class="mb-12 p-6 bg-surface-container rounded-2xl relative overflow-hidden">
+</div>
+<!-- Upload Slip (Improved UI) -->
+<div class="mb-6">
+
+  <label class="text-xs text-on-surface-variant mb-2 block">
+    อัปโหลดสลิปโอนเงิน
+  </label>
+
+  <!-- กล่อง upload -->
+  <div onclick="document.getElementById('slipInput').click()"
+    class="cursor-pointer border border-dashed border-outline-variant/30 rounded-xl p-5 bg-surface-container-high flex items-center gap-4 hover:border-primary/50 transition-all">
+
+    <!-- icon -->
+    <div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center">
+      <span class="material-symbols-outlined text-primary text-xl">
+        upload_file
+      </span>
+    </div>
+
+    <!-- text -->
+    <div class="flex-1">
+      <p class="text-sm font-medium text-on-surface">
+        Click to upload slip
+      </p>
+      <p id="slipName" class="text-xs text-on-surface-variant">
+        JPG, PNG (Max 5MB)
+      </p>
+    </div>
+
+    <!-- arrow -->
+    <span class="material-symbols-outlined text-on-surface-variant">
+      chevron_right
+    </span>
+
+  </div>
+
+  <!-- input ซ่อน -->
+  <input id="slipInput" type="file" accept="image/*" class="hidden">
+
+</div>
+<!-- Action Button -->
+<button onclick="confirmDeposit()" class="w-full metallic-gradient py-5 rounded-2xl font-headline font-extrabold text-on-primary text-lg uppercase tracking-widest shadow-lg shadow-primary/10 active:scale-[0.98] transition-all">
+  ยืนยันการฝากเงิน
+</button>
+</main>
+<script>
+
+const API_URL = window.location.origin;  
+
+let selectedMethod = "bank";
+let slipFile = null;
+
+// ================= SELECT METHOD =================
+function selectMethod(method) {
+  selectedMethod = method;
+
+  document.getElementById("bankBox").classList.remove("border-yellow-500");
+  document.getElementById("cryptoBox").classList.remove("border-yellow-500");
+
+  document.getElementById(method + "Box").classList.add("border-yellow-500");
+
+  loadWallet(method); // 🔥 ดึงจาก backend
+}
+
+ async function loadWallet(method) {
+  const token = localStorage.getItem("token"); // 🔥 เพิ่ม
+
+  const res = await fetch(`${API_URL}/api/wallet-info/${method}`, {
+    headers: {
+      Authorization: "Bearer " + token // 🔥 สำคัญ
+    }
+  });
+
+  const data = await res.json();
+
+  if (!Array.isArray(data) || !data.length) {
+    document.getElementById("details").innerHTML = "ไม่มีข้อมูล";
+    return;
+  }
+
+  const wallet = data[0];
+
+ if (method === "bank") {
+  document.getElementById("details").innerHTML = `
+    <div class="space-y-4">
+
+      <div class="flex justify-between items-center border-b border-outline-variant/10 pb-2">
+        <p>Bank: ${wallet.bankName}</p>
+        <span onclick="copyText('${wallet.bankName}')"
+          class="material-symbols-outlined text-primary cursor-pointer text-sm">
+          content_copy
+        </span>
+      </div>
+
+      <div class="flex justify-between items-center border-b border-outline-variant/10 pb-2">
+        <p>Account: ${wallet.accountNumber}</p>
+        <span onclick="copyText('${wallet.accountNumber}')"
+          class="material-symbols-outlined text-primary cursor-pointer text-sm">
+          content_copy
+        </span>
+      </div>
+
+      <div class="flex justify-between items-center border-b border-outline-variant/10 pb-2">
+        <p>Name: ${wallet.accountName}</p>
+        <span onclick="copyText('${wallet.accountName}')"
+          class="material-symbols-outlined text-primary cursor-pointer text-sm">
+          content_copy
+        </span>
+      </div>
+
+    </div>
+  `;
+} else {
+  document.getElementById("details").innerHTML = `
+    <div class="space-y-4">
+
+      <div class="flex justify-between items-center border-b border-outline-variant/10 pb-2">
+        <p>Address: ${wallet.address}</p>
+        <span onclick="copyText('${wallet.address}')"
+          class="material-symbols-outlined text-primary cursor-pointer text-sm">
+          content_copy
+        </span>
+      </div>
+
+      <div class="flex justify-between items-center border-b border-outline-variant/10 pb-2">
+        <p>Network: ${wallet.network}</p>
+        <span onclick="copyText('${wallet.network}')"
+          class="material-symbols-outlined text-primary cursor-pointer text-sm">
+          content_copy
+        </span>
+      </div>
+
+    </div>
+  `;
+}
+}
+
+// ================= QUICK AMOUNT =================
+function addAmount(val) {
+  const el = document.getElementById("amount");
+  el.value = parseFloat(el.value || 0) + val;
+}
+
+// ================= HANDLE FILE =================
+const slipInput = document.getElementById("slipInput");
+
+if (slipInput) {
+  slipInput.addEventListener("change", function(e) {
+    const file = e.target.files[0];
+    slipFile = file;
+
+    if (file) {
+
+      // ✅ แสดงชื่อไฟล์
+      document.getElementById("slipName").innerText = "✔ " + file.name;
+
+      // ✅ ลบ preview เก่า (กันซ้อน)
+      const oldPreview = document.getElementById("previewImg");
+      if (oldPreview) oldPreview.remove();
+
+      // ✅ สร้าง preview ใหม่
+      const reader = new FileReader();
+
+      reader.onload = function(ev) {
+        const img = document.createElement("img");
+        img.id = "previewImg";
+        img.src = ev.target.result;
+        img.className = "mt-3 rounded-lg max-h-40";
+
+        document.querySelector(".mb-6").appendChild(img);
+      };
+
+      reader.readAsDataURL(file);
+    }
+  });
+}
+// ================= CONFIRM DEPOSIT =================
+let isSubmitting = false;
+
+function confirmDeposit() {
+
+  const raw = document.getElementById("amount").value;
+  const amount = Number(raw.replace(/[^0-9.]/g, ""));
+
+  if (!amount || amount <= 0) {
+    alert("กรอกจำนวนเงินก่อน");
+    return;
+  }
+
+  // ✅ ใส่ข้อมูลลง modal
+  document.getElementById("cAmount").innerText = "$" + amount.toLocaleString();
+  document.getElementById("cMethod").innerText = selectedMethod;
+  document.getElementById("cSlip").innerText =
+    slipFile ? slipFile.name : "ไม่มีไฟล์";
+
+  // ✅ เปิด modal
+  document.getElementById("confirmModal").classList.remove("hidden");
+}
+
+
+async function submitDeposit() {
+  try {
+
+    if (isSubmitting) return;
+    isSubmitting = true;
+
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      alert("กรุณา login ก่อน");
+      return;
+    }
+
+    const raw = document.getElementById("amount").value;
+    const amount = Number(raw.replace(/[^0-9.]/g, ""));
+
+    const formData = new FormData();
+    formData.append("amount", amount);
+    formData.append("method", selectedMethod);
+
+    if (slipFile) {
+      formData.append("slip", slipFile);
+    }
+
+    // 🔥 ยิง API
+    const res = await fetch(`${API_URL}/api/deposit/create`, {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + token
+      },
+      body: formData
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      alert(data.message || "ฝากเงินไม่สำเร็จ");
+      return;
+    }
+
+    // ✅ ปิด modal
+    document.getElementById("confirmModal").classList.add("hidden");
+
+    // ✅ แสดง success สีเขียว
+    const box = document.getElementById("successBox");
+    box.classList.remove("hidden");
+
+    setTimeout(() => {
+      box.classList.add("hidden");
+      window.location.href = "wallet.html";
+    }, 2000);
+
+  } catch (err) {
+    console.error(err);
+    alert("เกิดข้อผิดพลาด");
+  } finally {
+    isSubmitting = false;
+  }
+}
+
+
+
+function selectMethod(method) {
+  selectedMethod = method;
+
+  // reset border
+  document.getElementById("bankBox").classList.remove("border-primary");
+  document.getElementById("cryptoBox").classList.remove("border-primary");
+
+  // add border
+  document.getElementById(method + "Box").classList.add("border-primary");
+
+  // reset check
+  document.getElementById("check-bank").classList.add("hidden");
+  document.getElementById("check-crypto").classList.add("hidden");
+
+  // show selected
+  document.getElementById("check-" + method).classList.remove("hidden");
+
+  loadWallet(method);
+}
+
+function copyText(text) {
+  navigator.clipboard.writeText(text);
+
+  // แจ้งเตือนสั้น ๆ
+  const msg = document.createElement("div");
+  msg.innerText = "Copied!";
+  msg.className = "fixed bottom-10 left-1/2 -translate-x-1/2 bg-black text-white px-4 py-2 rounded text-sm";
+  document.body.appendChild(msg);
+
+  setTimeout(() => msg.remove(), 1200);
+}
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  selectMethod("bank");
+});
+
+function closeConfirm(){
+  document.getElementById("confirmModal").classList.add("hidden");
+}
+</script>
+
+<!-- 🔥 Confirm Deposit Modal -->
+<div id="confirmModal" class="hidden fixed inset-0 bg-black/40 z-50 flex items-center justify-center">
+
+  <div class="bg-gray-700/60 backdrop-blur-xl w-[92%] max-w-md min-h-[520px] rounded-2xl p-8 flex flex-col text-center">
+
+    <!-- 🔥 HEADER -->
+    <h2 class="text-white font-bold text-xl mb-6">
+      ยืนยันการฝาก
+    </h2>
+
+    <!-- 🔥 CONTENT -->
+    <div class="flex-1 flex flex-col justify-center space-y-4 text-sm text-gray-300">
+
+      <div class="flex justify-between">
+        <span>จำนวนเงิน</span>
+        <span id="cAmount" class="text-white font-bold"></span>
+      </div>
+
+      <div class="flex justify-between">
+        <span>วิธีชำระเงิน</span>
+        <span id="cMethod" class="text-white font-bold"></span>
+      </div>
+
+      <div class="flex justify-between">
+        <span>ไฟล์สลิป</span>
+        <span id="cSlip" class="text-white font-bold text-right max-w-[60%] truncate"></span>
+      </div>
+
+    </div>
+
+    <!-- 🔥 FOOTER (ปุ่มติดล่าง) -->
+    <div class="mt-8">
+
+      <button onclick="submitDeposit()"
+        class="w-full py-3 rounded-xl bg-gray-900 text-white font-bold mb-3">
+        ตกลง
+      </button>
+
+      <button onclick="closeConfirm()"
+        class="text-gray-400 text-sm">
+        ยกเลิก
+      </button>
+
+    </div>
+
+  </div>
+</div>
+
+<!-- 🔥 Success Alert -->
+<div id="successBox" class="hidden fixed top-10 left-1/2 -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-xl z-50 shadow-lg">
+  ธุรกรรมสำเร็จ ระบบกำลังตรวจสอบ
+</div>
+
+</body></html>
