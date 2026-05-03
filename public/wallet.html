@@ -294,9 +294,17 @@ async function loadBalance() {
         }
     });
 
-    if (!res.ok) {
-      throw new Error("โหลดข้อมูลไม่สำเร็จ");
-    }
+  if (res.status === 401) {
+  alert("Session หมดอายุ กรุณา login ใหม่");
+
+  localStorage.removeItem("token");
+  window.location.href = "login.html";
+  return;
+}
+
+if (!res.ok) {
+  throw new Error("โหลดข้อมูลไม่สำเร็จ");
+}
 
     const data = await res.json();
 
@@ -322,13 +330,10 @@ document.getElementById("usdValue").innerText =
   "$" + (data.balance || 0).toLocaleString();
 
   } catch (err) {
-    console.error("❌ ERROR:", err);
+  console.error("❌ ERROR:", err);
 
-    alert("Session หมดอายุ กรุณา login ใหม่");
-
-    localStorage.removeItem("token");
-    window.location.href = "login.html";
-  }
+  // ❗ แค่ log ไม่ต้อง logout
+}
 }
 
 // ================== NAVIGATION ==================
@@ -356,9 +361,15 @@ async function loadTransactions() {
   try {
     const res = await fetch(`${API_URL}/api/wallet/transactions`, {
       headers: {
-        Authorization: token
+        Authorization: "Bearer " + token
       }
     });
+
+    if (res.status === 401) {
+  localStorage.removeItem("token");
+  window.location.href = "login.html";
+  return;
+}
 
     const data = await res.json();
 
