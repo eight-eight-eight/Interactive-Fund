@@ -336,10 +336,9 @@
       </span>
 
       <input 
-        id="amountInput"
-        type="number"
-        value="100"
-        oninput="updateProfit()"
+     id="amountInput" 
+     type="number" 
+      oninput="updateProfit()"
         class="w-full h-[48px] pl-8 pr-4 bg-[#1d1f20] border border-white/5 rounded-xl font-bold text-on-surface text-base outline-none"
       />
     </div>
@@ -958,20 +957,6 @@ async function openTrade(type){
     console.log("OPEN ERROR:", err);
     alert("Server error");
   }
-}
-
-
-
-function updateProfit(){
-
-    const amount = Number(document.getElementById("amountInput").value) || 0;
-
-    const percent = tradeConfig[selectedTime].percent;
-
-    const profit = amount * (percent / 100);
-
-    document.getElementById("profitAmount").innerText =
-        "+$" + profit.toLocaleString(undefined,{minimumFractionDigits:2});
 }
 
 
@@ -1611,37 +1596,6 @@ window.addEventListener("priceMove", (e) => {
 // 🔥 REALTIME EXPECTED PROFIT
 // ===============================
 
-const amountInput = document.getElementById("amountInput");
-const profitAmount = document.getElementById("profitAmount");
-const profitPercent = document.getElementById("profitPercent");
-
-// 🎯 ค่า % (ดึงจาก UI หรือกำหนดเอง)
-let percent = 15;
-
-// ถ้าคุณมี element percent อยู่แล้ว → ดึงมา
-if(profitPercent){
-  percent = parseFloat(profitPercent.innerText) || 15;
-}
-
-// 🔥 ฟังก์ชันคำนวณ
-function updateExpectedProfit(){
-
-  let amount = parseFloat(amountInput.value);
-
-  if(isNaN(amount) || amount <= 0){
-    profitAmount.innerText = "+$0.00";
-    return;
-  }
-
-  const profit = amount * (percent / 100);
-
-  // 💰 แสดงผล
-  profitAmount.innerText = "+$" + profit.toLocaleString(undefined,{
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
-  });
-
-}
 
 const catContainer = document.getElementById("categoryTabs");
 
@@ -1663,12 +1617,6 @@ if(catContainer){
     filterCategory(type);
   });
 }
-
-// 🔥 trigger ตอนพิมพ์
-amountInput.addEventListener("input", updateExpectedProfit);
-
-// 🔥 run ครั้งแรก
-updateExpectedProfit();
 
 
 // 🔥 Active Bottom Nav
@@ -1704,6 +1652,28 @@ function formatTime(min){
   const m = String(min).padStart(2,"0");
   return `00:${m}:00`;
 }
+
+function updateProfit(){
+
+    const amount = parseFloat(document.getElementById("amountInput").value) || 0;
+
+    if (!selectedTime) return;
+
+    const percent = tradeConfig[selectedTime]?.percent || 0;
+
+    const profit = amount * percent / 100;
+
+    document.getElementById("profitAmount").innerText =
+        "+$" + profit.toLocaleString(undefined,{
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        });
+
+    document.getElementById("profitPercent").innerText =
+        percent + "%";
+}
+
+window.updateProfit = updateProfit;
 
 </script>
 
